@@ -38,7 +38,33 @@ $db->affected_rows > 0 or die('No hay información en ese rango de fechas');
 $rows = [];
 while( $row = $r->fetch_object() ){
 
-  $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta][] = $row;
+  // $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta][] = $row;
+  // 
+  if( array_key_exists($row->unidad, $rows) ){
+    if( array_key_exists($row->grupo, $rows[$row->unidad] ) ){
+      if( array_key_exists($row->fecha, $rows[$row->unidad][$row->grupo] ) ){
+        if( array_key_exists($row->receta, $rows[$row->unidad][$row->grupo][$row->fecha] ) ){
+          
+          // $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta] = $row;
+          continue;
+
+        }
+        else{
+          $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta] = $row;
+        }
+      }
+      else{
+        $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta] = $row;
+      }
+    }
+    else{
+      $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta] = $row;
+    }
+  }
+  else{
+    $rows[$row->unidad][$row->grupo][$row->fecha][$row->receta] = $row;
+  }
+
 
   //esto me creara un array de la forma
   //aqui key seria el idUNidad, tal ves me sirva
