@@ -85,7 +85,6 @@ class Articulos{
   }
 
 
-
 }
 
 $Articulos = new Articulos();
