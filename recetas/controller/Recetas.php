@@ -100,7 +100,8 @@ class Receta{
 
 		$data['grupo'] = $rows;
 		
-		$r = $this->db->query("SELECT su.idSUnidad, su.subUnidad FROM subunidad AS su WHERE activo = 1 AND LENGTH(su.subUnidad) > 5 GROUP BY su.subUnidad ORDER BY su.subUnidad");
+		// $r = $this->db->query("SELECT su.idSUnidad, su.subUnidad FROM subunidad AS su WHERE activo = 1 AND LENGTH(su.subUnidad) > 5 GROUP BY su.subUnidad ORDER BY su.subUnidad");
+    $r = $this->db->query("SELECT idSUnidad, subunidad, (SELECT unidad FROM unidad WHERE idUnidad = su.unidad) AS unidad FROM subunidad AS su WHERE activo = 1 ORDER BY subunidad");
 		$rows = [];
 		while( $rows[] = $r->fetch_object() );
 		array_pop($rows);

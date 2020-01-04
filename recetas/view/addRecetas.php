@@ -115,9 +115,9 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label class="text-blue">SubUnidad</label>
-                <select name="subunidad[]" id="subunidad" class="form-control input-sm" multiple required >
-                  <option value="" selected>Selecciones las sub-unidades</option>
+                <label class="text-blue">SubUnidad *</label>
+                <select name="subunidad[]" id="subunidad" class="form-control input-sm" multiple required title="Seleccione al menos una subunidad" >
+                  <!-- <option value="" selected>Selecciones las sub-unidades</option> -->
                 </select>
                 <small class="help-block text-muted">Puede seleccionar multiples subunidadades, presionando Ctrl + click</small>
                 <!-- <input type="text" name="subunidad" id="subunidad" class="form-control input-sm" placeholder="Ingresar subunidad" required /> -->
@@ -228,7 +228,7 @@
             <div class="col-md-3 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Cantidad</label>
-                <input type="number" min="0.01" max="999" name="cantidad" id="cantidad" class="form-control input-sm" placeholder="Cantidad" required />
+                <input type="number" min="0.01" max="999" step="any" name="cantidad" id="cantidad" class="form-control input-sm" placeholder="Cantidad" required />
               </div>
             </div>
 
@@ -322,7 +322,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="text-blue">Cantidad</label>
-                <input type="number" min="0.01" max="999" name="cantidad" class="form-control input-sm" placeholder="Cantidad" required />
+                <input type="number" min="0.01" max="999" step="any" name="cantidad" class="form-control input-sm" placeholder="Cantidad" required />
               </div>
             </div>
           
@@ -732,7 +732,8 @@
       for( let item of data.subunidad ){
         let option = _.createElement('option');
         option.value = item.idSUnidad;
-        option.textContent = item.subUnidad;
+        option.textContent = `${item.subunidad} (${item.unidad})`;
+        option.title = `${item.subunidad} (${item.unidad})`;
         doc.appendChild(option);
       }
       formReceta.subunidad.appendChild(doc);
