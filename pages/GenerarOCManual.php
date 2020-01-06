@@ -1,110 +1,88 @@
 <div class="row">
-    <div class="col-md-4 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Clave</label>
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <label id="id-ocm"></label>
-            </div>
+
+    <div class="col-sm-3 col-xs-6">        
+        <div class="form-group">
+            <label>Clave</label>
+            <p id="id-ocm"> </p>    
         </div>
     </div>
-    <div class="col-md-4 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Semana</label>
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <label name="semana"></label>
-            </div>
+
+    <div class="col-sm-3 col-xs-6">
+        <div class="form-group">
+            <label>Semana</label>
+            <p> <label name="semana"> </label> </p>
         </div>
     </div>
-    <div class="col-md-4 col-sm-12">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label id="fechaI">Seleccione una fecha</label>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <input id="fechaF" class="form-control" type="date">
-            </div>
+        
+    <div class="clearfix visible-xs"></div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label id="fechaI">Seleccione una fecha</label>
+            <input id="fechaF" class="form-control" type="date" />
         </div>
     </div>
+
 </div>
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Proveedor</label>
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <select class="form-control" name="proveedor" value="">
-                    <option>Elija un proveedor</option>
-                </select>
-            </div>
+        
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Cliente</label>
+            <select class="form-control" value="" name="cliente">
+                <option value="" selected >Elija un cliente</option>
+            </select>
         </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Cliente</label>
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <select class="form-control" value="" name="cliente">
-                    <option>Elija un cliente</option>
-                </select>
-            </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Proveedor</label>
+            <select class="form-control" name="proveedor" value="">
+                <option>Elija un proveedor</option>
+            </select>
         </div>
     </div>
+
 </div>
 
 <div class="row">
-    <div class="col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Articulo</label>        
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <select class="form-control" name="articulo" value="">
-                    <option>Elija un articulo</option>
-                </select>
-            </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Articulo</label>        
+            <select class="form-control" name="articulo" value="">
+                <option>Elija un articulo</option>
+            </select>
         </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-md-4 col-sm-12">
-                <label>Clave de las unidades</label>
-            </div>
-            <div class="col-md-8 col-sm-12" id="contenedor_unidades">
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Clave de las unidades</label>
+            <p id="contenedor_unidades">
                 <label name="unidades">Elija un cliente</label>
-            </div>
+            </p>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Presentación</label>
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <label name="unidadA"></label>
-            </div>
+    <div class="col-sm-6 ">
+        <div class="form-group">
+            <label>Presentación</label>
+            <p name="unidadA"> </p>
         </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <label>Costo</label>        
-            </div>
-            <div class="col-md-9 col-sm-12">
-                <label name="costo"></label>
-            </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Costo</label>        
+            <p name="costo"> </p>
         </div>
     </div>
+
 </div>
 
 <div class="row" id="contenedor-cantidades"></div>
@@ -123,6 +101,8 @@
 <!-- /.table-responsive -->
 
 <script type="text/javascript" src="./pages/personal_js/select.js"></script>
+
+
 <script type="text/javascript">
     var json_obj_unidadesxcliente = null;
     var json_obj_precioxprov = null;
@@ -139,7 +119,7 @@
         $("[name='unidadA']").text("");
         $("[name='articulo']").val("");
     }
-
+541299049
     function ningunProveedor()
     {
         $("[name='proveedor']").val("");
@@ -620,7 +600,7 @@
             },
             success : function(result, status, xhr)
             {
-                $("#id-ocm").text( ( date.getFullYear() % 2000 ) + "-" + date.getWeek() + "-" + result );
+                $("#id-ocm").text( ( date.getFullYear().toString().substring(2) ) + "-" + date.getWeek() + "-" + result );
                 // $("#id-ocm").text( "12-7-93" );
             }
         }); //  =>  ajax 
@@ -797,7 +777,7 @@
         //  =>  Registrar ocm
         $.ajax(
         {
-            async : false,
+            // async : false,
             url : __php_dir__ + "consultas.php",
             data : mi_url
         });//   =>  ajax
@@ -829,7 +809,7 @@
             //  =>  Registrar ocm
             $.ajax(
             {
-                async : false,
+                // async : false,
                 url : __php_dir__ + "consultas.php",
                 data : mi_url,
                 success : function( result, status, xhr )
@@ -1067,7 +1047,7 @@
 
                 $.ajax(
                 {
-                    async : false,
+                    // async : false,
                     url : __php_dir__ + "consultas.php",
                     data : mi_url
                 });
@@ -1101,7 +1081,7 @@
                     //  =>  Registrar ocm
                     $.ajax(
                     {
-                        async : false,
+                        // async : false,
                         url : __php_dir__ + "consultas.php",
                         data : mi_url
                     });//   =>  ajax
@@ -1219,73 +1199,73 @@
         {
             consultaCondicionalUnidad( "cliente", $(this).val() );
 
-            //  =>  Si hay cliente, buscamos las unidades para ese cliente
-            var mi_obj = {
-                campos : "idUnidad, unidad",
-                table : "unidad",
-                condicion : "cliente = " + $("select[name='cliente']").val(),
-                salida_html : "vec2",
-                operacion : "consultar-n-campos"
-            };
+            // //  =>  Si hay cliente, buscamos las unidades para ese cliente
+            // var mi_obj = {
+            //     campos : "idUnidad, unidad",
+            //     table : "unidad",
+            //     condicion : "cliente = " + $("select[name='cliente']").val(),
+            //     salida_html : "vec2",
+            //     operacion : "consultar-n-campos"
+            // };
 
-            $.ajax(
-            {
-                async : false,
-                url : __php_dir__ + "consultas.php",
-                data : jQuery.param( mi_obj ),
-                success : function(result, status, xhr)
-                {
-                    json_obj_unidadesxcliente = JSON.parse( result );
+            // $.ajax(
+            // {
+            //     // async : false,
+            //     url : __php_dir__ + "consultas.php",
+            //     data : jQuery.param( mi_obj ),
+            //     success : function(result, status, xhr)
+            //     {
+            //         json_obj_unidadesxcliente = JSON.parse( result );
 
-                    $("#contenedor-cantidades").empty();
-                    $("#contenedor_unidades").empty();
-                    $("#mi_thead").empty();
-                },
-                complete : function( status, xhr )
-                {
-                    var dom_act = null;
-                    var i = 0;
-                    vec_totalxunidad.splice( 0, vec_totalxunidad.length );
-                    //  =>  Peticion exitosa; construimos el encabezado de la tabla
-                    $("#mi_thead").append( "<td nowrap=\"true\">Clave (Producto)</td>" );
-                    $("#mi_thead").append( "<td nowrap=\"true\">Nombre (Producto)</td>" );
-                    $("#mi_thead").append( "<td nowrap=\"true\">Presentación (Producto)</td>" );
-                    $("#mi_thead").append( "<td nowrap=\"true\">Precio</td>" );
+            //         $("#contenedor-cantidades").empty();
+            //         $("#contenedor_unidades").empty();
+            //         $("#mi_thead").empty();
+            //     },
+            //     complete : function( status, xhr )
+            //     {
+            //         var dom_act = null;
+            //         var i = 0;
+            //         vec_totalxunidad.splice( 0, vec_totalxunidad.length );
+            //         //  =>  Peticion exitosa; construimos el encabezado de la tabla
+            //         $("#mi_thead").append( "<td nowrap=\"true\">Clave (Producto)</td>" );
+            //         $("#mi_thead").append( "<td nowrap=\"true\">Nombre (Producto)</td>" );
+            //         $("#mi_thead").append( "<td nowrap=\"true\">Presentación (Producto)</td>" );
+            //         $("#mi_thead").append( "<td nowrap=\"true\">Precio</td>" );
 
-                    for( i; i < json_obj_unidadesxcliente.length; i++ )
-                    {
-                        vec_totalxunidad.push( 0.0 );
+            //         for( i; i < json_obj_unidadesxcliente.length; i++ )
+            //         {
+            //             vec_totalxunidad.push( 0.0 );
 
-                        if ( ( i % 2 ) == 0)
-                            $("#contenedor-cantidades").append( "<div class=\"row\"><div class=\"col-md-6 col-sm-12\"></div><div class=\"col-md-6 col-sm-12\"></div></div>" );
+            //             if ( ( i % 2 ) == 0)
+            //                 $("#contenedor-cantidades").append( "<div class=\"row\"><div class=\"col-md-6 col-sm-12\"></div><div class=\"col-md-6 col-sm-12\"></div></div>" );
 
-                        dom_act = $("#contenedor-cantidades > div:last-child");
+            //             dom_act = $("#contenedor-cantidades > div:last-child");
 
-                        if ( ( i % 2 ) == 0 )
-                        {
-                            dom_act.find("div:first-child").append( "<label>Ingrese cantidad para (" + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " +  json_obj_unidadesxcliente[ i ][ 1 ] + ": </label>");
-                            dom_act.find("div:first-child").append( "<input min=\"0\" step=\"0.001\" disabled class=\"form-control\" value=\"" + vec_totalxunidad[ i ] + "\" name=\"cantidad-" + i + "\" type=\"number\">");
-                            dom_act.find("div:first-child").append( "<br>");
-                        }
-                        else
-                        {
-                            dom_act.find("div:last-child").append( "<label>Ingrese cantidad para (" + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " +  json_obj_unidadesxcliente[ i ][ 1 ] + ": </label>");
-                            dom_act.find("div:last-child").append( "<input min=\"0\" step=\"0.001\" disabled class=\"form-control\" value=\"" + vec_totalxunidad[ i ] + "\" name=\"cantidad-" + i + "\" type=\"number\">");
-                            dom_act.find("div:last-child").append( "<br>");
-                        }
+            //             if ( ( i % 2 ) == 0 )
+            //             {
+            //                 dom_act.find("div:first-child").append( "<label>Ingrese cantidad para (" + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " +  json_obj_unidadesxcliente[ i ][ 1 ] + ": </label>");
+            //                 dom_act.find("div:first-child").append( "<input min=\"0\" step=\"0.001\" disabled class=\"form-control\" value=\"" + vec_totalxunidad[ i ] + "\" name=\"cantidad-" + i + "\" type=\"number\">");
+            //                 dom_act.find("div:first-child").append( "<br>");
+            //             }
+            //             else
+            //             {
+            //                 dom_act.find("div:last-child").append( "<label>Ingrese cantidad para (" + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " +  json_obj_unidadesxcliente[ i ][ 1 ] + ": </label>");
+            //                 dom_act.find("div:last-child").append( "<input min=\"0\" step=\"0.001\" disabled class=\"form-control\" value=\"" + vec_totalxunidad[ i ] + "\" name=\"cantidad-" + i + "\" type=\"number\">");
+            //                 dom_act.find("div:last-child").append( "<br>");
+            //             }
 
-                        $("#mi_thead").append( "<td nowrap=\"true\">( " + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " + json_obj_unidadesxcliente[ i ][ 1 ] + "</td>" );
+            //             $("#mi_thead").append( "<td nowrap=\"true\">( " + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " + json_obj_unidadesxcliente[ i ][ 1 ] + "</td>" );
 
-                        $("#contenedor_unidades").append( "<label>( " + json_obj_unidadesxcliente[ i ][ 0 ] + " ) </label>" );
-                    }
+            //             $("#contenedor_unidades").append( "<label>( " + json_obj_unidadesxcliente[ i ][ 0 ] + " ) </label>" );
+            //         }
 
-                    $("#mi_thead").append("<td nowrap=\"true\">Total</td>");
-                    $("[name='articulo']").empty();
-                    $("[name='proveedor']").val("");
-                    $("[name='costo']").text("");
-                    $("[name='unidadA']").text("");
-                }
-            }); //  =>  ajax 
+            //         $("#mi_thead").append("<td nowrap=\"true\">Total</td>");
+            //         $("[name='articulo']").empty();
+            //         $("[name='proveedor']").val("");
+            //         $("[name='costo']").text("");
+            //         $("[name='unidadA']").text("");
+            //     }
+            // }); //  =>  ajax 
         }
     );//    =>  on
 
@@ -1348,7 +1328,7 @@
 
             $.ajax(
             {
-                async : false,
+                // async : false,
                 url : __php_dir__ + "consultas.php",
                 data : jQuery.param( mi_ocm ),
                 success : function(result, status, xhr)
@@ -1406,7 +1386,7 @@
                             //  =>  Se trae total de articulo
                             $.ajax(
                             {
-                                async : false,
+                                // async : false,
                                 url : __php_dir__ + "consultas.php",
                                 data : jQuery.param( mi_total ),
                                 success : function(result, status, xhr)
@@ -1430,7 +1410,7 @@
                             //  =>  Se trae la cantidad de excedentes
                             $.ajax(
                             {
-                                async : false,
+                                // async : false,
                                 url : __php_dir__ + "consultas.php",
                                 data : jQuery.param( mi_excedente ),
                                 success : function(result, status, xhr)
@@ -1457,7 +1437,7 @@
                             //  =>  Se recupera los datos del articulo actual
                             $.ajax(
                             {
-                                async : false,
+                                // async : false,
                                 url : __php_dir__ + "consultas.php",
                                 data : jQuery.param( mi_articulo ),
                                 success : function(result, status, xhr)
@@ -1481,7 +1461,7 @@
                             //  =>  Se recupera los datos de la linea actual
                             $.ajax(
                             {
-                                async : false,
+                                // async : false,
                                 url : __php_dir__ + "consultas.php",
                                 data : jQuery.param( mi_linea ),
                                 success : function(result, status, xhr)
@@ -1503,7 +1483,7 @@
                             //  =>  Se recupera los datos del proveedor actual
                             $.ajax(
                             {
-                                async : false,
+                                // async : false,
                                 url : __php_dir__ + "consultas.php",
                                 data : jQuery.param( mi_proveedor ),
                                 success : function(result, status, xhr)
@@ -1594,4 +1574,74 @@
     // $("#2").on({mouseover : mouseOverBotonAgregarArticulo, mouseout : mouseOutBotonAgregarArticulo});
 
     obtClaveParaOCManual();
+
+
+    //  =>  Si hay cliente, buscamos las unidades para ese cliente
+    var mi_obj = {
+        campos : "idUnidad, unidad",
+        table : "unidad",
+        condicion : "cliente = " + $("select[name='cliente']").val(),
+        salida_html : "vec2",
+        operacion : "consultar-n-campos"
+    };
+
+    $.ajax(
+    {
+        // async : false,
+        url : __php_dir__ + "consultas.php",
+        data : jQuery.param( mi_obj ),
+        success : function(result, status, xhr)
+        {
+            json_obj_unidadesxcliente = JSON.parse( result );
+
+            $("#contenedor-cantidades").empty();
+            $("#contenedor_unidades").empty();
+            $("#mi_thead").empty();
+        },
+        complete : function( status, xhr )
+        {
+            var dom_act = null;
+            var i = 0;
+            vec_totalxunidad.splice( 0, vec_totalxunidad.length );
+            //  =>  Peticion exitosa; construimos el encabezado de la tabla
+            $("#mi_thead").append( "<td nowrap=\"true\">Clave (Producto)</td>" );
+            $("#mi_thead").append( "<td nowrap=\"true\">Nombre (Producto)</td>" );
+            $("#mi_thead").append( "<td nowrap=\"true\">Presentación (Producto)</td>" );
+            $("#mi_thead").append( "<td nowrap=\"true\">Precio</td>" );
+
+            for( i; i < json_obj_unidadesxcliente.length; i++ )
+            {
+                vec_totalxunidad.push( 0.0 );
+
+                if ( ( i % 2 ) == 0)
+                    $("#contenedor-cantidades").append( "<div class=\"row\"><div class=\"col-md-6 col-sm-12\"></div><div class=\"col-md-6 col-sm-12\"></div></div>" );
+
+                dom_act = $("#contenedor-cantidades > div:last-child");
+
+                if ( ( i % 2 ) == 0 )
+                {
+                    dom_act.find("div:first-child").append( "<label>Ingrese cantidad para (" + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " +  json_obj_unidadesxcliente[ i ][ 1 ] + ": </label>");
+                    dom_act.find("div:first-child").append( "<input min=\"0\" step=\"0.001\" disabled class=\"form-control\" value=\"" + vec_totalxunidad[ i ] + "\" name=\"cantidad-" + i + "\" type=\"number\">");
+                    dom_act.find("div:first-child").append( "<br>");
+                }
+                else
+                {
+                    dom_act.find("div:last-child").append( "<label>Ingrese cantidad para (" + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " +  json_obj_unidadesxcliente[ i ][ 1 ] + ": </label>");
+                    dom_act.find("div:last-child").append( "<input min=\"0\" step=\"0.001\" disabled class=\"form-control\" value=\"" + vec_totalxunidad[ i ] + "\" name=\"cantidad-" + i + "\" type=\"number\">");
+                    dom_act.find("div:last-child").append( "<br>");
+                }
+
+                $("#mi_thead").append( "<td nowrap=\"true\">( " + json_obj_unidadesxcliente[ i ][ 0 ] + " ) " + json_obj_unidadesxcliente[ i ][ 1 ] + "</td>" );
+
+                $("#contenedor_unidades").append( "<label>( " + json_obj_unidadesxcliente[ i ][ 0 ] + " ) </label>" );
+            }
+
+            $("#mi_thead").append("<td nowrap=\"true\">Total</td>");
+            $("[name='articulo']").empty();
+            $("[name='proveedor']").val("");
+            $("[name='costo']").text("");
+            $("[name='unidadA']").text("");
+        }
+    }); //  =>  ajax 
+
 </script>

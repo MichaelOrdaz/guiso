@@ -1349,7 +1349,8 @@
 			$row = mysqli_fetch_assoc ( $_query_result_ );
 
 			if ( isset ( $row['last_id'] ) )
-				$_response_ = $row['last_id'];
+				$_response_ = $row['last_id'] ?? 0;
+				$_response_++;			
 		}
 
 		echo $_response_;

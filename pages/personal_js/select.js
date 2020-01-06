@@ -78,7 +78,7 @@ function peticionConsultarOpcionesParaSelect( datos, selector_texto, etiqueta_ht
 {
     $.ajax(
     {
-        async : false,
+        // async : false,
         url : __php_dir__ + "consultas.php",
         data : datos,
         success : function(result, status, xhr)
