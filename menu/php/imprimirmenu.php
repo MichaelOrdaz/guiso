@@ -16,5 +16,10 @@ $json.=',{"idMenu": "'.$columna['idMenu'].'"}';
 }
 }
 
+if($cont==0){
+$json='{"idMenu": "no hay menus"}';
+}
+
 echo json_encode($json);
+
 ?>
