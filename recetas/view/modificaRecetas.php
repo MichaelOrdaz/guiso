@@ -92,7 +92,7 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label class="text-blue">SubUnidad *</label>
+                <label class="text-blue">SubUnidad</label>
                 <select name="subunidad[]" id="subunidad" class="form-control input-sm preblock" disabled multiple title="Seleccione al menos una subunidad" >
                   <!-- <option value="" selected>Selecciones las sub-unidades</option> -->
                 </select>
