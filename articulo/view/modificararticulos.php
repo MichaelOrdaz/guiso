@@ -74,15 +74,15 @@ url: 'articulo/php/modificararticulos.php',
 data:{},
 type: 'POST',
 dataType: 'json',
-async:false,
+// async:false,
 success: function(respuesta){
-respuesta="["+respuesta+"]";
+// respuesta="["+respuesta+"]";
 tabla="";
-res=JSON.parse(respuesta);
-cont=0;
-$.each(res,function(key,value){
+// res=JSON.parse(respuesta);
+// cont=0;
+$.each(respuesta,function(key,value){
 tabla+="<option selected value="+value.idArticulo+">"+value.nombre+"</option>";
-cont++;
+// cont++;
 });
 $('#nombre').html(tabla);
 },
@@ -95,13 +95,13 @@ url: 'articulo/php/modificararticulos1.php',
 data:{clave:$('#art').val()},
 type: 'POST',
 dataType: 'json',
-async:false,
+// async:false,
 success: function(respuesta){
-respuesta="["+respuesta+"]";
-res=JSON.parse(respuesta);
+// respuesta="["+respuesta+"]";
+// res=JSON.parse(respuesta);
 tabla1="";
 tabla2="";
-$.each(res,function(key,value){
+$.each(respuesta,function(key,value){
 $('#codigoarticulo').val(value.idArticulo);
 $('#linea1').html("<option>"+value.linea+"</option>");
 
@@ -141,12 +141,12 @@ url: 'articulo/php/modificararticulos2.php',
 type: 'POST',
 dataType: 'json',
 data:{id:$('#linea1').val()},
-async:false,
+// async:false,
 success: function(respuesta){
-respuesta="["+respuesta+"]";
+// respuesta="["+respuesta+"]";
 tabla="";
-res=JSON.parse(respuesta);
-$.each(res,function(key,value){
+// res=JSON.parse(respuesta);
+$.each(respuesta,function(key,value){
 tabla+="<option>"+value.descripcion+"</option>";
 });
 $('#linea2').html(tabla);
