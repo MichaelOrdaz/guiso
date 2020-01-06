@@ -121,6 +121,9 @@ class Receta{
 		$nombre = strtoupper($nombre);
 		//verifica que la receta no existe en la base de datos, por nombre y por el ID
 		$check = $this->checkIdReceta( $idReceta, $nombre );
+
+    // var_dump($check);
+
 		! $check or die( toJson(0, "La ID. receta {$idReceta} o nombre {$nombre} ya existe" ) );
 
 		//recogemos valores
@@ -137,7 +140,7 @@ class Receta{
 		$observacion = filter_input(INPUT_POST, 'observacion', FILTER_SANITIZE_STRING);
 		$procedimiento = filter_input(INPUT_POST, 'procedimiento', FILTER_SANITIZE_STRING);
 		//subunidad es un array, asi que lo unimos
-		$subunidad = $_POST['subunidad'] ? implode(',', $_POST['subunidad']) : '';
+		$subunidad = isset( $_POST['subunidad'] ) ? implode(',', $_POST['subunidad']) : '';
 
 		//a Mayusculas
 		$elaboro = strtoupper($elaboro);
@@ -181,7 +184,7 @@ class Receta{
     $observacion = filter_input(INPUT_POST, 'observacion', FILTER_SANITIZE_STRING);
     $procedimiento = filter_input(INPUT_POST, 'procedimiento', FILTER_SANITIZE_STRING);
     //subunidad es un array, asi que lo unimos
-    $subunidad = $_POST['subunidad'] ? implode(',', $_POST['subunidad']) : '';
+    $subunidad = isset( $_POST['subunidad'] ) ? implode(',', $_POST['subunidad']) : '';
 
     //a Mayusculas
     $elaboro = strtoupper($elaboro);
@@ -204,10 +207,15 @@ class Receta{
 
 		$receta = $receta ?: filter_input(INPUT_POST, 'receta', FILTER_SANITIZE_STRING);
 		$nombre = $nombre ?: filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
-		$receta or die( toJson(0, 'El id es invalido') );
+		
+    $receta or die( toJson(0, 'El id es invalido') );
 		$nombre or die( toJson(0, 'El nombre es invalido') );
-		$this->db->query("SELECT * FROM receta WHERE idReceta = '{$receta}' OR nombre = '{$nombre}' LIMIT 1");
-		return $this->db->affected_rows > 0;
+		
+    $this->db->query("SELECT * FROM receta WHERE idReceta = '{$receta}' OR nombre = '{$nombre}' LIMIT 1");
+		var_dump($this->db->affected_rows);
+    var_dump("SELECT * FROM receta WHERE idReceta = '{$receta}' OR nombre = '{$nombre}' LIMIT 1");
+
+    return $this->db->affected_rows > 0;
 	}
 
 
