@@ -116,7 +116,7 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">SubUnidad *</label>
-                <select name="subunidad[]" id="subunidad" class="form-control input-sm" multiple required title="Seleccione al menos una subunidad" >
+                <select name="subunidad[]" id="subunidad" class="form-control input-sm" multiple title="Seleccione al menos una subunidad" >
                   <!-- <option value="" selected>Selecciones las sub-unidades</option> -->
                 </select>
                 <small class="help-block text-muted">Puede seleccionar multiples subunidadades, presionando Ctrl + click</small>
