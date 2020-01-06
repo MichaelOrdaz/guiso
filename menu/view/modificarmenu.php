@@ -180,6 +180,8 @@ color: black;
 
 <script>
 
+idsubunidad="";
+
 $.ajax({
 url : 'menu/php/imprimirmenu.php',
 data : {},
@@ -216,6 +218,15 @@ dataType: 'json',
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
+
+$('#checkbox1').attr('checked', false);
+$('#checkbox2').attr('checked', false);
+$('#checkbox3').attr('checked', false);
+$('#checkbox4').attr('checked', false);
+$('#checkbox5').attr('checked', false);
+$('#checkbox6').attr('checked', false);
+$('#checkbox7').attr('checked', false);
+
 $.each(res,function(key,value){
 $('#semana').val(value.semana);
 $('#anio').val(value.anio);
@@ -226,6 +237,7 @@ $('#subunidad').html("<option>"+value.subunidad+"</option>");
 $('#grupo').html("<option>"+value.grupo+"</option>");
 $('#elaboro').val(value.elaboro);
 $('#costo').val(value.costo);
+idsubunidad=value.idsubunidad;
 lapsoi=value.lapsoi;
 lapso=value.lapso;
 res=lapso.split(",");
@@ -281,14 +293,6 @@ respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 tabla="";
 cont=0;
-
-$('#checkbox1').attr('checked', false);
-$('#checkbox2').attr('checked', false);
-$('#checkbox3').attr('checked', false);
-$('#checkbox4').attr('checked', false);
-$('#checkbox5').attr('checked', false);
-$('#checkbox6').attr('checked', false);
-$('#checkbox7').attr('checked', false);
 
 $.each(res,function(key,value){
 tabla+="<tr>";
@@ -467,7 +471,9 @@ $('#tabla').html(tabla);
 
 $.ajax({
 url : 'menu/php/agregarmenu7.php',
-data : {},
+data : {
+subunidad:idsubunidad
+},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){

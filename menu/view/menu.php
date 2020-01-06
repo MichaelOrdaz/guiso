@@ -80,7 +80,7 @@ color: black;
                     </div>
                     <div class="col-md-3 col-sm-12">
                     <select class="form-control" id="subunidad" style="height: 28px;">
-                    <option disabled selected> -- Seleccione subunidad -- </option>
+                    <option disabled> -- Seleccione subunidad -- </option>
                     </select>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
@@ -174,6 +174,7 @@ color: black;
 
 band1=0;band2=0;band3=0;band4=0;band5=0;band6=0;band7=0;
 lunes="";martes="";miercoles="";jueves="";viernes="";sabado="";domingo="";
+idsubunidad="";
 
 $("#todos").click(function() { 
 if ($("#todos").is( ":checked")){ 
@@ -346,6 +347,7 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
+$('#agregar').click();
 },
 });
 
@@ -368,8 +370,13 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
+$('#agregar').click();
 },
 });
+});
+
+$('#subunidad').on('change',function(){
+$('#agregar').click();
 });
 
 $('#semana').on('change',function(){
@@ -409,43 +416,6 @@ tiemp=parseInt($('#tiemp').val());
 
 $("#agregar").click(function(){
 $('#agregarmenu')[0].disabled=false;
-
-bandf=0;
-
-if($("#semana").val()==""){
-alert("no hay semana");
-bandf=1;
-}
-if($("#tiemp").val()==null){
-alert("Seleccione un tiempo");
-bandf=1;
-}
-if($("#cliente").val()==null){
-alert("Seleccione un cliente");
-bandf=1;
-}
-if($("#unidad").val()==null){
-alert("Seleccione unidad");
-bandf=1;
-}
-if($("#subunidad").val()==null){
-alert("Seleccione subunidad");
-bandf=1;
-}
-if($("#elaboro").val()==""){
-alert("Falta quien elaboro");
-bandf=1;
-}
-if($("#grupo").val()==null){
-alert("Seleccione un grupo");
-bandf=1;
-}
-if(band1==0&&band2==0&&band3==0&&band4==0&&band5==0&&band6==0&&band7==0){
-alert("Seleccione un dia");
-bandf=1;
-}
-
-if(bandf==0){
 
 tabla="";
 cont=0;
@@ -620,7 +590,9 @@ $('#tabla').html(tabla);
 
 $.ajax({
 url : 'menu/php/agregarmenu7.php',
-data : {},
+data : {
+subunidad:$("#subunidad").children("option:selected").val()
+},
 type : 'POST',
 dataType: 'json',
 async:false,
@@ -650,7 +622,7 @@ $('.costo'+res[0]).val(res[2]);
 },
 });
 });
-}
+
 });
 
 $("#sumatoria").click(function(){
@@ -730,10 +702,45 @@ band=1;
 });
 }
 
+bandf=0;
+
+if($("#semana").val()==""){
+alert("no hay semana");
+bandf=1;
+}
+if($("#tiemp").val()==null){
+alert("Seleccione un tiempo");
+bandf=1;
+}
+if($("#cliente").val()==null){
+alert("Seleccione un cliente");
+bandf=1;
+}
+if($("#unidad").val()==null){
+alert("Seleccione unidad");
+bandf=1;
+}
+if($("#subunidad").val()==null){
+alert("Seleccione subunidad");
+bandf=1;
+}
+if($("#elaboro").val()==""){
+alert("Falta quien elaboro");
+bandf=1;
+}
+if($("#grupo").val()==null){
+alert("Seleccione un grupo");
+bandf=1;
+}
+if(band1==0&&band2==0&&band3==0&&band4==0&&band5==0&&band6==0&&band7==0){
+alert("Seleccione un dia ");
+bandf=1;
+}
+
 if(band==1){
 alert("receta no existe");
 }
-if(band==0){
+if((band==0)&&(bandf==0)){
 $.ajax({
 url : 'menu/php/agregarmenu9.php',
 type : 'POST',
