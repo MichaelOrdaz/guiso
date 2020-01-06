@@ -212,8 +212,8 @@ class Receta{
 		$nombre or die( toJson(0, 'El nombre es invalido') );
 		
     $this->db->query("SELECT * FROM receta WHERE idReceta = '{$receta}' OR nombre = '{$nombre}' LIMIT 1");
-		var_dump($this->db->affected_rows);
-    var_dump("SELECT * FROM receta WHERE idReceta = '{$receta}' OR nombre = '{$nombre}' LIMIT 1");
+		// var_dump($this->db->affected_rows);
+    // var_dump("SELECT * FROM receta WHERE idReceta = '{$receta}' OR nombre = '{$nombre}' LIMIT 1");
 
     return $this->db->affected_rows > 0;
 	}
