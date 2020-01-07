@@ -416,7 +416,7 @@
         .done((response)=>{
           // console.log(response);
           if( response.status === 1 ){
-            Swal.fire('Exito', response.msg + '<br> Ahora agregue algunos articulos necesarios para hacer al receta', 'success');
+            Swal.fire('Exito', response.msg + '<br> Ahora agregue los articulos necesarios para realizar la receta', 'success');
             $(formReceta).find('input, select, button[type="submit"], textarea').prop('disabled', true);//bloqueamos controles
             $(formArticulos).find('input, select, button[type="submit"], textarea').prop('disabled', false);//bloqueamos controles
           }
