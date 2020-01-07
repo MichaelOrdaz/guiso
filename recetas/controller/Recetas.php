@@ -251,7 +251,8 @@ class Receta{
   public function deleteReceta(){
 
     $receta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING);
-    $r = $this->db->query("UPDATE receta SET activo = 0 WHERE idReceta = '{$receta}'");
+    // $r = $this->db->query("UPDATE receta SET activo = 0 WHERE idReceta = '{$receta}'");
+    $r = $this->db->query("DELETE FROM receta WHERE idReceta = '{$receta}'");
     
     empty( $this->db->error ) or die( toJson(0, 'Error al eliminar la receta, intente nuevamente', ['error'=> $this->db->error] ) );
     
