@@ -101,7 +101,7 @@ foreach ($articulos as $row){
 
   $sheet->setCellValue("A{$indexRow}", $row->idArticulo);
   $sheet->setCellValue("B{$indexRow}", $row->nombre);
-  $sheet->setCellValue("C{$indexRow}", $row->unidad);
+  $sheet->setCellValue("C{$indexRow}", $row->medida);
   $sheet->setCellValue("D{$indexRow}", $row->cantidad);
   $sheet->setCellValue("E{$indexRow}", $row->costo);
   // $sheet->setCellValue("E{$indexRow}", $row->costo);

@@ -227,7 +227,7 @@
 
             <div class="col-md-3 col-sm-6">
               <div class="form-group">
-                <label class="text-blue">Cantidad</label>
+                <label class="text-blue">Cantidad *</label>
                 <input type="number" min="0.01" max="999" step="any" name="cantidad" id="cantidad" class="form-control input-sm" placeholder="Cantidad" required />
               </div>
             </div>
@@ -235,7 +235,7 @@
             <div class="col-md-3 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Unidad</label>
-                <input type="text" name="unidad" id="unidad" class="form-control input-sm" placeholder="Unidad" required readonly />
+                <input type="text" name="unidad" id="unidad" class="form-control input-sm" placeholder="Unidad" maxlength="30" />
               </div>
             </div>
 
@@ -329,7 +329,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="text-blue">Unidad</label>
-                <input type="text" name="unidad" class="form-control input-sm" placeholder="Unidad" required readonly />
+                <input type="text" name="unidad" class="form-control input-sm" placeholder="Unidad" maxlength="30" />
               </div>
             </div>
           
@@ -485,7 +485,7 @@
       //aqui tambien lo agrego a la base de datos, la relacion
       //recuperamos el idReceta del formulario, debe estar bloqueado el input, 
       let idReceta = formReceta.idReceta.value.trim();
-      $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloReceta', idArticulo: data.idArticulo, idReceta: idReceta, cantidad: data.cantidad }, (resp, textStatus, xhr)=> {
+      $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloReceta', idArticulo: data.idArticulo, idReceta: idReceta, cantidad: data.cantidad, medida: data.unidad }, (resp, textStatus, xhr)=> {
 
         if( resp.status === 1 ){
           oTable.row.add( data ).draw();
@@ -572,12 +572,14 @@
           let idReceta = formReceta.idReceta.value.trim();
           let idArticulo = _.updateArticulo.idArticulo.value.trim();
           let cantidad = _.updateArticulo.cantidad.value.trim();
-          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idReceta, cantidad }, (resp, textStatus, xhr)=> {
+          let medida = _.updateArticulo.unidad.value.trim();
+          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idReceta, cantidad, medida }, (resp, textStatus, xhr)=> {
 
             if( resp.status === 1 ){
               
               dataRowDT.cantidad = cantidad;//actualiza cantidad
               dataRowDT.costoTot = ( cantidad * dataRowDT.costoUni ).toFixed(2);//actualiza costo
+              dataRowDT.unidad = medida;
               nodeRowDT.data( dataRowDT ).draw();//lo dibuja enla tabla
               $('[data-toggle="tooltip"]').tooltip();
               $('#myModal').modal('hide');

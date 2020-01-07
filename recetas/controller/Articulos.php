@@ -31,8 +31,11 @@ class Articulos{
     $idArticulo = filter_input(INPUT_POST, 'idArticulo', FILTER_SANITIZE_STRING) or die(toJson(0, 'El articulo es incorrecto') );
     $idReceta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING) or die(toJson(0, 'La receta es invalida') );
     $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_VALIDATE_FLOAT)  or die ( toJson(0, 'La cantidad es invalida') ) ;
+    $medida = filter_input(INPUT_POST, 'medida', FILTER_SANITIZE_STRING);//es opcional
 
-    $sql = "INSERT INTO recetaart (receta, articulo, cantidad, fecha) VALUES ( '{$idReceta}', '{$idArticulo}', '{$cantidad}', now() )";
+    $medida = $medida ?: '';
+
+    $sql = "INSERT INTO recetaart (receta, articulo, cantidad, fecha, medida) VALUES ( '{$idReceta}', '{$idArticulo}', '{$cantidad}', now(), '{$medida}' )";
     $this->db->query($sql);
 
     empty( $this->db->error ) or die( toJson(0, 'Error al almacenar el articulo, intente nuevamente', ['error'=> $this->db->error] ) );
@@ -66,8 +69,12 @@ class Articulos{
     $idArticulo = filter_input(INPUT_POST, 'idArticulo', FILTER_SANITIZE_STRING) or die(toJson(0, 'El articulo es incorrecto') );
     $idReceta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING) or die(toJson(0, 'La receta es invalida') );
     $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_SANITIZE_STRING) or die(toJson(0, 'La cantidad es invalida') );
+    $medida = filter_input(INPUT_POST, 'medida', FILTER_SANITIZE_STRING);//es opcional
 
-    $sql = "UPDATE recetaart SET cantidad = '{$cantidad}' WHERE receta = '{$idReceta}' AND articulo = '{$idArticulo}'";
+    $medida = $medida ?: '';
+
+
+    $sql = "UPDATE recetaart SET cantidad = '{$cantidad}', medida = '{$medida}' WHERE receta = '{$idReceta}' AND articulo = '{$idArticulo}'";
     $this->db->query($sql);
 
     empty( $this->db->error ) or die( toJson(0, 'Error al modificar el articulo, intente nuevamente', ['error'=> $this->db->error] ) );

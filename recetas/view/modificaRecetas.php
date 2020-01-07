@@ -212,7 +212,7 @@
             <div class="col-md-3 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Unidad</label>
-                <input type="text" name="unidad" id="unidad" class="form-control input-sm" placeholder="Unidad" required readonly />
+                <input type="text" name="unidad" id="unidad" class="form-control input-sm" placeholder="Unidad"  />
               </div>
             </div>
 
@@ -305,7 +305,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="text-blue">Unidad</label>
-                <input type="text" name="unidad" class="form-control input-sm" placeholder="Unidad" required readonly />
+                <input type="text" name="unidad" class="form-control input-sm" placeholder="Unidad" />
               </div>
             </div>
           
@@ -592,7 +592,7 @@
       //aqui tambien lo agrego a la base de datos, la relacion
       //recuperamos el idReceta del formulario, debe estar bloqueado el input, 
       let idReceta = formReceta.idReceta.value.trim();
-      $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloReceta', idArticulo: data.idArticulo, idReceta: idReceta, cantidad: data.cantidad }, (resp, textStatus, xhr)=> {
+      $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloReceta', idArticulo: data.idArticulo, idReceta: idReceta, cantidad: data.cantidad, medida: data.unidad }, (resp, textStatus, xhr)=> {
 
         if( resp.status === 1 ){
           oTable.row.add( data ).draw();
@@ -697,12 +697,14 @@
           let idReceta = formReceta.idReceta.value.trim();
           let idArticulo = _.updateArticulo.idArticulo.value.trim();
           let cantidad = _.updateArticulo.cantidad.value.trim();
-          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idReceta, cantidad }, (resp, textStatus, xhr)=> {
+          let medida = _.updateArticulo.unidad.value.trim();
+          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idReceta, cantidad, medida }, (resp, textStatus, xhr)=> {
 
             if( resp.status === 1 ){
               
               dataRowDT.cantidad = cantidad;//actualiza cantidad
               dataRowDT.costoTot = ( cantidad * dataRowDT.costoUni ).toFixed(2);//actualiza costo
+              dataRowDT.unidad = medida;
               nodeRowDT.data( dataRowDT ).draw();//lo dibuja enla tabla
               $('[data-toggle="tooltip"]').tooltip();
               $('#myModal').modal('hide');
@@ -723,50 +725,6 @@
   }
   _.updateArticulo.addEventListener('submit', updateArticulo);
 
-  //evento para el cambio del articulo
-  var updateArticulo = function(ev){
-    if(ev) ev.preventDefault();
-
-    //se actualiza en la relacion la cantidad, y se actualiza el costo de la receta
-    Swal.fire({
-        title: 'Modificar Articulo',
-        text: '¿Desea modificar la cantidad del articulo ' + this.articulo.value + '?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, modificar'
-      }).then((result) => {
-        if (result.value) {
-          
-          let idReceta = formReceta.idReceta.value.trim();
-          let idArticulo = _.updateArticulo.idArticulo.value.trim();
-          let cantidad = _.updateArticulo.cantidad.value.trim();
-          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idReceta, cantidad }, (resp, textStatus, xhr)=> {
-
-            if( resp.status === 1 ){
-              
-              dataRowDT.cantidad = cantidad;//actualiza cantidad
-              dataRowDT.costoTot = ( cantidad * dataRowDT.costoUni ).toFixed(2);//actualiza costo
-              nodeRowDT.data( dataRowDT ).draw();//lo dibuja enla tabla
-              $('[data-toggle="tooltip"]').tooltip();
-              $('#myModal').modal('hide');
-              Toast.fire({ icon: 'success', title: resp.msg}).then( r=>{
-                calcularTotalReceta();//debe ir despues de agregar la tabla
-              });
-            }
-            else{
-              Toast.fire({ icon: 'error', title: resp.msg});
-            }
-
-          }, 'json');
-
-        }//endIf
-
-      });
-
-  }
-  _.updateArticulo.addEventListener('submit', updateArticulo);
 
   //mi tabla
   var tblItems = $$('#table_articulos');

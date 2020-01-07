@@ -239,7 +239,7 @@ class Receta{
 
     $receta = filter_input(INPUT_POST, 'receta', FILTER_SANITIZE_STRING);
 
-    $sql = "SELECT ra.cantidad as cantidadRel, ar.idArticulo, ar.nombre, ar.unidad, ar.costo FROM recetaart as ra left join articulo as ar on ra.articulo = ar.idArticulo WHERE ra.receta = '{$receta}'";
+    $sql = "SELECT ra.cantidad as cantidadRel, ar.idArticulo, ar.nombre, ra.medida AS unidad, ar.costo FROM recetaart as ra left join articulo as ar on ra.articulo = ar.idArticulo WHERE ra.receta = '{$receta}'";
     $r = $this->db->query( $sql );
     
     while( $items[] = $r->fetch_object() );
