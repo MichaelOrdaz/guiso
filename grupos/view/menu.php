@@ -173,7 +173,7 @@
     if( this.classList.contains('edit') ){
 
       Swal.fire({
-        title: 'Modificar Base',
+        title: 'Modificar Grupo',
         text: 'ingrese el nombre del grupo',
         input: 'text',
         inputValue: data.descripcion,

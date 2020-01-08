@@ -68,16 +68,16 @@
 
 <script type="text/javascript" src="pages/personal_js/formulario.js"></script>
 <script type="text/javascript">
-    $("[name='telefono']").on({change : esNumeroDeTelefono, focus : mostrarFormatoNumeroTelefonico});
-    $("[name='cp']").on({change : esCP});
-    $("[name='nombre']").on({change : esNombreDeEmpresa});
-    $("[name='direccion']").on({change : esDireccion});
-    $("[name='contacto']").on({change : soloPalabras});
-    $("[name='estado']").on({change : esEstado});
-    $("[name='info']").on({change : esInformacion});
-    $("[name='ciudad']").on({change : soloPalabras});
-    $("[name='rfc']").on({change : rfc});
-    $("[name='correo']").on({change : email});
+    // $("[name='telefono']").on({change : esNumeroDeTelefono, focus : mostrarFormatoNumeroTelefonico});
+    // $("[name='cp']").on({change : esCP});
+    // $("[name='nombre']").on({change : esNombreDeEmpresa});
+    // $("[name='direccion']").on({change : esDireccion});
+    // $("[name='contacto']").on({change : soloPalabras});
+    // $("[name='estado']").on({change : esEstado});
+    // $("[name='info']").on({change : esInformacion});
+    // $("[name='ciudad']").on({change : soloPalabras});
+    // $("[name='rfc']").on({change : rfc});
+    // $("[name='correo']").on({change : email});
     $("form [name]").on({change : checarCamposRequire});
     $("form [name]").on({change : mostrarBotonResetear});
 </script>
