@@ -2,8 +2,9 @@
 
 include '../../db/conexion.php';
 
-$consulta = "SELECT idTiempo,descripcion,fecha FROM tiempo";
+$consulta = "SELECT idTiempo, descripcion, fecha FROM tiempo";
 $resultado = mysqli_query($conexion, $consulta);
+$rows = [];
 while( $row = mysqli_fetch_object($resultado) ){
   $rows[] = $row;
 }
