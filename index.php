@@ -147,14 +147,29 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                 <li>
                   <a href="javascript://" data-archivo="MenuClientes.php" data-menu="menu-cliente">Clientes </a>
                 </li>
+                
                 <li>
                   <a href="javascript://" data-archivo="MenuLinea.php" data-menu="menu-linea">Líneas </a>
                 </li>
+
+                <li>
+                  <a href="lineas/view/menu.php" class="ajaxLink">Líneas </a>
+                </li>
+
                 <li>
                   <a href="javascript://" data-archivo="MenuGrupos.php" data-menu="menu-grupo">Grupos </a>
                 </li>
+
                 <li>
+                  <a href="grupos/view/menu.php" class="ajaxLink"> Grupos </a>
+                </li>
+
+                <!-- <li>
                   <a href="javascript://" data-archivo="MenuBases.php" data-menu="menu-base">Bases </a>
+                </li> -->
+
+                <li>
+                  <a href="bases/view/menu.php" class="ajaxLink"> Bases </a>
                 </li>
               </ul>
               <!-- /.nav-second-level -->
