@@ -38,7 +38,7 @@ $ver       = $_POST['ver'];
       
         <div class="row mb-1">
           <div class="col-xs-12">
-            <button class="btn btn-info" data-toggle="collapse" data-target="#form_cliente"> <span class="caret"></span> Ver / Editar Cliente</button>
+            <button class="btn btn-info btn-sm" data-toggle="collapse" data-target="#form_cliente"> Ver / Editar Cliente <span class="caret"></span> </button>
           </div>
         </div>
 
@@ -177,7 +177,7 @@ $ver       = $_POST['ver'];
         
         <div class="row mb-1">
           <div class="col-xs-12">
-            <button class="btn btn-info" data-toggle="collapse" data-target="#formBase"> <span class="caret"></span> Añadir Unidad</button>
+            <button class="btn btn-info btn-sm" data-toggle="collapse" data-target="#formBase"> Añadir Unidad <span class="caret"></span> </button>
           </div>
         </div>
 
@@ -390,10 +390,10 @@ $ver       = $_POST['ver'];
       {data: 'info', defaultContent: ''},
       {data: 'fecha', defaultContent: ''},
       {data: null, defaultContent: `
-        <button type="button" class="btn btn-xs btn-primary view"> <i class="fa fa-eye"></i> </button>
-        <button type="button" class="btn btn-xs btn-primary add"> <i class="fa fa-plus"></i> </button>
-        <button type="button" class="btn btn-xs btn-info edit"> <i class="fa fa-edit"></i> </button>
-        <button type="button" class="btn btn-xs btn-danger del"> <i class="fa fa-times"></i> </button>
+        <button type="button" class="btn btn-xs btn-primary view" title="ver subunidades"> <i class="fa fa-eye"></i> </button>
+        <button type="button" class="btn btn-xs btn-primary add" title="agregar subunidad"> <i class="fa fa-plus"></i> </button>
+        <button type="button" class="btn btn-xs btn-info edit" title="Modificar"> <i class="fa fa-edit"></i> </button>
+        <button type="button" class="btn btn-xs btn-danger del" title="Eliminar"> <i class="fa fa-times"></i> </button>
       `},
     ]
 

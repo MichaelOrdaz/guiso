@@ -34,10 +34,10 @@
                     <div class="row">
                       <div class="col-xs-12">
                         
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#legend"> <i class="caret"></i> Nomenclaturas </button>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#legend">  Nomenclaturas <span class="caret"></span> </button>
 
                         <div class="collapse fade text-right mt-1" id="legend">
-                          <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-plus"></i> </button> Más info
+                          <!-- <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-plus"></i> </button> Más info -->
                           <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-building"></i> </button> Agregar Unidad
                           <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-edit"></i> </button> Modificar
                           <button type="button" class="btn btn-xs btn-danger"> <i class="fa fa-times"></i> </button> Eliminar
@@ -143,7 +143,7 @@
                         <div class="col-md-4 col-sm-6">
                           
                           <div class="form-group">
-                            <label>Plazo</label>
+                            <label>Plazo de contrato</label>
                             <input class="form-control" name="plazo" value="" type="number" title="Ingrese como máximo dos digitos" placeholder="Plazo" >
                           </div>
                           
@@ -339,10 +339,9 @@
       {data: 'ciudad', defaultContent: ''},
       {data: 'estado', defaultContent: ''},
       {data: null, defaultContent: `
-        <button type="button" class="btn btn-xs btn-primary more ver"> <i class="fa fa-plus"></i> </button>
-        <button type="button" class="btn btn-xs btn-primary more"> <i class="fa fa-building"></i> </button>
-        <button type="button" class="btn btn-xs btn-primary more ver"> <i class="fa fa-edit"></i> </button>
-        <button type="button" class="btn btn-xs btn-danger del"> <i class="fa fa-times"></i> </button>
+        <button type="button" class="btn btn-xs btn-primary more" data-toggle="tooltip" title="Agregar Unidades, Sub y Más"> <i class="fa fa-building"></i> </button>
+        <button type="button" class="btn btn-xs btn-primary more ver" data-toggle="tooltip" title="Editar"> <i class="fa fa-edit"></i> </button>
+        <button type="button" class="btn btn-xs btn-danger del" data-toggle="tooltip" title="Eliminar"> <i class="fa fa-times"></i> </button>
       `},
     ]
 
