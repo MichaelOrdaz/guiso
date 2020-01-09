@@ -114,17 +114,18 @@ class Receta{
 	public function addReceta(){
 
 		//primero verificamos que la llave no exista
-		$idReceta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING) or die( toJson(0, 'El ID Receta es inválido') );
-		$idReceta = strtoupper($idReceta);
+		// $idReceta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING) or die( toJson(0, 'El ID Receta es inválido') );
+		// $idReceta = strtoupper($idReceta);
 		
 		$nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre de la receta es inválido') );
 		$nombre = strtoupper($nombre);
 		//verifica que la receta no existe en la base de datos, por nombre y por el ID
-		$check = $this->checkIdReceta( $idReceta, $nombre );
+		// $check = $this->checkIdReceta( $idReceta, $nombre );
+    $check = $this->checkNameReceta( $nombre );
 
     // var_dump($check);
 
-		! $check or die( toJson(0, "La ID. receta {$idReceta} o nombre {$nombre} ya existe" ) );
+		! $check or die( toJson(0, "La receta {$nombre} ya existe, por favor cambie el nombre" ) );
 
 		//recogemos valores
 		//requeridos
@@ -145,6 +146,11 @@ class Receta{
 		//a Mayusculas
 		$elaboro = strtoupper($elaboro);
 		$autorizo = strtoupper($autorizo);
+
+    $r = $this->db->query("SELECT descripcion FROM tiempo WHERE idTiempo = '{$tiempo}' LIMIT 1");
+    $tiempoLetra = $this->db->affected_rows > 0 ? $r->fetch_object()->descripcion : 'item';//si por algun motivo fallase la consulta coloco IT de ITem
+    //generamos el id receta
+    $idReceta = $this->generarClaveReceta($tiempoLetra, 'receta');
 
 		$sql = sprintf("INSERT INTO receta (idReceta, nombre, subUnidad, base, tiempo, porciones, gramos, costo, califica, info, fecha, fechaMod, revision, procedimiento, elaboro, autorizo, activo) VALUES ( '%s', '%s', '%s', '%s', '%s', %01.2f, %01.2f, 0, %01.2f, '%s', now(), now(), 1, '%s', '%s', '%s', 1 )", $idReceta, $nombre, $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $elaboro, $autorizo);
 
@@ -218,6 +224,13 @@ class Receta{
     return $this->db->affected_rows > 0;
 	}
 
+  public function checkNameReceta( $name ){
+
+    $this->db->query("SELECT idReceta FROM receta where nombre = '{$name}' LIMIT 1");
+    return $this->db->affected_rows > 0;
+
+  }
+
 
 	 public function getRecetas(){
 
@@ -251,27 +264,30 @@ class Receta{
 
     $receta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING);
     // $r = $this->db->query("UPDATE receta SET activo = 0 WHERE idReceta = '{$receta}'");
-    $r = $this->db->query("DELETE FROM receta WHERE idReceta = '{$receta}'");
+    $r = $this->db->query("UPDATE receta SET activo = 0, nombre = null WHERE idReceta = '{$receta}'");//no eliminamos pero si quitamos el nombre de la lisrta
     
     empty( $this->db->error ) or die( toJson(0, 'Error al eliminar la receta, intente nuevamente', ['error'=> $this->db->error] ) );
     
-    if( $this->db->affected_rows > 0 )
+    if( $this->db->affected_rows > 0 ){
+
+      $r = $this->db->query("UPDATE recetaart SET receta = null WHERE receta = '{$receta}'");//no eliminamos pero si quitamos el nombre de la lisrta
       echo toJson(1, 'La receta se elimino correctamente');
+    }
     else
       echo toJson(0, 'No se elimino ninguna receta, intente nuevamente');
 
   }
 
 
-  public function idAvailable(){
+  // public function idAvailable(){
 
-    $idReceta = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El ID Receta es inválido') );
-    $idReceta = strtoupper($idReceta);
+  //   $idReceta = filter_input(INPUT_POST, 'idReceta', FILTER_SANITIZE_STRING) or die( toJson(0, 'El ID Receta es inválido') );
+  //   $idReceta = strtoupper($idReceta);
 
-    $this->db->query("SELECT * FROM receta WHERE idReceta = '{$idReceta}' LIMIT 1");
-    echo $this->db->affected_rows;
+  //   $this->db->query("SELECT * FROM receta WHERE idReceta = '{$idReceta}' LIMIT 1");
+  //   echo $this->db->affected_rows;
 
-  }
+  // }
 
   public function nameAvailable(){
 
@@ -281,6 +297,36 @@ class Receta{
     $this->db->query("SELECT * FROM receta WHERE nombre = '{$nombre}' LIMIT 1");
     echo $this->db->affected_rows;
 
+  }
+
+
+  private function generarClaveReceta( $tiempo, $key ){
+
+    //$sacamos las dos primeras letras del tiempo
+    $abbr = $tiempo[0].$tiempo[1];
+    $abbr = strtoupper($abbr);
+
+    $r = $this->db->query("SELECT MAX(valor) AS valor FROM clave WHERE llave = '{$key}'");
+    $r = $r->fetch_object();
+
+    //si es nullo lo insertamos
+    if( is_null( $r->valor ) ){
+      $r = $this->db->query("INSERT INTO clave (llave, valor) VALUES ('{$key}', 1)");
+      return $abbr.'1';
+    }
+    else{
+      //lo actualizamos.
+      $this->db->query("UPDATE clave SET valor = valor + 1 WHERE llave = '{$key}'");
+      return $abbr . ( $r->valor + 1 );
+    }
+
+  }
+
+  public function test(){
+
+    // $a = $this->generarClaveReceta('PLATO FUERTE', 'articulo');
+    
+    // var_dump($a);
   }
 
 

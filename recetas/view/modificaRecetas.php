@@ -21,7 +21,7 @@
 
             <div class="col-md-4 col-sm-6">
                 <label class="text-blue">ID. Receta</label>
-                <input type="text" name="idReceta" id="idReceta" class="form-control input-sm" placeholder="Ingrese el id de la receta" list="listIdRecetas" required />
+                <input type="search" name="idReceta" id="idReceta" class="form-control input-sm" placeholder="Ingrese el id de la receta" list="listIdRecetas" required />
                 <datalist id="listIdRecetas"> </datalist>
                 <!-- <small class="help-block">Puede buscar por nombre o clave</small> -->
               </div>
@@ -127,7 +127,7 @@
                 <div class="col-xs-12">
                   <div class="form-group">
                     <label class="text-blue sr-only">Incluir Procedimiento</label>
-                    <textarea name="procedimiento" id="procedimiento" class="form-control" placeholder="Procedimiento para la elaboración de la receta, maximo 500 caracteres" maxlength="500" disabled ></textarea>
+                    <textarea name="procedimiento" id="procedimiento" class="form-control preblock" placeholder="Procedimiento para la elaboración de la receta, maximo 500 caracteres" maxlength="500" disabled ></textarea>
                   </div>
                 </div>
 
@@ -648,7 +648,9 @@
     $.post('recetas/controller/Recetas.php', {method: 'updateCosto', costo: costo, idReceta }, (data, textStatus, xhr)=> {
 
       if( data.status )
-        Toast.fire({ icon: 'info', title: data.msg}).then(r=>{ $$('#costoReceta').focus() });
+        Toast.fire({ icon: 'info', title: data.msg}).then(r=>{ 
+          //$$('#costoReceta').focus() 
+        });
     
     }, 'json');
   

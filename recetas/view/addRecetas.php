@@ -36,11 +36,11 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">ID. Receta *</label>
-                <div class="input-group">
-                  <input type="text" name="idReceta" id="idReceta" class="form-control input-sm" placeholder="Ingresar ID de la receta" minlength="4" maxlength="30" required  autocomplete="off" />
-                  <span class="input-group-addon"> </span>
+                <!-- <div class="input-group"> -->
+                  <input type="text" name="idReceta" id="idReceta" class="form-control input-sm" placeholder="Clave de la receta" minlength="4" maxlength="30" required  autocomplete="off" readonly />
+                  <!-- <span class="input-group-addon"> </span> -->
                   
-                </div>
+                <!-- </div> -->
               </div>
 
             </div>
@@ -419,6 +419,7 @@
             Swal.fire('Exito', response.msg + '<br> Ahora agregue los articulos necesarios para realizar la receta', 'success');
             $(formReceta).find('input, select, button[type="submit"], textarea').prop('disabled', true);//bloqueamos controles
             $(formArticulos).find('input, select, button[type="submit"], textarea').prop('disabled', false);//bloqueamos controles
+            formReceta.idReceta.value = response.idReceta;
           }
           else{
             Swal.fire('Error', response.msg, 'error');
@@ -523,7 +524,9 @@
     $.post('recetas/controller/Recetas.php', {method: 'updateCosto', costo: costo, idReceta }, (data, textStatus, xhr)=> {
 
       if( data.status )
-        Toast.fire({ icon: 'info', title: data.msg}).then(r=>{ $$('#costoReceta').focus() });
+        Toast.fire({ icon: 'info', title: data.msg}).then(r=>{ 
+          // $$('#costoReceta').focus() 
+        });
     
     }, 'json');
   
