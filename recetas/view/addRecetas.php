@@ -17,23 +17,23 @@
         
     <div class="panel panel-default">
             
-      <div class="panel-heading text-center" style="background-color: #EE7561; color: white;"> Ingresar Receta </div>
+      <div class="panel-heading text-center bg-coral text-white" > Ingresar Receta </div>
 
       <div class="panel-body">
 
-        <div class="row">
+<!--         <div class="row">
           <div class="col-sm-8">
             <div class="alert alert-info">
               El <b>ID. Receta</b> puede tener números y/o letras
             </div>
           </div>
-        </div>
+        </div> -->
 
         <form action="#" method="POST" name="form_receta" id="form_receta" >
 
           <div class="row">
             
-            <div class="col-md-4 col-sm-6">
+            <!-- <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">ID. Receta *</label>
                 <div class="input-group">
@@ -43,15 +43,15 @@
                 </div>
               </div>
 
-            </div>
+            </div> -->
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Nombre *</label>
-                <div class="input-group">
+                <!-- <div class="input-group"> -->
                   <input type="text" name="nombre" id="nombre" class="form-control input-sm" placeholder="Ingresar nombre de la receta" required  autocomplete="off" />
-                  <span class="input-group-addon"> </span>
-                </div>
+                  <!-- <span class="input-group-addon"> </span> -->
+                <!-- </div> -->
               </div>
             </div>
 
@@ -121,6 +121,13 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
+                <label class="text-blue">Elaboró</label>
+                <input type="text" name="elaboro" id="elaboro" class="form-control input-sm" placeholder="Ingresar nombre de quien elaboro" value="<?= $_SESSION['nombre_comedor'] ?>" readonly />
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
                 <label class="text-blue">SubUnidad</label>
                 <select name="subunidad[]" id="subunidad" class="form-control input-sm" multiple title="Seleccione al menos una subunidad" >
                   <!-- <option value="" selected>Selecciones las sub-unidades</option> -->
@@ -130,12 +137,6 @@
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label class="text-blue">Elaboró</label>
-                <input type="text" name="elaboro" id="elaboro" class="form-control input-sm" placeholder="Ingresar nombre de quien elaboro" value="<?= $_SESSION['nombre_comedor'] ?>" readonly />
-              </div>
-            </div>
 
 
           </div>
@@ -376,6 +377,8 @@
 
   var stockArticulos;
 
+  var idRecetaGlobal = '';//este toma valor hasta que se envia el formulario de add receta
+
   $(formArticulos).find('input, select, button[type="submit"], textarea').prop('disabled', true);//bloqueamos controles
 
   var submitReceta = function(ev){
@@ -416,6 +419,9 @@
         .done((response)=>{
           // console.log(response);
           if( response.status === 1 ){
+            
+            idRecetaGlobal = response.idReceta;
+
             Swal.fire('Exito', response.msg + '<br> Ahora agregue los articulos necesarios para realizar la receta', 'success');
             $(formReceta).find('input, select, button[type="submit"], textarea').prop('disabled', true);//bloqueamos controles
             $(formArticulos).find('input, select, button[type="submit"], textarea').prop('disabled', false);//bloqueamos controles
@@ -465,6 +471,7 @@
     if(ev) ev.preventDefault();
 
     let value = formArticulos.idArticulo.value.trim();
+
     var flag = stockArticulos.find( articulo => articulo.idArticulo === value );
     if( ! flag ){
       Swal.fire("", 'El articulo no existe', 'warning');
@@ -484,8 +491,8 @@
     else{
       //aqui tambien lo agrego a la base de datos, la relacion
       //recuperamos el idReceta del formulario, debe estar bloqueado el input, 
-      let idReceta = formReceta.idReceta.value.trim();
-      $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloReceta', idArticulo: data.idArticulo, idReceta: idReceta, cantidad: data.cantidad, medida: data.unidad }, (resp, textStatus, xhr)=> {
+      // let idReceta = formReceta.idReceta.value.trim();
+      $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloReceta', idArticulo: data.idArticulo, idReceta: idRecetaGlobal, cantidad: data.cantidad, medida: data.unidad }, (resp, textStatus, xhr)=> {
 
         if( resp.status === 1 ){
           oTable.row.add( data ).draw();
@@ -519,11 +526,11 @@
     var costo = ( totalReceta / porcion ).toFixed(2);
     $$('#costoReceta').value = costo;
     //actualizmos en la base de datos
-    let idReceta = formReceta.idReceta.value.trim();
-    $.post('recetas/controller/Recetas.php', {method: 'updateCosto', costo: costo, idReceta }, (data, textStatus, xhr)=> {
+    // let idReceta = formReceta.idReceta.value.trim();
+    $.post('recetas/controller/Recetas.php', {method: 'updateCosto', costo: costo, idReceta: idRecetaGlobal }, (data, textStatus, xhr)=> {
 
       if( data.status )
-        Toast.fire({ icon: 'info', title: data.msg}).then(r=>{ $$('#costoReceta').focus() });
+        Toast.fire({ icon: 'info', title: data.msg}).then(r=>{  });
     
     }, 'json');
   
@@ -569,11 +576,11 @@
       }).then((result) => {
         if (result.value) {
           
-          let idReceta = formReceta.idReceta.value.trim();
+          // let idReceta = formReceta.idReceta.value.trim();
           let idArticulo = _.updateArticulo.idArticulo.value.trim();
           let cantidad = _.updateArticulo.cantidad.value.trim();
           let medida = _.updateArticulo.unidad.value.trim();
-          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idReceta, cantidad, medida }, (resp, textStatus, xhr)=> {
+          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaUpdate', idArticulo: idArticulo, idReceta: idRecetaGlobal, cantidad, medida }, (resp, textStatus, xhr)=> {
 
             if( resp.status === 1 ){
               
@@ -626,8 +633,8 @@
       }).then((result) => {
         if (result.value) {
           
-          let idReceta = formReceta.idReceta.value.trim();
-          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaDelete', idArticulo: data.idArticulo, idReceta: idReceta }, (resp, textStatus, xhr)=> {
+          // let idReceta = formReceta.idReceta.value.trim();
+          $.post('recetas/controller/Articulos.php', {method: 'relacionArticuloRecetaDelete', idArticulo: data.idArticulo, idReceta: idRecetaGlobal }, (resp, textStatus, xhr)=> {
 
             if( resp.status === 1 ){
               oTable.row( $(this).parents('tr').eq(0) ).remove().draw();
@@ -766,6 +773,7 @@
     }, 'json');
 
   }//endGetItems
+
   getItems();
 
 
@@ -811,69 +819,69 @@
 
   //verificar el nombre y clave de la receta, que sean validos
   //
-  formReceta.idReceta.addEventListener('input', function(ev){
-    let val = this.value;
+  // formReceta.idReceta.addEventListener('input', function(ev){
+  //   let val = this.value;
 
-    if( val.length === 0 ){
-      this.nextElementSibling.innerHTML = '';
-      return;
-    }
+  //   if( val.length === 0 ){
+  //     this.nextElementSibling.innerHTML = '';
+  //     return;
+  //   }
 
-    $.ajax({
-      url: 'recetas/controller/Recetas.php',
-      type: 'POST',
-      dataType: 'json',
-      data: {
-        method: 'idAvailable',
-        id: val
-      },
-      beforeSend: ()=>{
-        this.nextElementSibling.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>';
-      }
-    })
-    .done( (response)=> {
-      if( response )
-        this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
-      else
-        this.nextElementSibling.innerHTML = '<i class="fa fa-check text-success"></i>';
-    })
-    .fail( ()=> {
-      this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
-    });
+  //   $.ajax({
+  //     url: 'recetas/controller/Recetas.php',
+  //     type: 'POST',
+  //     dataType: 'json',
+  //     data: {
+  //       method: 'idAvailable',
+  //       id: val
+  //     },
+  //     beforeSend: ()=>{
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+  //     }
+  //   })
+  //   .done( (response)=> {
+  //     if( response )
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
+  //     else
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-check text-success"></i>';
+  //   })
+  //   .fail( ()=> {
+  //     this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
+  //   });
     
-  });
+  // });
 
-  formReceta.nombre.addEventListener('input', function(ev){
-    let val = this.value;
+  // formReceta.nombre.addEventListener('input', function(ev){
+  //   let val = this.value;
 
-    if( val.length === 0 ){
-      this.nextElementSibling.innerHTML = '';
-      return;
-    }
+  //   if( val.length === 0 ){
+  //     this.nextElementSibling.innerHTML = '';
+  //     return;
+  //   }
 
-    $.ajax({
-      url: 'recetas/controller/Recetas.php',
-      type: 'POST',
-      dataType: 'json',
-      data: {
-        method: 'nameAvailable',
-        nombre: val
-      },
-      beforeSend: ()=>{
-        this.nextElementSibling.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>';
-      }
-    })
-    .done( (response)=> {
-      if( response )
-        this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
-      else
-        this.nextElementSibling.innerHTML = '<i class="fa fa-check text-success"></i>';
-    })
-    .fail( ()=> {
-      this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
-    });
+  //   $.ajax({
+  //     url: 'recetas/controller/Recetas.php',
+  //     type: 'POST',
+  //     dataType: 'json',
+  //     data: {
+  //       method: 'nameAvailable',
+  //       nombre: val
+  //     },
+  //     beforeSend: ()=>{
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+  //     }
+  //   })
+  //   .done( (response)=> {
+  //     if( response )
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
+  //     else
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-check text-success"></i>';
+  //   })
+  //   .fail( ()=> {
+  //     this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
+  //   });
     
-  });
+  // });
 
 
 })();

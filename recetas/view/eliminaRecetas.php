@@ -10,26 +10,26 @@
           
           <form action="#" method="POST" name="form_receta" id="form_receta">
             
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-sm-8">
                 <div class="alert alert-info">En <b>ID. Receta</b> puede buscar la receta por la coincidencia de nombre o clave</div>
               </div>
-            </div>
+            </div> -->
 
             <div class="row">
               
               <div class="col-md-4 col-sm-6">
                 <label class="text-blue">ID. Receta</label>
-                <input type="text" name="idReceta" id="idReceta" class="form-control input-sm" placeholder="Ingrese el id de la receta" list="listIdRecetas" required />
+                <input type="text" name="idReceta" id="idReceta" class="form-control input-sm" placeholder="Ingrese el nombre de la receta" list="listIdRecetas" required />
                 <datalist id="listIdRecetas"> </datalist>
 
               </div>
 
-              <div class="col-md-4 col-sm-6">
+              <!-- <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Receta</label>
                 <input type="text" name="receta" id="receta" class="form-control input-sm" placeholder="Ingrese el nombre de la receta" list="listRecetas" disabled />
                 <datalist id="listRecetas"> </datalist>
-              </div>
+              </div> -->
 
               <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Base</label>
@@ -158,8 +158,8 @@
       var doc = _.createDocumentFragment();
       for( let item of data ){
         let option = _.createElement('option');
-        option.value = item.idReceta;
-        option.textContent = item.nombre;
+        option.value = item.nombre;
+        option.dataset.id = item.idReceta;
         
         doc.appendChild( option );
       }
@@ -178,11 +178,13 @@
 
   var fillForm = function(ev){
     let value = this.value.trim();
-
-    var item = stockRecetas.find( receta => receta.idReceta === value );
-    console.log(item);
+    let option = this.list.querySelector(`[value="${this.value}"`);
+    
+    let id = option !== null ? option.dataset.id : 0;
+    var item = stockRecetas.find( receta => receta.idReceta === id );
+    // console.log(item);
     if( ! item ){
-      formReceta.receta.value = '';
+      // formReceta.receta.value = '';
       formReceta.base.value = '';
       formReceta.tiempo.value = '';
       // formReceta.grupo.value = '';
@@ -195,7 +197,7 @@
       return;//si item es undefined, termina el codigo
     }
 
-    formReceta.receta.value = item.nombre;
+    // formReceta.receta.value = item.nombre;
     formReceta.base.value = item.asBase;
     formReceta.tiempo.value = item.asTiempo;
     // formReceta.grupo.value = item.asGrupo;
@@ -205,9 +207,9 @@
     formReceta.costo.value = item.costo;
     formReceta.calificacion.value = item.califica;
 
-    $.post('recetas/controller/Recetas.php', {method: 'getArticulos', receta: value}, (data, textStatus, xhr)=> {
+    $.post('recetas/controller/Recetas.php', {method: 'getArticulos', receta: id}, (data, textStatus, xhr)=> {
       /*optional stuff to do after success */
-      console.log(data);
+      // console.log(data);
       oTable.clear().draw();
       oTable.rows.add(data).draw();
 
@@ -220,9 +222,21 @@
   var deleteReceta = function(ev){
     if(ev) ev.preventDefault();
 
+    let value = this.idReceta.value.trim();
+    let option = this.idReceta.list.querySelector(`[value="${this.value}"`);
+    
+    let id = option !== null ? option.dataset.id : 0;
+    var item = stockRecetas.find( receta => receta.idReceta === id );
+
+    if( ! item ){
+      Swal.fire('', "La receta que desea eliminar no existe", 'error');
+      return;
+    }
+
+
     Swal.fire({
       title: 'Eliminar la Receta',
-      text: "¿Deseas eliminar la receta "+ this.receta.value.trim() +"?",
+      text: "¿Deseas eliminar la receta "+ this.idReceta.value.trim() +"?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -231,7 +245,7 @@
     }).then((result) => {
       if (result.value) {
         
-        $.post('recetas/controller/Recetas.php', {method: 'deleteReceta', idReceta: this.idReceta.value.trim() }, (data, textStatus, xhr) => {
+        $.post('recetas/controller/Recetas.php', {method: 'deleteReceta', idReceta: id }, (data, textStatus, xhr) => {
           /*optional stuff to do after success */
           if( data.status === 1 ){
             Swal.fire('Exito', data.msg, 'success')

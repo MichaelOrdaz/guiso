@@ -1,0 +1,21 @@
+CREATE TABLE recetas(
+  id INT unsigned NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  base VARCHAR(50) NOT NULL,
+  tiempo VARCHAR(50) NOT NULL,
+  porciones DECIMAL(6,2) NOT NULL,
+  gramos DECIMAL(8,3) NOT NULL,
+  subunidad VARCHAR(150),
+  costo DECIMAL(8,2) DEFAULT 0,
+  califica FLOAT,
+  info VARCHAR(150) DEFAULT '',
+  revision TINYINT DEFAULT 1,
+  procedimiento VARCHAR(600),
+  elaboro VARCHAR(100),
+  autorizo VARCHAR(100),
+  fecha DATETIME default CURRENT_TIMESTAMP,
+  fechaMod DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  activo TINYINT(1) DEFAULT 1,
+  clave varchar(50),
+  PRIMARY KEY (id)
+)ENGINE=INNODB,CHARSET=utf8;
