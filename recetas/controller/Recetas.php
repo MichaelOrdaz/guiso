@@ -133,7 +133,7 @@ class Receta{
 		// $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
 		$porciones = filter_input(INPUT_POST, 'porcion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La porción es inválida') );
 		$gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'Los gramos son inválidos') );
-		$calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La calificación es inválida') );
+		$calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT);
 		//no requeridos
 		$elaboro = filter_input(INPUT_POST, 'elaboro', FILTER_SANITIZE_STRING);
 		$autorizo = filter_input(INPUT_POST, 'autorizo', FILTER_SANITIZE_STRING);
@@ -146,7 +146,7 @@ class Receta{
 		$elaboro = strtoupper($elaboro);
 		$autorizo = strtoupper($autorizo);
 
-		$sql = sprintf("INSERT INTO receta (idReceta, nombre, subUnidad, base, tiempo, porciones, gramos, costo, califica, info, fecha, fechaMod, revision, procedimiento, elaboro, autorizo, activo) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', %01.2f, %01.2f, 0, %01.2f, '%s', now(), now(), 1, '%s', '%s', '%s', 1 )", $idReceta, $nombre, $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $elaboro, $autorizo);
+		$sql = sprintf("INSERT INTO receta (idReceta, nombre, subUnidad, base, tiempo, porciones, gramos, costo, califica, info, fecha, fechaMod, revision, procedimiento, elaboro, autorizo, activo) VALUES ( '%s', '%s', '%s', '%s', '%s', %01.2f, %01.2f, 0, %01.2f, '%s', now(), now(), 1, '%s', '%s', '%s', 1 )", $idReceta, $nombre, $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $elaboro, $autorizo);
 
 		$bool = $this->db->query( $sql );
     
@@ -177,7 +177,7 @@ class Receta{
     // $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
     $porciones = filter_input(INPUT_POST, 'porcion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La porción es inválida') );
     $gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'Los gramos son inválidos') );
-    $calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La calificación es inválida') );
+    $calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT);
     //no requeridos
     $elaboro = filter_input(INPUT_POST, 'elaboro', FILTER_SANITIZE_STRING);
     $autorizo = filter_input(INPUT_POST, 'autorizo', FILTER_SANITIZE_STRING);
