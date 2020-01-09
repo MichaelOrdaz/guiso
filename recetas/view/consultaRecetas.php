@@ -41,10 +41,10 @@
                 <input type="text" name="tiempo" id="tiempo" class="form-control input-sm" placeholder="Ingrese el tiempo" disabled />
               </div>
 
-              <div class="col-md-4 col-sm-6">
+              <!-- <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Grupo</label>
                 <input type="text" name="grupo" id="grupo" class="form-control input-sm" placeholder="Ingrese el Grupo" disabled />
-              </div>
+              </div> -->
 
               <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Observación</label>
@@ -69,6 +69,20 @@
               <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Calificación</label>
                 <input type="text" name="calificacion" id="calificacion" class="form-control input-sm" placeholder="Ingrese la calificación" disabled />
+              </div>
+
+              <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                  <label class="text-blue">SubUnidades</label>
+                  <p id="subunidad"> </p>
+                </div>
+              </div>
+              
+              <div class="col-md-8 col-sm-6">
+                <div class="well well-sm mt-1">
+                  Procedimiento:
+                  <p id="procedimiento"></p>
+                </div>
               </div>
 
             </div>
@@ -175,7 +189,7 @@
       formReceta.receta.value = '';
       formReceta.base.value = '';
       formReceta.tiempo.value = '';
-      formReceta.grupo.value = '';
+      // formReceta.grupo.value = '';
       formReceta.observacion.value = '';
       formReceta.porcion.value = '';
       formReceta.gramos.value = '';
@@ -191,12 +205,13 @@
     formReceta.receta.value = item.nombre;
     formReceta.base.value = item.asBase;
     formReceta.tiempo.value = item.asTiempo;
-    formReceta.grupo.value = item.asGrupo;
+    // formReceta.grupo.value = item.asGrupo;
     formReceta.observacion.value = item.info;
     formReceta.porcion.value = item.porciones;
     formReceta.gramos.value = item.gramos;
-    formReceta.costo.value = (item.costo / item.porciones).toFixed(2);
+    formReceta.costo.value = item.costo;
     formReceta.calificacion.value = item.califica;
+
 
     $$('#printReceta').removeAttribute('disabled');
     $$('#printReceta').setAttribute('href', 'recetas/printReceta?idReceta='+value);
@@ -206,6 +221,18 @@
       console.log(data);
       oTable.clear().draw();
       oTable.rows.add(data).draw();
+
+    }, 'json');
+
+
+    $.post('recetas/controller/Recetas.php', {method: 'getSubUnit', receta: value}, (data, textStatus, xhr)=> {
+      let html = '';
+      for( let item of data.subunidades ){
+        html += `${item} <br>`;
+      }
+      $('#subunidad').html(html);
+
+      $('#procedimiento').text( data.procedimiento );
 
     }, 'json');
 

@@ -41,10 +41,10 @@
                 <input type="text" name="tiempo" id="tiempo" class="form-control input-sm" placeholder="Ingrese el tiempo" disabled />
               </div>
 
-              <div class="col-md-4 col-sm-6">
+              <!-- <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Grupo</label>
                 <input type="text" name="grupo" id="grupo" class="form-control input-sm" placeholder="Ingrese el Grupo" disabled />
-              </div>
+              </div> -->
 
               <div class="col-md-4 col-sm-6">
                 <label class="text-blue">Observación</label>
@@ -185,7 +185,7 @@
       formReceta.receta.value = '';
       formReceta.base.value = '';
       formReceta.tiempo.value = '';
-      formReceta.grupo.value = '';
+      // formReceta.grupo.value = '';
       formReceta.observacion.value = '';
       formReceta.porcion.value = '';
       formReceta.gramos.value = '';
@@ -198,7 +198,7 @@
     formReceta.receta.value = item.nombre;
     formReceta.base.value = item.asBase;
     formReceta.tiempo.value = item.asTiempo;
-    formReceta.grupo.value = item.asGrupo;
+    // formReceta.grupo.value = item.asGrupo;
     formReceta.observacion.value = item.info;
     formReceta.porcion.value = item.porciones;
     formReceta.gramos.value = item.gramos;

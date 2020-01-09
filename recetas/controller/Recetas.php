@@ -93,12 +93,12 @@ class Receta{
 
 		$data['tiempo'] = $rows;
 
-		$r = $this->db->query("SELECT idGrupo, descripcion FROM grupo WHERE activo = 1 ORDER BY descripcion");
-		$rows = [];
-		while( $rows[] = $r->fetch_object() );
-		array_pop($rows);
+		// $r = $this->db->query("SELECT idGrupo, descripcion FROM grupo WHERE activo = 1 ORDER BY descripcion");
+		// $rows = [];
+		// while( $rows[] = $r->fetch_object() );
+		// array_pop($rows);
 
-		$data['grupo'] = $rows;
+		// $data['grupo'] = $rows;
 		
 		// $r = $this->db->query("SELECT su.idSUnidad, su.subUnidad FROM subunidad AS su WHERE activo = 1 AND LENGTH(su.subUnidad) > 5 GROUP BY su.subUnidad ORDER BY su.subUnidad");
     $r = $this->db->query("SELECT idSUnidad, subunidad, (SELECT unidad FROM unidad WHERE idUnidad = su.unidad) AS unidad FROM subunidad AS su WHERE activo = 1 ORDER BY subunidad");
@@ -130,7 +130,7 @@ class Receta{
 		//requeridos
 		$base = filter_input(INPUT_POST, 'base', FILTER_SANITIZE_STRING) or die( toJson(0, 'La base es inválida') );
 		$tiempo = filter_input(INPUT_POST, 'tiempo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El tiempo es inválido') );
-		$grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
+		// $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
 		$porciones = filter_input(INPUT_POST, 'porcion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La porción es inválida') );
 		$gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'Los gramos son inválidos') );
 		$calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La calificación es inválida') );
@@ -146,7 +146,7 @@ class Receta{
 		$elaboro = strtoupper($elaboro);
 		$autorizo = strtoupper($autorizo);
 
-		$sql = sprintf("INSERT INTO receta (idReceta, nombre, grupo, subUnidad, base, tiempo, porciones, gramos, costo, califica, info, fecha, fechaMod, revision, procedimiento, elaboro, autorizo, activo) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', %01.2f, %01.2f, 0, %01.2f, '%s', now(), now(), 1, '%s', '%s', '%s', 1 )", $idReceta, $nombre, $grupo, $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $elaboro, $autorizo);
+		$sql = sprintf("INSERT INTO receta (idReceta, nombre, subUnidad, base, tiempo, porciones, gramos, costo, califica, info, fecha, fechaMod, revision, procedimiento, elaboro, autorizo, activo) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', %01.2f, %01.2f, 0, %01.2f, '%s', now(), now(), 1, '%s', '%s', '%s', 1 )", $idReceta, $nombre, $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $elaboro, $autorizo);
 
 		$bool = $this->db->query( $sql );
     
@@ -174,7 +174,7 @@ class Receta{
     //requeridos
     $base = filter_input(INPUT_POST, 'base', FILTER_SANITIZE_STRING) or die( toJson(0, 'La base es inválida') );
     $tiempo = filter_input(INPUT_POST, 'tiempo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El tiempo es inválido') );
-    $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
+    // $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
     $porciones = filter_input(INPUT_POST, 'porcion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La porción es inválida') );
     $gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'Los gramos son inválidos') );
     $calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La calificación es inválida') );
@@ -190,7 +190,7 @@ class Receta{
     $elaboro = strtoupper($elaboro);
     $autorizo = strtoupper($autorizo);
 
-    $sql = sprintf("UPDATE receta SET grupo = '%s', subUnidad = '%s', base = '%s', tiempo = '%s', porciones = %01.2f, gramos = %01.2f, califica = %01.2f, info = '%s', fechaMod = now(), procedimiento = '%s', autorizo = '%s' WHERE idReceta = '%s' ", $grupo, $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $autorizo, $idReceta);
+    $sql = sprintf("UPDATE receta SET subUnidad = '%s', base = '%s', tiempo = '%s', porciones = %01.2f, gramos = %01.2f, califica = %01.2f, info = '%s', fechaMod = now(), procedimiento = '%s', autorizo = '%s' WHERE idReceta = '%s' ", $subunidad, $base, $tiempo, $porciones, $gramos, $calificacion, $observacion, $procedimiento, $autorizo, $idReceta);
 
     $bool = $this->db->query( $sql );
     
@@ -221,10 +221,9 @@ class Receta{
 
 	 public function getRecetas(){
 
-    $r = $this->db->query("SELECT idReceta, nombre, porciones, gramos, info, costo, califica, base, tiempo, grupo, elaboro, autorizo, subUnidad, procedimiento,
+    $r = $this->db->query("SELECT idReceta, nombre, porciones, gramos, info, costo, califica, base, tiempo, elaboro, autorizo, subUnidad, procedimiento,
       (SELECT descripcion FROM base WHERE idBase = base) AS asBase, 
-      (SELECT descripcion FROM tiempo WHERE idTiempo = tiempo) AS asTiempo, 
-      (SELECT descripcion FROM grupo WHERE idGrupo = grupo) AS asGrupo
+      (SELECT descripcion FROM tiempo WHERE idTiempo = tiempo) AS asTiempo 
       FROM receta WHERE activo = 1 ORDER BY nombre");
 
     $r or die('Error interno ');
@@ -281,6 +280,33 @@ class Receta{
 
     $this->db->query("SELECT * FROM receta WHERE nombre = '{$nombre}' LIMIT 1");
     echo $this->db->affected_rows;
+
+  }
+
+
+  public function getSubUnit(){
+
+    $receta = filter_input(INPUT_POST, 'receta', FILTER_SANITIZE_STRING);
+
+    $sql = "SELECT subUnidad, procedimiento FROM receta where idReceta = '{$receta}' LIMIT 1";
+    $r = $this->db->query( $sql );
+    $r = $r->fetch_object();
+
+    $response['procedimiento'] = $r->procedimiento;
+      
+    $r = explode(',', $r->subUnidad);
+
+    $rows = [];
+    foreach ($r as $val) {
+      $sql = "SELECT subUnidad, (SELECT unidad FROM unidad WHERE idUnidad = subUnidad.unidad) AS unidad FROM subunidad where idSUnidad = '{$val}' LIMIT 1";
+      $r = $this->db->query( $sql );
+      $r = $r->fetch_object();
+      $rows[] = $r->subUnidad .'('.$r->unidad.')';
+    }
+
+    $response['subunidades'] = $rows;
+
+    echo json_encode($response);
 
   }
 

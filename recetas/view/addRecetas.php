@@ -78,19 +78,18 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Calificación *</label>
-                <input type="number" name="calificacion" id="calificacion" min="1" max="999" step="any" class="form-control input-sm" placeholder="Ingresar calificación" required />
+                <input type="number" name="calificacion" id="calificacion" min="0" max="999" step="any" class="form-control input-sm" placeholder="Ingresar calificación" required />
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-6">
+            <!-- <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Grupo *</label>
                 <select name="grupo" id="grupo" class="form-control input-sm" required >
                   <option value="" selected>Ingrese el Grupo</option>
                 </select>
-                <!-- <input type="text" name="grupo" id="grupo" class="form-control input-sm" placeholder="Ingresar grupo" required /> -->
               </div>
-            </div>
+            </div> -->
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
@@ -112,6 +111,13 @@
                 <input type="number" name="gramos" id="gramos" min="0.001" max="999" step="any" class="form-control input-sm" placeholder="Ingresar gramos" required />
               </div>
             </div>
+            
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label class="text-blue">Autorizó</label>
+                <input type="text" name="autorizo" id="autorizo" class="form-control input-sm" maxlength="100" placeholder="Autorizó" />
+              </div>
+            </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
@@ -131,12 +137,6 @@
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label class="text-blue">Autorizó</label>
-                <input type="text" name="autorizo" id="autorizo" class="form-control input-sm" maxlength="100" placeholder="Autorizó" />
-              </div>
-            </div>
 
           </div>
           <!-- endRow -->
@@ -673,8 +673,8 @@
       {data: 'costoTot', defaultContent: ''},
       {
         data: null, defaultContent: `
-        <button class="btn btn-primary btn-xs edit" title="Eliminar Artículo" data-toggle="tooltip" > <i class="fa fa-edit"></i> </button>
-        <button class="btn btn-danger btn-xs delete" title="Editar Cantidad del Artículo" data-toggle="tooltip"> <i class="fa fa-trash"></i> </button>
+        <button class="btn btn-primary btn-xs edit" title="Editar Cantidad del Artículo" data-toggle="tooltip" > <i class="fa fa-edit"></i> </button>
+        <button class="btn btn-danger btn-xs delete" title="Eliminar Artículo" data-toggle="tooltip"> <i class="fa fa-trash"></i> </button>
         `,
         orderable: false
       }
@@ -720,14 +720,14 @@
       formReceta.tiempo.appendChild(doc);
 
       //dibujamos los grupos
-      doc = _.createDocumentFragment();
-      for( let item of data.grupo ){
-        let option = _.createElement('option');
-        option.value = item.idGrupo;
-        option.textContent = item.descripcion;
-        doc.appendChild(option);
-      }
-      formReceta.grupo.appendChild(doc);
+      // doc = _.createDocumentFragment();
+      // for( let item of data.grupo ){
+      //   let option = _.createElement('option');
+      //   option.value = item.idGrupo;
+      //   option.textContent = item.descripcion;
+      //   doc.appendChild(option);
+      // }
+      // formReceta.grupo.appendChild(doc);
 
       //dibujamos las sub unidades
       doc = _.createDocumentFragment();

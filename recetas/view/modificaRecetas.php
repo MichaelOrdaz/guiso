@@ -55,19 +55,18 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Calificación *</label>
-                <input type="number" name="calificacion" id="calificacion" min="1" max="100" step="any" class="form-control input-sm preblock" placeholder="Ingresar calificación" required disabled />
+                <input type="number" name="calificacion" id="calificacion" min="0" max="100" step="any" class="form-control input-sm preblock" placeholder="Ingresar calificación" required disabled />
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-6">
+            <!-- <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Grupo *</label>
                 <select name="grupo" id="grupo" class="form-control input-sm preblock" required disabled >
                   <option value="" selected>Ingrese el Grupo</option>
                 </select>
-                <!-- <input type="text" name="grupo" id="grupo" class="form-control input-sm" placeholder="Ingresar grupo" required /> -->
               </div>
-            </div>
+            </div> -->
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
@@ -92,6 +91,13 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
+                <label class="text-blue">Autorizó</label>
+                <input type="text" name="autorizo" id="autorizo" maxlength="100" class="form-control input-sm preblock" placeholder="Autorizó" required disabled />
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
                 <label class="text-blue">SubUnidad</label>
                 <select name="subunidad[]" id="subunidad" class="form-control input-sm preblock" disabled multiple title="Seleccione al menos una subunidad" >
                   <!-- <option value="" selected>Selecciones las sub-unidades</option> -->
@@ -107,12 +113,6 @@
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label class="text-blue">Autorizó</label>
-                <input type="text" name="autorizo" id="autorizo" maxlength="100" class="form-control input-sm preblock" placeholder="Autorizó" required disabled />
-              </div>
-            </div>
 
           </div>
           <!-- endRow -->
@@ -405,7 +405,7 @@
       formReceta.receta.value = '';
       formReceta.base.value = '';
       formReceta.tiempo.value = '';
-      formReceta.grupo.value = '';
+      // formReceta.grupo.value = '';
       formReceta.observacion.value = '';
       formReceta.porcion.value = '';
       formReceta.gramos.value = '';
@@ -429,7 +429,7 @@
     formReceta.receta.value = item.nombre;
     formReceta.base.value = item.base;
     formReceta.tiempo.value = item.tiempo;
-    formReceta.grupo.value = item.grupo;
+    // formReceta.grupo.value = item.grupo;
     formReceta.observacion.value = item.info;
     formReceta.porcion.value = item.porciones;
     formReceta.gramos.value = item.gramos;
@@ -845,14 +845,14 @@
       formReceta.tiempo.appendChild(doc);
 
       //dibujamos los grupos
-      doc = _.createDocumentFragment();
-      for( let item of data.grupo ){
-        let option = _.createElement('option');
-        option.value = item.idGrupo;
-        option.textContent = item.descripcion;
-        doc.appendChild(option);
-      }
-      formReceta.grupo.appendChild(doc);
+      // doc = _.createDocumentFragment();
+      // for( let item of data.grupo ){
+      //   let option = _.createElement('option');
+      //   option.value = item.idGrupo;
+      //   option.textContent = item.descripcion;
+      //   doc.appendChild(option);
+      // }
+      // formReceta.grupo.appendChild(doc);
 
       //dibujamos las sub unidades
       doc = _.createDocumentFragment();
