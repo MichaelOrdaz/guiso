@@ -350,7 +350,82 @@ $ver       = $_POST['ver'];
         })
         .done((response)=>{
           if( response.status === 1 ){
-            Swal.fire('Exito', response.msg, 'success');
+            Swal.fire('Exito', response.msg, 'success').then( r=>{
+
+              //cuando se agrega una unidad, hay que informar al cliente que debe agregar una subunidad
+              //
+              Swal.fire({
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                icon: 'info',
+                title: '¡Agregar subunidad!',
+                html:
+                  'Cada unidad debe tener una subunidad como minimo, por favor ingrese una subunidad para la unidad ' + value +
+                  '<input id="swal-input1" class="swal2-input" maxlength="150" placeholder="Ingresa el nombre de la nueva subunidad">' +
+                  '<input id="swal-input2" class="swal2-input" maxlength="150" placeholder="informacion adicional">',
+                focusConfirm: false,
+                // showCancelButton: true,
+                preConfirm: () => {
+                  let val1 = $$('#swal-input1').value.trim();
+                  let val2 = $$('#swal-input2').value.trim();
+
+                  if( val1.length ){
+                    return [ val1, val2 ];
+                  }
+                  else{
+                    Swal.showValidationMessage(`El nombre de la subunidad es requerido`)
+                    return false;
+                  }
+                  // return [
+                    // document.getElementById('').value,
+                    // document.getElementById('swal-input2').value
+                  // ]
+                }
+              }).then( r=>{
+
+                if( r.value ){
+
+                  $.ajax({
+                    url: 'clientes/php/Clientes.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                      method: 'addSubunit',
+                      unidad: response.id,
+                      cliente: '<?= $idCliente ?>',
+                      nombre: r.value[0],
+                      info: r.value[1],
+                    },
+                    beforeSend: ()=>{
+                      Swal.fire({
+                        title: 'Guardando',
+                        onOpen: ()=>{
+                          Swal.showLoading()
+                        },
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                      });
+                    }
+                  })
+                  .done((response)=>{
+                    if( response.status === 1 ){
+                      Swal.fire('Exito', response.msg, 'success');
+                      // oTableUnits.ajax.reload();//recargamos la tabla
+                    }
+                    else{
+                      Swal.fire('Error', response.msg, 'error');
+                    }
+                  })
+                  .fail(()=> {
+                    Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+                  });
+
+                }
+
+              } );
+
+
+            } );
             oTableUnits.ajax.reload();//recargamos la tabla
             this.reset();//limpiamos el formukario
           }

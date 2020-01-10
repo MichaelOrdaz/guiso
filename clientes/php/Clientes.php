@@ -141,7 +141,7 @@ class Clientes{
 
     $this->db->affected_rows > 0 or die( toJson(0, 'Error al guardar la unidad, por favor reintente') );
 
-    echo toJson(1, "El cliente {$nombre} se guardo correctamente");
+    echo toJson(1, "El cliente {$nombre} se guardo correctamente", ['id'=> $this->db->insert_id]);
 
   }
 

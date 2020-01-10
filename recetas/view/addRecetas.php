@@ -21,13 +21,13 @@
 
       <div class="panel-body">
 
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-sm-8">
             <div class="alert alert-info">
               El <b>ID. Receta</b> puede tener números y/o letras
             </div>
           </div>
-        </div>
+        </div> -->
 
         <form action="#" method="POST" name="form_receta" id="form_receta" >
 
@@ -804,7 +804,7 @@
         $$('#costoReceta').value = '';
         $(formArticulos).find('input, select, button[type="submit"], textarea').prop('disabled', true);//bloqueamos controles    
         $(formReceta).find('input, select, button[type="submit"], textarea').prop('disabled', false);//bloqueamos controles
-
+        formReceta.nombre.nextElementSibling.innerHTML = '';
 
       }//endIf
 
@@ -814,37 +814,37 @@
 
   //verificar el nombre y clave de la receta, que sean validos
   //
-  formReceta.idReceta.addEventListener('input', function(ev){
-    let val = this.value;
+  // formReceta.idReceta.addEventListener('input', function(ev){
+  //   let val = this.value;
 
-    if( val.length === 0 ){
-      this.nextElementSibling.innerHTML = '';
-      return;
-    }
+  //   if( val.length === 0 ){
+  //     this.nextElementSibling.innerHTML = '';
+  //     return;
+  //   }
 
-    $.ajax({
-      url: 'recetas/controller/Recetas.php',
-      type: 'POST',
-      dataType: 'json',
-      data: {
-        method: 'idAvailable',
-        id: val
-      },
-      beforeSend: ()=>{
-        this.nextElementSibling.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>';
-      }
-    })
-    .done( (response)=> {
-      if( response )
-        this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
-      else
-        this.nextElementSibling.innerHTML = '<i class="fa fa-check text-success"></i>';
-    })
-    .fail( ()=> {
-      this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
-    });
+  //   $.ajax({
+  //     url: 'recetas/controller/Recetas.php',
+  //     type: 'POST',
+  //     dataType: 'json',
+  //     data: {
+  //       method: 'idAvailable',
+  //       id: val
+  //     },
+  //     beforeSend: ()=>{
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+  //     }
+  //   })
+  //   .done( (response)=> {
+  //     if( response )
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
+  //     else
+  //       this.nextElementSibling.innerHTML = '<i class="fa fa-check text-success"></i>';
+  //   })
+  //   .fail( ()=> {
+  //     this.nextElementSibling.innerHTML = '<i class="fa fa-times text-danger"></i>';
+  //   });
     
-  });
+  // });
 
   formReceta.nombre.addEventListener('input', function(ev){
     let val = this.value;

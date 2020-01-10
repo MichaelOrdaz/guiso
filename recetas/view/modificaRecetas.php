@@ -92,7 +92,7 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Autorizó</label>
-                <input type="text" name="autorizo" id="autorizo" maxlength="100" class="form-control input-sm preblock" placeholder="Autorizó" required disabled />
+                <input type="text" name="autorizo" id="autorizo" maxlength="100" class="form-control input-sm preblock" placeholder="Autorizó"  disabled />
               </div>
             </div>
 
