@@ -74,7 +74,7 @@ class Clientes{
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'El cliente es invalido') );
 
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
+    $nombre = strtoupper( trim( $nombre));
     
     $rfc = filter_input(INPUT_POST, 'rfc', FILTER_SANITIZE_STRING) or die( toJson(0, 'El rfc es invalido') );
     if( strlen($rfc) <= 11 || strlen($rfc) >= 14 ){
@@ -133,7 +133,7 @@ class Clientes{
 
     $id = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
+    $nombre = strtoupper(trim($nombre));
     
     $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
 
@@ -164,7 +164,7 @@ class Clientes{
 
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
+    $nombre = strtoupper(trim($nombre));
     
     $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
 
@@ -182,7 +182,7 @@ class Clientes{
     $unidad = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocido o invalido') );
 
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
+    $nombre = strtoupper(trim($nombre));
     
     $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
 
