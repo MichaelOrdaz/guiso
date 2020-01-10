@@ -4,7 +4,7 @@ include '../../db/conexion.php';
 
 $cont=0;
 
-$consulta = "SELECT idArticulo,nombre FROM articulo ";
+$consulta = "SELECT idArticulo,nombre FROM articulo WHERE activo = 1";
 
 $resultado = mysqli_query($conexion,$consulta);
 

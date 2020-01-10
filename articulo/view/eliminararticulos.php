@@ -77,7 +77,7 @@ url: 'articulo/php/modificararticulos.php',
 data:{},
 type: 'POST',
 dataType: 'json',
-// async:false,
+async:false,
 success: function(respuesta){
 // respuesta="["+respuesta+"]";
 tabla="";
@@ -96,7 +96,7 @@ url: 'articulo/php/modificararticulos1.php',
 data:{clave:$('#art').val()},
 type: 'POST',
 dataType: 'json',
-// async:false,
+async:false,
 success: function(respuesta){
 // respuesta="["+respuesta+"]";
 // res=JSON.parse(respuesta);
@@ -142,7 +142,7 @@ url: 'articulo/php/modificararticulos2.php',
 type: 'POST',
 dataType: 'json',
 data:{id:$('#linea1').val()},
-// async:false,
+async:false,
 success: function(respuesta){
 // respuesta="["+respuesta+"]";
 tabla="";

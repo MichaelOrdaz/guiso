@@ -15,7 +15,7 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                    <label style="color: #337ab7;">*Tiempo</label>
+                    <label style="color: #337ab7;">*linea</label>
                         <select class="form-control" id="linea1" style="display: none;">
                         </select>
                         <select class="form-control" id="linea2" required>
@@ -74,7 +74,7 @@ url: 'articulo/php/modificararticulos.php',
 data:{},
 type: 'POST',
 dataType: 'json',
-// async:false,
+async:false,
 success: function(respuesta){
 // respuesta="["+respuesta+"]";
 tabla="";
@@ -88,6 +88,8 @@ $('#nombre').html(tabla);
 },
 });
 
+
+
 $('#art').on('input',function(){
 
 $.ajax({
@@ -95,7 +97,7 @@ url: 'articulo/php/modificararticulos1.php',
 data:{clave:$('#art').val()},
 type: 'POST',
 dataType: 'json',
-// async:false,
+async:false,
 success: function(respuesta){
 // respuesta="["+respuesta+"]";
 // res=JSON.parse(respuesta);
@@ -133,7 +135,7 @@ $('#info').val(value.info);
 });
 },
 });
-});
+});//final del event
 
 $('#art').on('input',function(){
 $.ajax({
@@ -141,7 +143,7 @@ url: 'articulo/php/modificararticulos2.php',
 type: 'POST',
 dataType: 'json',
 data:{id:$('#linea1').val()},
-// async:false,
+async:false,
 success: function(respuesta){
 // respuesta="["+respuesta+"]";
 tabla="";
