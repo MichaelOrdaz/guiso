@@ -133,7 +133,7 @@ class Receta{
 		$tiempo = filter_input(INPUT_POST, 'tiempo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El tiempo es inválido') );
 		// $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
 		$porciones = filter_input(INPUT_POST, 'porcion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La porción es inválida') );
-		$gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'Los gramos son inválidos') );
+		$gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT);
 		$calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT);
 		//no requeridos
 		$elaboro = filter_input(INPUT_POST, 'elaboro', FILTER_SANITIZE_STRING);
@@ -182,7 +182,7 @@ class Receta{
     $tiempo = filter_input(INPUT_POST, 'tiempo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El tiempo es inválido') );
     // $grupo = filter_input(INPUT_POST, 'grupo', FILTER_SANITIZE_STRING) or die( toJson(0, 'El grupo es inválido') );
     $porciones = filter_input(INPUT_POST, 'porcion', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'La porción es inválida') );
-    $gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'Los gramos son inválidos') );
+    $gramos = filter_input(INPUT_POST, 'gramos', FILTER_VALIDATE_FLOAT);
     $calificacion = filter_input(INPUT_POST, 'calificacion', FILTER_VALIDATE_FLOAT);
     //no requeridos
     $elaboro = filter_input(INPUT_POST, 'elaboro', FILTER_SANITIZE_STRING);

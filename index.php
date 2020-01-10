@@ -142,13 +142,13 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                   <a href="tiempo/view/main.php" class="ajaxLink" >Tiempos</a>
                 </li>
 
-                <!-- <li>
-                  <a href="javascript://" data-archivo="MenuProveedor.php" data-menu="menu-proveedor">Proveedores </a>
-                </li> -->
-
                 <li>
-                  <a href="proveedor/view/menu.php" class="ajaxLink">Proveedores </a>
+                  <a href="javascript://" data-archivo="MenuProveedor.php" data-menu="menu-proveedor">Proveedores </a>
                 </li>
+
+                <!-- <li>
+                  <a href="proveedor/view/menu.php" class="ajaxLink">Proveedores </a>
+                </li> -->
 
                 <!-- <li>
                   <a href="precios/view/menu.php" class="ajaxLink">Ajustar Precios </a>
@@ -210,9 +210,9 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                   <a href="recetas/view/eliminaRecetas.php" class="ajaxLink">Eliminar receta</a>
                 </li>
                 <?php endif; ?>
-                <!-- <li>
+                <li>
                   <a href="recetas/view/masivoRecetas.php" class="ajaxLink">Actualización masiva de costos de receta</a>
-                </li> -->
+                </li>
               </ul>
                 <!-- /.nav-second-level -->
             </li>

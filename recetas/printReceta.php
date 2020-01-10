@@ -64,7 +64,7 @@ $sheet->setCellValue("C{$indexRow}", "Costo/Unidad:");//porcion
 $sheet->setCellValue("D{$indexRow}", $receta->costo);//porcion
 
 $sheet->setCellValue("E{$indexRow}", "Costo Total:");//porcion
-$sheet->setCellValue("F{$indexRow}", number_format( $receta->costo * $receta->porciones, 2, '.', '' ) );//porcion
+// $sheet->setCellValue("F{$indexRow}", number_format( $receta->costo * $receta->porciones, 2, '.', '' ) );//porcion
 
 $indexRow++;
 $sheet->setCellValue("A{$indexRow}", "Tiempo:" );
@@ -114,11 +114,12 @@ foreach ($articulos as $row){
 
 $endRowForeach = ($indexRow - 1);//la ultima fila donde se dibujaron textos
 
-$sheet->setCellValue("E{$indexRow}", "Total" );
+// $sheet->setCellValue("E{$indexRow}", "Total" );
 // $sheet->setCellValue("F{$indexRow}", number_format( $costoTotal, 2, '.', '' ) );
 $cell = "F".( $indexHeader + 1 ).":F".($endRowForeach);
-$sheet->setCellValue("F{$indexRow}", "=SUM({$cell})" );
-$sheet->getCell("F{$indexRow}")->getCalculatedValue();//ejecuta la formula
+// $sheet->setCellValue("F{$indexRow}", "=SUM({$cell})" );
+$sheet->setCellValue("F3", "=SUM({$cell})" );
+// $sheet->getCell("F{$indexRow}")->getCalculatedValue();//ejecuta la formula
 
 // //set autoFilter de un rango
 $sheet->setAutoFilter("A{$indexHeader}:F{$endRowForeach}");

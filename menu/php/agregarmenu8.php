@@ -9,7 +9,7 @@ $consulta = "SELECT idReceta,costo,porciones FROM receta WHERE nombre = '$nombre
 $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 $idreceta=$columna['idReceta'];
-$costo=$columna['costo']/$columna['porciones'];
+$costo=$columna['costo'];
 }
 
 echo $id.','.$idreceta.','.ROUND($costo,2);

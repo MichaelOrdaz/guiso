@@ -85,7 +85,7 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Gramos *</label>
-                <input type="number" name="gramos" id="gramos" min="0.001" max="999" step="any" class="form-control input-sm preblock" placeholder="Ingresar gramos" required disabled />
+                <input type="number" name="gramos" id="gramos" min="0" max="999" step="any" class="form-control input-sm preblock" placeholder="Ingresar gramos" required disabled />
               </div>
             </div>
 
@@ -428,7 +428,7 @@
     $('.preblock').prop('disabled', false);
     formReceta.receta.value = item.nombre;
     formReceta.base.value = item.base;
-    formReceta.tiempo.value = item.tiempo;
+    formReceta.tiempo.value = Number(item.tiempo);
     // formReceta.grupo.value = item.grupo;
     formReceta.observacion.value = item.info;
     formReceta.porcion.value = item.porciones;

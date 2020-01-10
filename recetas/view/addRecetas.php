@@ -108,7 +108,7 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Gramos *</label>
-                <input type="number" name="gramos" id="gramos" min="0.001" max="999" step="any" class="form-control input-sm" placeholder="Ingresar gramos" required />
+                <input type="number" name="gramos" id="gramos" min="0" max="999" step="any" class="form-control input-sm" placeholder="Ingresar gramos" required />
               </div>
             </div>
             

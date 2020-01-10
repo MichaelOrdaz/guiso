@@ -4,7 +4,7 @@ include '../../db/conexion.php';
 
 $cont=0;
 
-$consulta = "SELECT idCliente,nombre FROM cliente ";
+$consulta = "SELECT idCliente,nombre FROM cliente WHERE activo=1 ";
 $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 $cont++;
