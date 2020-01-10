@@ -68,7 +68,7 @@ class Proveedor{
 
 
   public function editProveedor(){
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'El proveedor es invalido') );
+    $id = filter_input(INPUT_POST, 'idProveedor', FILTER_VALIDATE_INT) or die( toJson(0, 'El proveedor es invalido') );
 
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
     $nombre = strtoupper($nombre);
@@ -83,24 +83,25 @@ class Proveedor{
     $address = ucwords( strtolower( $address ) );
     $tel = filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_NUMBER_INT);
     $contacto = filter_input(INPUT_POST, 'contacto', FILTER_SANITIZE_STRING);
-    $pago = filter_input(INPUT_POST, 'pago', FILTER_SANITIZE_NUMBER_INT);
-    $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_NUMBER_INT);
+    $pago = filter_input(INPUT_POST, 'pago', FILTER_SANITIZE_STRING);
+    $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_STRING);
     $correo = filter_input(INPUT_POST, 'correo', FILTER_VALIDATE_EMAIL);
     $estado = filter_input(INPUT_POST, 'estado', FILTER_SANITIZE_STRING);
     $ciudad = filter_input(INPUT_POST, 'ciudad', FILTER_SANITIZE_STRING);
     $cp = filter_input(INPUT_POST, 'cp', FILTER_SANITIZE_NUMBER_INT);
     $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
 
-    $this->db->query("UPDATE proveedor SET telefono = '{$tel}', rfc = '{$rfc}', pago = '{$pago}', nombre = '{$nombre}', info = '{$info}', fecha = now(), estado = '{$estado}', direccion = '{$address}', tipo = '{$tipo}', cp = '{$cp}', correo = '{$correo}', contacto = '{$contacto}', ciudad = '{$ciudad}' WHERE idCliente = '{$id}'");
+    $sql = "UPDATE proveedor SET telefono = '{$tel}', rfc = '{$rfc}', pago = '{$pago}', nombre = '{$nombre}', info = '{$info}', fecha = now(), estado = '{$estado}', direccion = '{$address}', tipo = '{$tipo}', cp = '{$cp}', correo = '{$correo}', contacto = '{$contacto}', ciudad = '{$ciudad}' WHERE idProveedor = '{$id}'";
+    $this->db->query($sql);
 
     $this->db->affected_rows > 0 or die( toJson(0, 'Error al guardar el proveedor, por favor reintente y/o verifique') );
 
-    echo toJson(1, "El proveedor {$nombre} se modifico correctamente");
+    echo toJson(1, "El proveedor {$nombre} se modifico correctamente", ['s'=>$sql]);
 
   }
 
   public function delProveedor(){
-    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El proveedor es desconocido o invalido') );
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'El proveedor es desconocido o invalido') );
     $r = $this->db->query("DELETE FROM proveedor WHERE idProveedor = '{$id}'");
     $this->db->affected_rows > 0 or die( toJson(0, 'El proveedor solicitado no existe o no puedo eliminarse, por favor verifique') );
     echo toJson(1, 'El proveedor se elimino correctamente');
