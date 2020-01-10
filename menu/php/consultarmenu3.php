@@ -26,31 +26,31 @@ $fecha = str_replace(" 00:00:00","",$fecha);
 $dia = $dias[date('N', strtotime($fecha))];
 
 if("Lunes"==$dia){
-$matriz[$cont1][1]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont1][1]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont1=$cont1+1;
 }
 if("Martes"==$dia){
-$matriz[$cont2][2]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont2][2]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont2=$cont2+1;
 }
 if("Miercoles"==$dia){
-$matriz[$cont3][3]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont3][3]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont3=$cont3+1;
 }
 if("Jueves"==$dia){
-$matriz[$cont4][4]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont4][4]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont4=$cont4+1;
 }
 if("Viernes"==$dia){
-$matriz[$cont5][5]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont5][5]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont5=$cont5+1;
 }
 if("Sabado"==$dia){
-$matriz[$cont6][6]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont6][6]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont6=$cont6+1;
 }
 if("Domingo"==$dia){
-$matriz[$cont7][7]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta;
+$matriz[$cont7][7]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
 $cont7=$cont7+1;
 }
 

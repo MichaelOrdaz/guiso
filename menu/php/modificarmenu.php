@@ -66,7 +66,7 @@ FROM menu WHERE idMenu = '$idmenu' ";
 $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 $json='{"semana": "'.$columna['semana'].'","anio": "'.$columna['anio'].'","numTiempos": "'.$columna['numTiempos'].'","cliente": "'.$nombre.'",
-		"unidad": "'.$unidad.'","subunidad": "'.$subunidad.'","grupo": "'.$descripcion.'","elaboro": "'.$columna['elaboro'].'",
+		"unidad": "'.$unidad.'","subunidad": "'.$subunidad.'","idsubunidad": "'.$id3.'","grupo": "'.$descripcion.'","elaboro": "'.$columna['elaboro'].'",
 		"costo": "'.$columna['costoTot'].'","lapso": "'.$temp.'","lapsoi": "'.$cadena.'","lunes": "'.$columna['lunes'].'",
 		"martes": "'.$columna['martes'].'","miercoles": "'.$columna['miercoles'].'","jueves": "'.$columna['jueves'].'",
 		"viernes": "'.$columna['viernes'].'","sabado": "'.$columna['sabado'].'","domingo": "'.$columna['domingo'].'"}';

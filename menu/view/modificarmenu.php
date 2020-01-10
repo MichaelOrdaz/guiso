@@ -71,7 +71,7 @@ color: black;
                     <label style="color: #337ab7;" >* id Menu:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input list="idmenu" class="idmenup form-control" style="height: 24px;" >
+                    <input list="idmenu" id="menu" class="form-control" autocomplete="off" style="height: 24px;" >
                     <datalist id="idmenu">
                     </datalist>
                     </div>
@@ -183,7 +183,7 @@ color: black;
 idsubunidad="";
 
 $.ajax({
-url : 'menu/php/imprimirmenu.php',
+url : 'menu/php/imprimirmenu2.php',
 data : {},
 type : 'POST',
 dataType: 'json',
@@ -209,16 +209,16 @@ $('#idmenu').html(tabla1);
 },
 });
 
-$('.idmenup').on('input',function(){
+$('#menu').on('input',function(){
+
 $.ajax({
 url : 'menu/php/modificarmenu.php',
-data : {idmenu:$('.idmenup').val()},
+data : {idmenu:$('#menu').val()},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
-
 $('#checkbox1').attr('checked', false);
 $('#checkbox2').attr('checked', false);
 $('#checkbox3').attr('checked', false);
@@ -226,7 +226,6 @@ $('#checkbox4').attr('checked', false);
 $('#checkbox5').attr('checked', false);
 $('#checkbox6').attr('checked', false);
 $('#checkbox7').attr('checked', false);
-
 $.each(res,function(key,value){
 $('#semana').val(value.semana);
 $('#anio').val(value.anio);
@@ -277,15 +276,10 @@ if(domingo==1){
 $('#checkbox7').attr('checked', true);
 }
 });
-},
-});
-});
-
-$('.idmenup').on('input',function(){
 
 $.ajax({
 url : 'menu/php/modificarmenu1.php',
-data : {idmenu:$('.idmenup').val()},
+data : {idmenu:$('#menu').val()},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
@@ -293,7 +287,6 @@ respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 tabla="";
 cont=0;
-
 $.each(res,function(key,value){
 tabla+="<tr>";
 reslunes=value.lunes;
@@ -466,7 +459,6 @@ tabla+="<td style='height:24px'></td>";
 }
 tabla+="</tr>";
 });
-
 $('#tabla').html(tabla);
 
 $.ajax({
@@ -503,8 +495,12 @@ $('#'+aux2).val(respuesta);
 }
 });
 
-}, 
+},
 });
+
+},
+});
+
 });
 
 $("#sumar").click(function(){
@@ -522,17 +518,13 @@ $('#costo').val(costosunidad.toFixed(2));
 
 $("#formulario").on('submit',function(evt){
 evt.preventDefault();
-//$("#agregarmenu")[0].disabled=true;
-
 costosunidad=0;
 temp1='';
 temp2='';
 temp3='';
 temp4='';
 band=0;
-
 for (var i=1;i<=cont;i++){
-
 if(i==1){
 temp1=$('.fecha'+i).val();
 }
@@ -560,7 +552,6 @@ if(i>1){
 temp4+=','+$('#personas'+i).val();
 }
 }
-
 for (var i=1;i<=cont;i++){
 if(i==1){
 costosunidad=Number($('#precior'+i).val())*Number($('#personas'+i).val());
@@ -569,7 +560,6 @@ if(i>1){
 costosunidad=costosunidad+Number($('#precior'+i).val())*Number($('#personas'+i).val());
 }
 }
-
 for (var i=1;i<=cont;i++){
 aux3=$('#recetas'+i).val().split(",");
 $.ajax({
@@ -586,7 +576,6 @@ band=1;
 },
 });
 }
-
 if(band==1){
 alert("receta no se existe");
 }
@@ -595,7 +584,7 @@ $.ajax({
 url : 'menu/php/modificarmenu2.php',
 type : 'POST',
 data : {
-idmenu:$('.idmenup').val(),
+idmenu:$('#menu').val(),
 fecharecetas:temp1,
 recetas:temp2,
 precio:temp3,
@@ -609,7 +598,6 @@ $("#contenedor").load('menu/view/modificarmenu.php');
 },
 });
 }
-
 });
 
 </script>

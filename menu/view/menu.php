@@ -13,11 +13,11 @@ color: black;
             <div class="panel-body" style="padding: 10px; padding-bottom: 4px;">
                     <div class="row" style="margin-bottom: 5px;"> 
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*Semana:</label>
+                    <label style="color: #337ab7;">*Fecha:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
                     <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" style="height: 24px" id="semana" autocomplete="off" readonly />
+                    <input type='text' class="form-control" style="height: 24px" id="fecha" autocomplete="off" readonly />
                     <span class="input-group-addon" style="padding: 3px 16px;">
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -42,10 +42,10 @@ color: black;
                     
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*Fecha:</label>
+                    <label style="color: #337ab7;">*Semana:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input class="form-control" placeholder="Ingrese fecha" id="fecha" style="height: 24px;" readonly>
+                    <input type='text' class="form-control" style="height: 24px" id="semana" autocomplete="off" readonly />
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*Unidad:</label>
@@ -68,12 +68,10 @@ color: black;
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*# Tiempos:</label>
+                    <label style="color: #337ab7;">*Lapso:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="tiemp" style="height: 28px;">
-                    <option disabled selected> -- Seleccione id tiempo -- </option>
-                    </select>
+                    <input class="form-control" placeholder="Ingrese lapso" id="lapso" style="height: 24px;" readonly>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*SubUnidad:</label>
@@ -94,6 +92,36 @@ color: black;
                     <!-- /.col-lg-6 (nested) -->
                     </div>
 
+                    <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
+                    <label style="color: #337ab7;"># Tiempos</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                    <select class="form-control" id="tiemp" style="height: 28px;">
+                    <option disabled selected> -- Seleccione id tiempo -- </option>
+                    <option value="1"> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
+                    <option value="6"> 6 </option>
+                    <option value="7"> 7 </option>
+                    <option value="8"> 8 </option>
+                    <option value="9"> 9 </option>
+                    <option value="10"> 10 </option>
+                    <option value="11"> 11 </option>
+                    <option value="12"> 12 </option>
+                    <option value="13"> 13 </option>
+                    <option value="14"> 14 </option>
+                    <option value="15"> 15 </option>
+                    <option value="16"> 16 </option>
+                    <option value="17"> 17 </option>
+                    <option value="18"> 18 </option>
+                    <option value="19"> 19 </option>
+                    <option value="20"> 20 </option>
+                    </select>
+                    </div>
+                    </div>
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md- col-sm-12" style='color:#337ab7;'>
@@ -174,7 +202,7 @@ color: black;
 
 band1=0;band2=0;band3=0;band4=0;band5=0;band6=0;band7=0;
 lunes="";martes="";miercoles="";jueves="";viernes="";sabado="";domingo="";
-idsubunidad="";
+ano="";
 
 $("#todos").click(function() { 
 if ($("#todos").is( ":checked")){ 
@@ -261,24 +289,6 @@ language: 'es',
 autoclose: true,
 });
 })();
-
-$.ajax({
-url : 'menu/php/agregarmenu.php',
-data : {},
-type : 'POST',
-dataType: 'json',
-async:false,
-success:function(respuesta){
-respuesta="["+respuesta+"]";
-res=JSON.parse(respuesta);
-idTiempo="";
-idTiempo+="<option disabled selected> -- Seleccione id tiempo -- </option>";
-$.each(res,function(key,value){
-idTiempo+="<option>"+value.idTiempo+"</option>";
-});
-$('#tiemp').html(idTiempo);
-},
-});
 
 $.ajax({
 url : 'menu/php/agregarmenu1.php',
@@ -379,16 +389,18 @@ $('#subunidad').on('change',function(){
 $('#agregar').click();
 });
 
-$('#semana').on('change',function(){
-fecha=$('#semana').val();
+$('#fecha').on('change',function(){
+fecha=$('#fecha').val();
 $.ajax({
 url : 'menu/php/agregarmenu5.php',
-data : {semana:$('#semana').val()},
+data : {semana:$('#fecha').val()},
 type : 'POST',
 success:function(respuesta){
 vector=respuesta.split(",");
 $('#semana').val(vector[0]);
-$('#fecha').val(vector[1]);
+$('#lapso').val(vector[1]);
+
+ano=vector[2];
 
 $.ajax({
 url : 'menu/php/agregarmenu10.php',
@@ -641,6 +653,7 @@ $('#costo').val(costosunidad.toFixed(2));
 $("#form").on('submit',function(evt){
 evt.preventDefault();
 band=0;
+bandc=0;
 
 for (var i=1;i<=cont;i++){
 
@@ -702,6 +715,21 @@ band=1;
 });
 }
 
+$.ajax({
+url : 'menu/php/existe1.php',
+data : {
+idMenu: ano+'_'+$('#semana').val()+'_'+$('#cliente').val()+'_'+$('#unidad').val()+'_'+$('#subunidad').val()+'_'+$('#grupo').val()
+},
+type : 'POST',
+async:false,
+success:function(respuesta){
+if(respuesta==1){
+alert('ya existe menu');
+bandc=1;
+}
+},
+});
+
 bandf=0;
 
 if($("#semana").val()==""){
@@ -740,7 +768,7 @@ bandf=1;
 if(band==1){
 alert("receta no existe");
 }
-if((band==0)&&(bandf==0)){
+if((band==0)&&(bandf==0)&&(bandc==0)){
 $.ajax({
 url : 'menu/php/agregarmenu9.php',
 type : 'POST',
@@ -768,8 +796,6 @@ domingo:band7
 },
 success:function(respuesta){
 Swal.fire("Exito", 'Menu agregado correctamente', 'success');
-var fecha = new Date();
-var ano = fecha.getFullYear();
 alert('Guarde el id de receta '+ano+'_'+$('#semana').val()+'_'+$('#cliente').val()+'_'+$('#unidad').val()+'_'+$('#subunidad').val()+'_'+$('#grupo').val());
 $("#contenedor").load('menu/view/menu.php');
 },

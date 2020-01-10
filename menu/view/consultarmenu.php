@@ -4,13 +4,21 @@ color: black;
 }
 
 .grid-container {
-  display: grid;
-  grid-template-columns: 44% 44%;
-  grid-gap: 5px;
+display: grid;
+grid-template-columns: 44% 44%;
+grid-gap: 5px;
 }
 
 .item1 {
-  grid-area: 1 / span 2 ;
+grid-area: 1 / span 2 ;
+}
+
+.item8 {
+padding-top: 5px;
+}
+
+.item9 {
+grid-column: 1 / 2;
 }
 
 </style>
@@ -79,7 +87,7 @@ color: black;
                     <label style="color: #337ab7;">*ID menu:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input list="idmenu" class="form-control" id="idm" placeholder=" -- Seleccione menu --" style="height: 28px;">
+                    <input list="idmenu" class="form-control" id="idm" placeholder=" -- Seleccione menu --" autocomplete="off" style="height: 28px;">
                     <datalist id="idmenu">
                     </datalist>
                     </div>
@@ -199,6 +207,9 @@ allowEscapeKey: false
 });
 },
 success:function(respuesta){
+
+console.log(respuesta);
+
 Swal.close();
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
@@ -295,6 +306,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+reslunes[1]+"</div>"+
 "<div class='item5' id='it5'>"+reslunes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+reslunes[4]+"</div>"+
 "</div>"+
 "</td>";
 }
@@ -314,6 +327,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+resmartes[1]+"</div>"+
 "<div class='item5' id='it5'>"+resmartes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resmartes[4]+"</div>"+
 "</div>"+
 "</td>";
 }
@@ -333,6 +348,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+resmiercoles[1]+"</div>"+
 "<div class='item5' id='it5'>"+resmiercoles[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resmiercoles[4]+"</div>"+
 "</div>"+
 "</td>";
 }
@@ -352,6 +369,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+resjueves[1]+"</div>"+
 "<div class='item5' id='it5'>"+resjueves[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resjueves[4]+"</div>"+
 "</div>"+
 "</td>";
 }
@@ -371,6 +390,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+resviernes[1]+"</div>"+
 "<div class='item5' id='it5'>"+resviernes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resviernes[4]+"</div>"+
 "</div>"+
 "</td>";
 }
@@ -390,6 +411,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+ressabado[1]+"</div>"+
 "<div class='item5' id='it5'>"+ressabado[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+ressabado[4]+"</div>"+
 "</div>"+
 "</td>";
 }
@@ -409,6 +432,8 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='item3' id='it3'>Personas</div>"+
 "<div class='item4' id='it4'>"+resdomingo[1]+"</div>"+
 "<div class='item5' id='it5'>"+resdomingo[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resdomingo[4]+"</div>"+
 "</td>";
 }
 if(resdomingo[0]==""){

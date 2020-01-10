@@ -1,7 +1,27 @@
 <style type="text/css">
+
 div#contenedor label, div#contenedor li, div#contenedor h5, div#contenedor p, div#contenedor td, div#contenedor th {
 color: black;
 }
+
+.grid-container {
+display: grid;
+grid-template-columns: 44% 44%;
+grid-gap: 5px;
+}
+
+.item1 {
+grid-area: 1 / span 2 ;
+}
+
+.item8 {
+padding-top: 5px;
+}
+
+.item9 {
+grid-column: 1 / 2;
+}
+
 </style>
 
 <div class="row" style="margin-top: 31px;">
@@ -68,7 +88,7 @@ color: black;
                     <label style="color: #337ab7;">*ID menu:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input list="idmenu" class="form-control" id="idm" placeholder=" -- Seleccione menu --" style="height: 28px;">
+                    <input list="idmenu" class="form-control" id="idm" autocomplete="off" placeholder=" -- Seleccione menu --" style="height: 28px;">
                     <datalist id="idmenu">
                     </datalist>
                     </div>
@@ -240,35 +260,171 @@ $('#checkbox6').attr('checked', false);
 $('#checkbox7').attr('checked', false);
 
 $.each(res,function(key,value){
+
+reslunes=value.lunes.split(",");
+resmartes=value.martes.split(",");
+resmiercoles=value.miercoles.split(",");
+resjueves=value.jueves.split(",");
+resviernes=value.viernes.split(",");
+ressabado=value.sabado.split(",");
+resdomingo=value.domingo.split(",");
+
 tabla+="<tr>";
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.lunes+"</td>";
+
+if(reslunes[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+reslunes[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+reslunes[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+reslunes[1]+"</div>"+
+"<div class='item5' id='it5'>"+reslunes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+reslunes[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(reslunes[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.lunes!=""){
 $('#checkbox1').attr('checked', true);
 }
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.martes+"</td>";
+
+if(resmartes[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resmartes[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resmartes[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resmartes[1]+"</div>"+
+"<div class='item5' id='it5'>"+resmartes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resmartes[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resmartes[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.martes!=""){
 $('#checkbox2').attr('checked', true);
 }
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.miercoles+"</td>";
+
+if(resmiercoles[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resmiercoles[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resmiercoles[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resmiercoles[1]+"</div>"+
+"<div class='item5' id='it5'>"+resmiercoles[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resmiercoles[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resmiercoles[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.miercoles!=""){
 $('#checkbox3').attr('checked', true);
 }
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.jueves+"</td>";
+
+if(resjueves[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resjueves[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resjueves[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resjueves[1]+"</div>"+
+"<div class='item5' id='it5'>"+resjueves[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resjueves[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resjueves[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.jueves!=""){
 $('#checkbox4').attr('checked', true);
 }
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.viernes+"</td>";
+
+if(resviernes[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resviernes[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resviernes[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resviernes[1]+"</div>"+
+"<div class='item5' id='it5'>"+resviernes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resviernes[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resviernes[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.viernes!=""){
 $('#checkbox5').attr('checked', true);
 }
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.sabado+"</td>";
+
+if(ressabado[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+ressabado[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+ressabado[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+ressabado[1]+"</div>"+
+"<div class='item5' id='it5'>"+ressabado[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+ressabado[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(ressabado[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.sabado!=""){
 $('#checkbox6').attr('checked', true);
 }
-tabla+="<td style='color:#337ab7;width:14%;'>"+value.domingo+"</td>";
+
+if(resdomingo[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resdomingo[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resdomingo[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resdomingo[1]+"</div>"+
+"<div class='item5' id='it5'>"+resdomingo[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resdomingo[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resdomingo[0]==""){
+tabla+="<td style='width:14%;'></td>";
+}
 if(value.domingo!=""){
 $('#checkbox7').attr('checked', true);
 }
+
 tabla+="</tr>";
 });
 $('#tabla').html(tabla);
