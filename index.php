@@ -141,9 +141,19 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                 <li>
                   <a href="tiempo/view/main.php" class="ajaxLink" >Tiempos</a>
                 </li>
+
                 <li>
                   <a href="javascript://" data-archivo="MenuProveedor.php" data-menu="menu-proveedor">Proveedores </a>
                 </li>
+
+                <li>
+                  <a href="proveedor/view/menu.php" class="ajaxLink">Proveedores </a>
+                </li>
+
+                <li>
+                  <a href="precios/view/menu.php" class="ajaxLink">Ajustar Precios </a>
+                </li>
+
                 <!-- <li>
                   <a href="javascript://" data-archivo="MenuClientes.php" data-menu="menu-cliente">Clientes </a>
                 </li> -->
