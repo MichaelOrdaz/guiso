@@ -38,9 +38,10 @@ class Clientes{
   public function addCliente(){
 
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
+    $nombre = strtoupper( trim($nombre));
     
     $rfc = filter_input(INPUT_POST, 'rfc', FILTER_SANITIZE_STRING) or die( toJson(0, 'El rfc es invalido') );
+    $rfc = trim($rfc);
     if( strlen($rfc) <= 11 || strlen($rfc) >= 14 ){
       die( toJson(0, 'EL rfc es incorrecto') );
     }
