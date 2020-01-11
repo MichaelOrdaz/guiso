@@ -69,6 +69,9 @@
 
 <script>
 
+temp="";
+
+
 $.ajax({
 url: 'articulo/php/modificararticulos.php',
 data:{},
@@ -145,13 +148,23 @@ dataType: 'json',
 data:{id:$('#linea1').val()},
 async:false,
 success: function(respuesta){
-// respuesta="["+respuesta+"]";
-tabla="";
-// res=JSON.parse(respuesta);
+
+tabla3="";
+
+$.ajax({
+url: 'articulo/php/modificararticulos6.php',
+type: 'POST',
+data:{},
+dataType: 'json',
+success: function(respuesta){
 $.each(respuesta,function(key,value){
-tabla+="<option>"+value.descripcion+"</option>";
+tabla3+="<option>"+value.linea+"</option>";
 });
-$('#linea2').html(tabla);
+},
+});
+
+$('#linea2').html(tabla3);
+
 },
 });
 });
@@ -162,7 +175,8 @@ url: 'articulo/php/modificararticulos4.php',
 type: 'POST',
 data:{nombre:$('#linea2').val()},
 success: function(respuesta){
-$('#linea1').html("<option>"+respuesta+"</option>");
+temp="<option>"+respuesta+"</option>";
+$('#linea1').html(temp);
 },
 });
 });
