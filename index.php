@@ -138,6 +138,11 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                 <li>
                   <a href="articulo/view/menu.php" class="ajaxLink" >Artículos</a>
                 </li>
+
+                <li>
+                  <a href="articulos/view/article.php" class="ajaxLink" >Artículos</a>
+                </li>
+
                 <li>
                   <a href="tiempo/view/main.php" class="ajaxLink" >Tiempos</a>
                 </li>
