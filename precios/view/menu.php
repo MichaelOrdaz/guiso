@@ -87,7 +87,7 @@
 
                     <div class="row">
                       <div class="col-xs-12">
-                        <h4>Registra nuevo cliente</h4>
+                        <h4>Asignar Proveedor con Articulo para establecer precio</h4>
                       </div>
                     </div>
 
@@ -99,8 +99,10 @@
                         <div class="col-md-4 col-sm-6">
                           
                           <div class="form-group">
-                            <label>Nombre del cliente *</label>
-                            <input class="form-control" name="nombre" type="text" required maxlength="150" title="Ingrese el nombre del cliente" placeholder="Ingrese el nombre del cliente" />
+                            <label>Proveedor *</label>
+                            <select name="proveedor" class="form-control" required >
+                              <option value="">Seleccione un proveedor</option>
+                            </select>
                           </div>
 
                         </div>
@@ -108,25 +110,18 @@
                         <div class="col-md-4 col-sm-6">
                           
                           <div class="form-group">
-                            <label>Dirección</label>
-                            <input class="form-control" name="direccion" type="text" maxlength="150" title="Ingrese la dirección del cliente" placeholder="Ejemplo: Calle nombre de la calle #777, col. nombre de la colonia" />
+                            <label>Articulo *</label>
+                            <select name="articulo" class="form-control" required >
+                              <option value="">Seleccione un proveedor</option>
+                            </select>
                           </div>
                           
                         </div>
 
                         <div class="col-md-4 col-sm-6">
                           <div class="form-group">
-                            <label>R.F.C. del cliente *</label>
-                            <input class="form-control" name="rfc" type="text" required minlength="12" maxlength="13" placeholder="Ejemplo: ABC123456ABC" title="Ingrese el R.F.C del cliente" />
-                          </div>
-                          
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                          
-                          <div class="form-group">
-                            <label>Teléfono</label>
-                            <input class="form-control" name="telefono" value="" type="tel" maxlength="20" title="Ingrese el número de teléfono del cliente" placeholder="Telefono" >
+                            <label>Precio *</label>
+                            <input class="form-control" name="precio" type="number" required min="0.01" placeholder="Costo del articulo por parte del proveedor" />
                           </div>
                           
                         </div>
@@ -134,8 +129,8 @@
                         <div class="col-md-4 col-sm-6">
                           
                           <div class="form-group">
-                            <label>Nombre del contacto</label>
-                            <input class="form-control" name="contacto" value="" type="text" maxlength="32" placeholder="nombre del contacto">
+                            <label>Unidad de Medida</label>
+                            <input class="form-control" name="unidad" value="" type="text" maxlength="50" placeholder="Unidad de Medida del articulo" readonly />
                           </div>
                           
                         </div>
@@ -143,8 +138,8 @@
                         <div class="col-md-4 col-sm-6">
                           
                           <div class="form-group">
-                            <label>Plazo</label>
-                            <input class="form-control" name="plazo" value="" type="number" title="Ingrese como máximo dos digitos" placeholder="Plazo" >
+                            <label>Presentación</label>
+                            <input class="form-control" name="unidadA" value="" type="text" maxlength="50" placeholder="Presentación del articulo" readonly />
                           </div>
                           
                         </div>
@@ -152,45 +147,10 @@
                         <div class="col-md-4 col-sm-6">
                           
                           <div class="form-group">
-                            <label>Crédito</label>
-                            <input class="form-control" name="credito" value="" type="number" title="Ingrese como máximo dos digitos" placeholder="Credito al cliente">
+                            <label>Cantidad de unidades en la presentación</label>
+                            <input class="form-control" name="factor" value="" type="number" placeholder="Cantidad de unidades en la presentación" readonly />
                           </div>
                           
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                          
-                          <div class="form-group">
-                            <label>Correo</label>
-                            <input class="form-control" name="correo" value="" type="email" maxlength="60" placeholder="Ejemplo: ejemplo@mail.com">
-                          </div>
-                          
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                          <div class="form-group">
-                            <label data-texto="">Estado</label>
-                            <input class="form-control" name="estado" value="" type="text" maxlength="50" placeholder="Ejemplo: Nombre de Estado" />
-                          </div>
-                          
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                          
-                          <div class="form-group">
-                            <label data-texto="">Ciudad</label>
-                            <input class="form-control" name="ciudad" value="" type="text" maxlength="80" placeholder="Ejemplo: Nombre de Ciudad" title="Ingrese únicamente letras" >
-                          </div>
-                          
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                          
-                          <div class="form-group">
-                            <label data-texto="">Código postal</label>
-                            <input class="form-control" name="cp" value="" type="number" maxlength="5" minlength="5" title="Ingrese únicamente cinco digitos" placeholder="Ejemplo: 12345">
-                          </div>              
-            
                         </div>
 
                         <div class="col-md-4 col-sm-6">
@@ -201,15 +161,13 @@
                           </div>
                           
                         </div>
-
-                      
           
                       </div>
 
                       <div class="row">
                         
                         <div class="col-xs-12 text-center">
-                          <button class="btn btn-primary" type="submit"> Agregar </button>
+                          <button class="btn btn-primary" type="submit"> Asignar </button>
                         </div>
 
                       </div>
@@ -246,25 +204,30 @@
   var form = _.form_cliente;
 
 
-  var insertClient = function(ev){
+  var insertPrecio = function(ev){
     
     if(ev) ev.preventDefault();
 
-    let nombre = this.nombre.value.trim();
-    let rfc = this.rfc.value.trim();
+    let proveedor = this.proveedor.value.trim();
+    let articulo = this.articulo.value.trim();
+    let precio = this.precio.value.trim();
 
-    if( nombre.length === 0 ){
-      Swal.fire("Error", 'El nombre es requerido', 'warning');
+    if( proveedor.length === 0 ){
+      Swal.fire("Error", 'El proveedor es requerido', 'warning');
       return;
     }
-    if( rfc.length === 0 ){
-      Swal.fire("Error", 'El RFC es requerido', 'warning');
+    if( articulo.length === 0 ){
+      Swal.fire("Error", 'El articulo es requerido', 'warning');
+      return;
+    }
+    if( precio.length === 0 ){
+      Swal.fire("Error", 'El precio es requerido', 'warning');
       return;
     }
 
     Swal.fire({
-      title: 'Registrar Cliente',
-      text: '¿Desea agregar al cliente ' + nombre + '?',
+      title: 'Asignar Precio',
+      text: '¿Desea agregar el precio $' + precio + '?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -275,10 +238,10 @@
       if (result.value) {
 
         let data = $(this).serializeArray();
-        data.push({name: 'method', value: 'addCliente'});
+        data.push({name: 'method', value: 'addPrecio'});
 
         $.ajax({
-          url: 'clientes/php/Clientes.php',
+          url: 'precios/php/Precios.php',
           type: 'POST',
           dataType: 'json',
           data: data,
@@ -292,21 +255,18 @@
               allowEscapeKey: false
             });
           }
-        })
-        .done((response)=>{
+        }).done((response)=>{
           if( response.status === 1 ){
-            
             oTable.ajax.reload();//recargamos la tabla
             Swal.fire('Exito', response.msg, 'success').then( r=>{
-              this.reset();//limpiamos el formukario
-              $('[href="#viewUsers"]').trigger('click');//simulamos click
+              this.reset();/////limpiamos el formulario
+              // $('[href="#viewUsers"]').trigger('click');//simulamos click
             });
           }
           else{
             Swal.fire('Error', response.msg, 'error');
           }
-        })
-        .fail(()=> {
+        }).fail(()=> {
           Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
         });
         
@@ -314,11 +274,9 @@
 
     });
 
-
-
   }
 
-  form.addEventListener('submit', insertClient);
+  form.addEventListener('submit', insertPrecio);
 
 
   var oTable = $("#tabla_clientes").DataTable({
@@ -418,6 +376,48 @@
     }
 
   });
+
+
+
+  let getProveedor = ()=>{
+
+    Swal.fire({
+      title: 'Cargando',
+      onOpen: ()=>{
+        Swal.showLoading()
+      },
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+
+    $.ajax({
+      url: 'proveedor/php/Proveedor.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {method: 'getProveedores'}
+    })
+    .done((response)=>{
+
+    })
+    .fail(()=> {
+      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+    });
+
+    $.ajax({
+      url: 'proveedor/php/Proveedor.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {method: 'getProveedores'}
+    })
+    .done((response)=>{
+      
+    })
+    .fail(()=> {
+      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+    });
+    
+
+  } 
 
 
 })();

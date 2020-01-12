@@ -35,10 +35,17 @@ class Proveedor{
     echo json_encode($row);
   }
 
+  public function checkProveedor( $name ){
+    $this->db->query("SELECT idProveedor FROM proveedor WHERE nombre = '{$name}' LIMIT 1");
+    return $this->db->affected_rows > 0;
+  }
+
   public function addProveedor(){
 
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
     $nombre = strtoupper($nombre);
+
+    ! $this->checkProveedor( $nombre ) or die( toJson(0, 'EL nombre del proveedor ya existe, por favor cambie el nombre') );
     
     $rfc = filter_input(INPUT_POST, 'rfc', FILTER_SANITIZE_STRING) or die( toJson(0, 'El rfc es invalido') );
     if( strlen($rfc) <= 11 || strlen($rfc) >= 14 ){
@@ -72,6 +79,8 @@ class Proveedor{
 
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
     $nombre = strtoupper($nombre);
+
+    ! $this->checkProveedor( $nombre ) or die( toJson(0, 'EL nombre del proveedor ya existe, por favor cambie el nombre') );
     
     $rfc = filter_input(INPUT_POST, 'rfc', FILTER_SANITIZE_STRING) or die( toJson(0, 'El rfc es invalido') );
     if( strlen($rfc) <= 11 || strlen($rfc) >= 14 ){

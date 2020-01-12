@@ -15,4 +15,4 @@ define('USER', 'root');
 //Contraseña del usuario de la base de datos
 define('PASS', '');
 //Nombre de la base de datos
-define('DB_NAME', 'guiso2');
+define('DB_NAME', 'guiso6');
