@@ -41,6 +41,7 @@
                       <option selected value="">Seleccione un tipo</option>
                       <option>Mayoreo</option>
                       <option>Menudeo</option>
+                      <option>Otro</option>
                   </select>
               </div>
             </div>
@@ -232,6 +233,7 @@
                       <option selected value="">Seleccione un tipo</option>
                       <option>Mayoreo</option>
                       <option>Menudeo</option>
+                      <option>Otro</option>
                   </select>
               </div>
             </div>
@@ -598,7 +600,7 @@
 
       Swal.fire({
         title: 'Eliminar el Proveedor',
-        text: '¿Desea eliminar el proveedor ' + data.nombre + '?. Si lo elimina los precios del proveedor tambien seran eliminados',
+        text: '¿Desea eliminar el proveedor ' + data.nombre + '?. Si lo elimina los precios del proveedor tambien seran eliminados, asegurese que el proveedor no sea mas utilizado en el sistema',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
