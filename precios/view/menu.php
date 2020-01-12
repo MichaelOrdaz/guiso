@@ -37,8 +37,6 @@
                         <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#legend"> <i class="caret"></i> Nomenclaturas </button>
 
                         <div class="collapse fade text-right mt-1" id="legend">
-                          <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-plus"></i> </button> Más info
-                          <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-building"></i> </button> Agregar Unidad
                           <button type="button" class="btn btn-xs btn-primary"> <i class="fa fa-edit"></i> </button> Modificar
                           <button type="button" class="btn btn-xs btn-danger"> <i class="fa fa-times"></i> </button> Eliminar
                         </div>
@@ -91,6 +89,13 @@
                       </div>
                     </div>
 
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="alert alert-info">
+                          Los precios asociados a los proveedores deberán de actualizarse individualmente
+                        </div>
+                      </div>
+                    </div>
 
                     <form action="#" method="POST" name="form_cliente" id="form_cliente">
                     
@@ -122,6 +127,7 @@
                           <div class="form-group">
                             <label>Precio *</label>
                             <input class="form-control" name="precio" type="number" required min="0.01" placeholder="Costo del articulo por parte del proveedor" />
+                            <small class="help-block text-muted">El precio debe ser el de la presentación y en caso de no tener presentación es el precio de la Unidad de Medida</small>
                           </div>
                           
                         </div>
@@ -140,6 +146,7 @@
                           <div class="form-group">
                             <label>Presentación</label>
                             <input class="form-control" name="unidadA" value="" type="text" maxlength="50" placeholder="Presentación del articulo" readonly />
+                            <small class="help-block text-muted">Utilice unidad de medida NINGUNA para asignar un precio a un producto en su Unidad de Medida Original</small>
                           </div>
                           
                         </div>
@@ -149,6 +156,7 @@
                           <div class="form-group">
                             <label>Cantidad de unidades en la presentación</label>
                             <input class="form-control" name="factor" value="" type="number" placeholder="Cantidad de unidades en la presentación" readonly />
+                            <small class="help-block text-muted">Si la cantidad de unidades permanece en Cero, la presentación se considerará como NINGUNA</small>
                           </div>
                           
                         </div>
@@ -379,7 +387,55 @@
 
 
 
-  let getProveedor = ()=>{
+  let checkValues = function(ev){
+
+    let prov = this.form.proveedor.value;
+    let article = this.form.articulo.value;
+
+    //si articulo existe, recuperamos sus factor y su presentacion
+    if( article ){
+
+      $.post('articulos/php/Article.php', {method: 'getArticle', id: article}, (data, textStatus, xhr)=>{
+        console.log(data);
+
+        this.form.unidad.value = data.unidad;
+        this.form.factor.value = data.factor ? data.factor : 0;
+        this.form.unidadA.value = data.unidadA ? data.unidadA : 'NINGUNA';
+
+
+      }, 'json');
+
+    }
+
+
+    if( article && prov ){
+
+      //verificar si la combinacion existe o no
+      $.post('precios/php/Precios.php', {method: 'getCombinacion', prov, article}, (data, textStatus, xhr)=>{
+        console.log(data);
+
+        if( data.status ){
+          Swal.fire("", 'La combinación Proveedor-Artículo ya existe el precio es ' + data.row.precio, 'info');
+          this.form.precio = data.row.precio;
+        }
+        else{
+          Swal.fire('', 'La combinación Proveedor-Artículo no existe. Ahora puede ingresarla', 'info');
+        }
+
+      }, 'json');
+
+    }
+
+
+  }
+
+
+  form.proveedor.addEventListener('change', checkValues);
+  form.articulo.addEventListener('change', checkValues);
+
+
+
+  let getItems = ()=>{
 
     Swal.fire({
       title: 'Cargando',
@@ -398,27 +454,49 @@
     })
     .done((response)=>{
 
+      let doc = _.createDocumentFragment();
+      for( let item of response){
+        let option = _.createElement('option');
+        option.value = item.idProveedor;
+        option.textContent = item.nombre;
+        doc.appendChild(option);
+      }
+      form.proveedor.appendChild(doc);
+
     })
     .fail(()=> {
       Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
     });
 
     $.ajax({
-      url: 'proveedor/php/Proveedor.php',
+      url: 'articulos/php/Article.php',
       type: 'POST',
       dataType: 'json',
-      data: {method: 'getProveedores'}
+      data: {method: 'getAllArticulos'}
     })
     .done((response)=>{
       
+      let doc = _.createDocumentFragment();
+      for( let item of response){
+        let option = _.createElement('option');
+        option.value = item.idArticulo;
+        option.textContent = item.nombre;
+        option.title = item.nombre;
+        doc.appendChild(option);
+      }
+      form.articulo.appendChild(doc);
+
+      Swal.close();
+
     })
     .fail(()=> {
       Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
     });
     
 
-  } 
+  }
 
+  getItems();
 
 })();
 </script>

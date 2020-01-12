@@ -16,13 +16,26 @@ class Clientes{
     $this->db = $db; 
   }
 
-  public function getClientes(){
+  public function getCombinacion(){
 
-    $r = $this->db->query("SELECT * FROM cliente WHERE activo = 1");
-    $rows = [];
-    while( $rows[] = $r->fetch_object() );
-    array_pop($rows);
-    echo json_encode($rows);
+    $prov = filter_input(INPUT_POST, 'prov', FILTER_VALIDATE_INT) or die( toJson(0, 'El proveedor es desconocido o invalido') );
+    $article = filter_input(INPUT_POST, 'article', FILTER_SANITIZE_STRING) or die( toJson(0, 'El articulo es desconocido o invalido') );
+
+    $r = $this->db->query("SELECT precio FROM precioprov WHERE activo = 1 AND proveedor = '{$prov}' AND articulo = '{$article}' LIMIT 1");
+    
+    $this->db->affected_rows > 0 or die( toJson(0, 'La combinacion no existe') );
+    
+    $row = $r->fetch_object();
+
+    $r = $this->db->query("SELECT unidadA, factor FROM articulo WHERE activo = 1 AND idArticulo = '{$article}' LIMIT 1");
+    $art = $r->fetch_object();
+
+    if( $art->unidadA && $art->factor ){
+      $row->precioAlt = $row->precio;   
+      $row->precio = $row->precioAlt * $art->factor;   
+    }
+    
+    echo toJson(1, 'Disponible', ['row'=> $row]);
   }
 
   public function getCliente(){
@@ -113,126 +126,6 @@ class Clientes{
 
     echo toJson(1, 'El Cliente se elimino correctamente');
   }
-
-
-  public function getUnidades(){
-
-    $id = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
-    $r = $this->db->query("SELECT * FROM unidad WHERE cliente = '{$id}' AND activo = 1");
-
-    $rows = [];
-    while( $rows[] = $r->fetch_object() );
-    array_pop($rows);
-    echo json_encode($rows);
-
-  }
-
-
-    public function addUnit(){
-
-    $id = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
-    $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
-    
-    $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
-
-
-    $this->db->query("INSERT INTO unidad (unidad, cliente, info, fecha, activo) VALUES ('{$nombre}', '{$id}', '{$info}', now(), 1)");
-
-    $this->db->affected_rows > 0 or die( toJson(0, 'Error al guardar la unidad, por favor reintente') );
-
-    echo toJson(1, "El cliente {$nombre} se guardo correctamente");
-
-  }
-
-  public function delUnit(){
-
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
-    $r = $this->db->query("UPDATE unidad SET activo = '0', fecha = now() WHERE idUnidad = '{$id}'");
-
-    $this->db->affected_rows > 0 or die( toJson(0, 'La unidad solicitada no existe o no puedo eliminarse, por favor verifique') );
-    
-    //desactiamos subunidades
-    $r = $this->db->query("UPDATE subunidad SET activo = 0, fecha = now() WHERE unidad = '{$id}'");
-
-    echo toJson(1, 'La unidad se elimino correctamente');
-
-  }
-
-  public function editUnit(){
-
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
-    $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
-    
-    $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
-
-    $this->db->query("UPDATE unidad SET unidad = '{$nombre}', info = '{$info}', fecha = now() WHERE idUnidad = '{$id}'");
-
-    $this->db->affected_rows > 0 or die( toJson(0, 'Error al modificar la unidad, por favor reintente') );
-
-    echo toJson(1, "La unidad {$nombre} se modifico correctamente");
-
-  }
-
-  public function addSubunit(){
-
-    $cliente = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
-    $unidad = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocido o invalido') );
-
-    $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
-    
-    $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
-
-
-    $this->db->query("INSERT INTO subunidad (subUnidad, cliente, unidad, info, fecha, activo) VALUES ('{$nombre}', '{$cliente}', '{$unidad}', '{$info}', now(), 1)");
-
-    $this->db->affected_rows > 0 or die( toJson(0, 'Error al guardar la subunidad, por favor reintente') );
-
-    echo toJson(1, "La subunidad {$nombre} se guardo correctamente");
-
-  }
-
-  public function getSubunits(){
-    $id = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocido o invalido') );
-    $r = $this->db->query("SELECT * FROM subunidad WHERE unidad = '{$id}' AND activo = 1");
-
-    $rows = [];
-    while( $rows[] = $r->fetch_object() );
-    array_pop($rows);
-    echo json_encode($rows);
-  }
-
-  public function delSubunit(){
-
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida') );
-    $r = $this->db->query("UPDATE subunidad SET activo = '0', fecha = now() WHERE idSUnidad = '{$id}'");
-
-    $this->db->affected_rows > 0 or die( toJson(0, 'La subunidad solicitada no existe o no puedo eliminarse, por favor verifique') );
-    
-    echo toJson(1, 'La subunidad se elimino correctamente');
-
-  }
-
-  public function editSubunit(){
-
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida') );
-    $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING) or die( toJson(0, 'El nombre es invalido') );
-    $nombre = strtoupper($nombre);
-    
-    $info = filter_input(INPUT_POST, 'info', FILTER_SANITIZE_STRING);
-
-    $this->db->query("UPDATE subunidad SET subUnidad = '{$nombre}', info = '{$info}', fecha = now() WHERE idSUnidad = '{$id}'");
-
-    $this->db->affected_rows > 0 or die( toJson(0, 'Error al modificar la subunidad, por favor reintente') );
-
-    echo toJson(1, "La subunidad {$nombre} se modifico correctamente");
-
-  }
-
-
-
 
   public function __destruct(){
     $this->db->close();

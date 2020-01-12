@@ -73,12 +73,19 @@ class Article{
   
   }
 
-  public function getCliente(){
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocida o invalido') );
-    $r = $this->db->query("SELECT * FROM cliente WHERE idCliente = '{$id}' LIMIT 1");
+  public function getAllArticulos(){
+    $r = $this->db->query("SELECT idArticulo, nombre, unidad, unidadA, factor, (SELECT descripcion FROM linea WHERE idLinea = linea) as descripcion FROM articulo WHERE activo = 1 ORDER BY nombre");
+    $rows = [];
+    while( $rows[] = $r->fetch_object() );
+    array_pop($rows);
+    echo json_encode($rows);
+  }
 
-    $this->db->affected_rows > 0 or die( toJson(0, 'El Cliente solicitado no existe') );
+  public function getArticle(){
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El articulo es desconocido o invalido') );
+    $r = $this->db->query("SELECT * FROM articulo WHERE idArticulo = '{$id}' AND activo = 1 LIMIT 1");
 
+    $this->db->affected_rows > 0 or die( toJson(0, 'El articulo solicitado no existe') );
     $row = $r->fetch_object();
     echo json_encode($row);
   }
