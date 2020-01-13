@@ -171,7 +171,7 @@ class Article{
 
   public function delCliente(){
     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El Articulo es desconocido o invalido') );
-    $r = $this->db->query("UPDATE articulo SET activo = '0', fechaMod = now(), idArticulo = '' WHERE idArticulo = '{$id}'");
+    $r = $this->db->query("UPDATE articulo SET activo = '0', fechaMod = now() WHERE idArticulo = '{$id}'");
 
     $this->db->affected_rows > 0 or die( toJson(0, 'El articulo solicitado no existe o no puedo eliminarse, por favor verifique') );
     
