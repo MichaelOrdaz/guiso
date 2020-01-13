@@ -221,6 +221,9 @@ unidad="";
 subunidad="";
 costo="";
 
+ano="";
+semana="";
+
 (function(){
 $('#datetimepicker1').datepicker({
 format: "dd-mm-yyyy",
@@ -265,8 +268,8 @@ async:false,
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
-unidad="";
-unidad+="<option disabled selected> -- Selecione grupo -- </option>";
+grupo="";
+grupo+="<option disabled selected> -- Selecione grupo -- </option>";
 $.each(res,function(key,value){
 grupo+="<option value="+value.idGrupo+">"+value.descripcion+"</option>";
 });
@@ -322,6 +325,11 @@ unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
 $('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
 },
 });
 
@@ -345,12 +353,31 @@ unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
 $('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
 },
 });
 });
 
 $('#subunidad').on('change',function(){
 $('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
+});
+
+$('#grupo').on('change',function(){
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
 });
 
 $('#fecha').on('change',function(){
@@ -363,13 +390,22 @@ success:function(respuesta){
 vector=respuesta.split(",");
 $('#semana').val(vector[0]);
 $('#ano').val(vector[2]);
-id=vector[2]+"_"+vector[0]+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+semana=vector[0];
+ano=vector[2];
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $('#idm').val(id);
+buscar();
+}
 },
 });
 });
 
 $('#idm').on('input',function(){
+buscar();
+});
+
+function buscar(){
 
 $.ajax({
 url : 'menu/php/consultarmenu2.php',
@@ -618,7 +654,8 @@ $('#tabla').html(tabla);
 
 },
 });
-});
+
+}
 
 $("#exportar").click(function(){
 $.ajax({

@@ -300,9 +300,9 @@ success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 descripcion="";
-descripcion+="<option disabled selected> -- Selecione Grupo -- </option>";
+descripcion+="<option selected > -- Selecione Grupo -- </option>";
 $.each(res,function(key,value){
-descripcion+="<option value="+value.idgrupo+">"+value.descripcion+"</option>";
+descripcion+="<option value="+value.idGrupo+">"+value.descripcion+"</option>";
 });
 $('#grupo').html(descripcion);
 },
@@ -438,7 +438,7 @@ tabla+=
 "<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7;'>Tiempo</label>"+
 "<br>"+
-"<select style='width:100%;height:24px;' class='tiempos' id="+"clave"+ContTiemp+" required>"+
+"<select style='width:100%;height:24px;' class='tiempos' id="+ContTiemp+" required>"+
 "</select>"+
 "</td>";
 
@@ -450,7 +450,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -473,7 +473,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -496,7 +496,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+"></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -519,7 +519,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;;color:#337ab7' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+"></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -542,7 +542,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7;x' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -565,7 +565,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -588,7 +588,7 @@ tabla+=
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
 "<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
-"<datalist id='browsers' class='receta2'></datalist>"+
+"<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
@@ -608,9 +608,29 @@ tabla+="</tr>";
 $('#tabla').html(tabla);
 
 $.ajax({
+url : 'menu/php/agregarmenu12.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+respuesta=JSON.parse(respuesta);
+temp="";
+temp+="<option disabled selected> -- Tiempos -- </option>";
+$.each(respuesta,function(key,value){
+temp+="<option value="+value.idTiempo+">"+value.tiempo+"</option>";
+});
+$('.tiempos').html(temp);
+},
+});
+
+$('.tiempos').on('input',function(){
+tiempo=$('.tiempos').attr('id');
+$.ajax({
 url : 'menu/php/agregarmenu7.php',
 data : {
-subunidad:$("#subunidad").children("option:selected").val()
+subunidad:$("#subunidad").children("option:selected").val(),
+tiempo:$(this).children("option:selected").val()
 },
 type : 'POST',
 dataType: 'json',
@@ -622,24 +642,9 @@ nombre="";
 $.each(res,function(key,value){
 nombre+="<option>"+value.nombre+"</option>";
 });
-$('.receta2').html(nombre);
+$('.receta'+tiempo).html(nombre);
 },
 });
-
-$.ajax({
-url : 'menu/php/agregarmenu12.php',
-data : {},
-type : 'POST',
-dataType: 'json',
-success:function(respuesta){
-respuesta="["+respuesta+"]";
-respuesta=JSON.parse(respuesta);
-temp="";
-$.each(respuesta,function(key,value){
-temp+="<option value="+value.idTiempo+">"+value.tiempo+"</option>";
-});
-$('.tiempos').html(temp);
-},
 });
 
 $('.receta1').on('input',function(){
@@ -733,22 +738,22 @@ costosunidad=costosunidad+Number($('.costo'+i).val())*Number($('.cantidad'+i).va
 res=$('#elaboro').val().replace("'","");
 res=res.replace('"',"");
 
-for (var i=1;i<=cont;i++){
-$.ajax({
-url : 'menu/php/existe.php',
-data : {
-clave:$('#'+i).val().toUpperCase(),
-subunidad:$("#subunidad").children("option:selected").val()
-},
-type : 'POST',
-async:false,
-success:function(respuesta){
-if(respuesta==0){
-band=1;
-}
-},
-});
-}
+// for (var i=1;i<=cont;i++){
+// $.ajax({
+// url : 'menu/php/existe.php',
+// data : {
+// clave:$('#'+i).val().toUpperCase(),
+// subunidad:$("#subunidad").children("option:selected").val()
+// },
+// type : 'POST',
+// async:false,
+// success:function(respuesta){
+// if(respuesta==0){
+// band=1;
+// }
+// },
+// });
+// }
 
 $.ajax({
 url : 'menu/php/existe1.php',
