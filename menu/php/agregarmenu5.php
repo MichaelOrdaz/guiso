@@ -22,7 +22,7 @@ function Start_End_Date_of_a_week($week, $year)
 	return $dates;
 }
 $result = Start_End_Date_of_a_week(0,$year+1);
-echo $result[0].' - '.$result[1];
+echo $week.','.$result[0].' - '.$result[1].','.$year;
 }
 
 else{

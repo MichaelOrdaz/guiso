@@ -9,11 +9,12 @@ $json="";$cont1=1;$cont2=1;$cont3=1;$cont4=1;$cont5=1;$cont6=1;$cont7=1;
 $idMenu=$_POST['idmenu'];
 $tiem=$_POST['tiem'];
 
-$consulta = "SELECT receta,precio,personas,fecha FROM menurec WHERE idMenu = '$idMenu' ";
+$consulta = "SELECT tiempo,receta,precio,personas,fecha FROM menurec WHERE idMenu = '$idMenu' ";
 $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 
 $nombre=$columna['receta'];
+$tiempo=$columna['tiempo'];
 
 $consulta1 = "SELECT idReceta FROM receta WHERE nombre = '$nombre' ";
 $resultado1 = mysqli_query($conexion,$consulta1);
@@ -21,36 +22,42 @@ while($columna1=mysqli_fetch_array($resultado1)){
 $idreceta=$columna1['idReceta'];
 }
 
+$consulta2 = "SELECT descripcion FROM tiempo WHERE idTiempo = '$tiempo' ";
+$resultado2 = mysqli_query($conexion,$consulta2);
+while($columna2=mysqli_fetch_array($resultado2)){
+$descripcion=$columna2['descripcion'];
+}
+
 $fecha = $columna['fecha'];
 $fecha = str_replace(" 00:00:00","",$fecha);
 $dia = $dias[date('N', strtotime($fecha))];
 
 if("Lunes"==$dia){
-$matriz[$cont1][1]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont1][1]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont1=$cont1+1;
 }
 if("Martes"==$dia){
-$matriz[$cont2][2]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont2][2]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont2=$cont2+1;
 }
 if("Miercoles"==$dia){
-$matriz[$cont3][3]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont3][3]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont3=$cont3+1;
 }
 if("Jueves"==$dia){
-$matriz[$cont4][4]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont4][4]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont4=$cont4+1;
 }
 if("Viernes"==$dia){
-$matriz[$cont5][5]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont5][5]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont5=$cont5+1;
 }
 if("Sabado"==$dia){
-$matriz[$cont6][6]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont6][6]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont6=$cont6+1;
 }
 if("Domingo"==$dia){
-$matriz[$cont7][7]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha;
+$matriz[$cont7][7]=$nombre.",".$columna['precio'].",".$columna['personas'].",".$idreceta.",".$fecha.",".$descripcion;
 $cont7=$cont7+1;
 }
 

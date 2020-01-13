@@ -3,15 +3,6 @@
 include '../../db/conexion.php';
 require_once 'excel/Classes/PHPExcel.php';
 
-$temp="";
-$temp1=0;
-$temp2=0;
-$temp3=0;
-$temp4=0;
-$temp5=0;
-$temp6=0;
-$temp7=0;
-
 $idMenu=$_GET['idMenu'];
 $semana=$_GET['semana'];
 $numTiempos=$_GET['numTiempos'];
@@ -125,7 +116,8 @@ $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('Z10','Domingo')
 ->setCellValue('AB10','Costo')
 
-->setCellValue('G1','Menu Guisopak');
+->setCellValue('G1','Menu Guisopak')
+;
 
 $hoja1=$objPHPExcel->getActiveSheet();
 $dias = array('', 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado', 'Domingo');
@@ -148,31 +140,31 @@ $idreceta=$columna1['idReceta'];
 }
 
 if("Lunes"==$dia){
-$matriz[$cont1][1]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont1][1]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont1=$cont1+1;
 }
 if("Martes"==$dia){
-$matriz[$cont2][2]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont2][2]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont2=$cont2+1;
 }
 if("Miercoles"==$dia){
-$matriz[$cont3][3]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont3][3]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont3=$cont3+1;
 }
 if("Jueves"==$dia){
-$matriz[$cont4][4]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont4][4]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont4=$cont4+1;
 }
 if("Viernes"==$dia){
-$matriz[$cont5][5]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont5][5]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont5=$cont5+1;
 }
 if("Sabado"==$dia){
-$matriz[$cont6][6]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont6][6]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont6=$cont6+1;
 }
 if("Domingo"==$dia){
-$matriz[$cont7][7]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta.",".$columna['personas'];
+$matriz[$cont7][7]=$columna['receta'].",".$columna['precio']*$columna['personas'].",".$idreceta;
 $cont7=$cont7+1;
 }
 
@@ -218,8 +210,7 @@ $hoja1
 $hoja1
 ->setCellValue('B'.$cont,$vec1[0]);
 $hoja1
-->setCellValue('D'.$cont,$vec1[1]."/".$vec1[3]);
-$temp1=$temp1+$vec1[1];
+->setCellValue('D'.$cont,$vec1[1]);
 }
 
 if ($vec2[0]!="") {
@@ -228,8 +219,7 @@ $hoja1
 $hoja1
 ->setCellValue('F'.$cont,$vec2[0]);
 $hoja1
-->setCellValue('H'.$cont,$vec2[1]."/".$vec2[3]);
-$temp2=$temp2+$vec2[1];
+->setCellValue('H'.$cont,$vec2[1]);
 }
 
 if ($vec3[0]!="") {
@@ -238,8 +228,7 @@ $hoja1
 $hoja1
 ->setCellValue('J'.$cont,$vec3[0]);
 $hoja1
-->setCellValue('L'.$cont,$vec3[1]."/".$vec3[3]);
-$temp3=$temp3+$vec3[1];
+->setCellValue('L'.$cont,$vec3[1]);
 }
 
 if ($vec4[0]!="") {
@@ -248,8 +237,7 @@ $hoja1
 $hoja1
 ->setCellValue('N'.$cont,$vec4[0]);
 $hoja1
-->setCellValue('P'.$cont,$vec4[1]."/".$vec4[3]);
-$temp4=$temp4+$vec4[1];
+->setCellValue('P'.$cont,$vec4[1]);
 }
 
 if ($vec5[0]!="") {
@@ -258,8 +246,7 @@ $hoja1
 $hoja1
 ->setCellValue('R'.$cont,$vec5[0]);
 $hoja1
-->setCellValue('T'.$cont,$vec5[1]."/".$vec5[3]);
-$temp5=$temp5+$vec5[1];
+->setCellValue('T'.$cont,$vec5[1]);
 }
 
 if ($vec6[0]!="") {
@@ -268,8 +255,7 @@ $hoja1
 $hoja1
 ->setCellValue('V'.$cont,$vec6[0]);
 $hoja1
-->setCellValue('X'.$cont,$vec6[1]."/".$vec6[3]);
-$temp6=$temp6+$vec6[1];
+->setCellValue('X'.$cont,$vec6[1]);
 }
 
 if ($vec7[0]!="") {
@@ -278,24 +264,11 @@ $hoja1
 $hoja1
 ->setCellValue('Z'.$cont,$vec7[0]);
 $hoja1
-->setCellValue('AB'.$cont,$vec7[1]."/".$vec7[3]);
-$temp7=$temp7+$vec7[1];
+->setCellValue('AB'.$cont,$vec7[1]);
 }
 
 $cont++;
 }
-
-$cont++;
-
-$objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('A'.$cont,'TOTAL')
-->setCellValue('D'.$cont,$temp1)
-->setCellValue('H'.$cont,$temp2)
-->setCellValue('L'.$cont,$temp3)
-->setCellValue('P'.$cont,$temp4)
-->setCellValue('T'.$cont,$temp5)
-->setCellValue('X'.$cont,$temp6)
-->setCellValue('AB'.$cont,$temp7);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="Menu.xlsx"');

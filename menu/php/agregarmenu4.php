@@ -5,7 +5,7 @@ include '../../db/conexion.php';
 $nombre=$_POST['nombre'];
 
 $cont=0;
-$consulta = "SELECT idSUnidad,subUnidad FROM subunidad WHERE unidad = '$nombre' AND activo = 1 ";
+$consulta = "SELECT idSUnidad,subUnidad FROM subunidad WHERE unidad = '$nombre' ";
 $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 $cont++;

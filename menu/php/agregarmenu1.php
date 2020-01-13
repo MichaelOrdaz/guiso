@@ -9,10 +9,10 @@ $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 $cont++;
 if ($cont==1) {
-$json='{"idgrupo": "'.$columna['idGrupo'].'","descripcion": "'.$columna['descripcion'].'"}';
+$json='{"idGrupo": "'.$columna['idGrupo'].'","descripcion": "'.$columna['descripcion'].'"}';
 }
 if ($cont>1) {
-$json.=',{"idgrupo": "'.$columna['idGrupo'].'","descripcion": "'.$columna['descripcion'].'"}';
+$json.=',{"idGrupo": "'.$columna['idGrupo'].'","descripcion": "'.$columna['descripcion'].'"}';
 }
 }
 

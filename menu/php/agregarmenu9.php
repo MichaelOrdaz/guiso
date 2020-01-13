@@ -28,6 +28,8 @@ $viernes=$_POST['viernes'];
 $sabado=$_POST['sabado'];
 $domingo=$_POST['domingo'];
 
+$tiempos=$_POST['tiempos'];
+
 $idMenu=$anio."_".$semana."_".$cliente."_".$unidad."_".$subunidad."_".$grupo;
 
 //$sql = "INSERT INTO menu (idMenu,anio,semana) VALUES ('$idMenu','$anio','$semana')";
@@ -52,6 +54,7 @@ $fecharecetas = explode(",",$fecharecetas);
 $idrecetas = explode(",",$idrecetas);
 $cantidad = explode(",",$cantidad);
 $precio = explode(",",$precio);
+$tiempos = explode(",",$tiempos);
 
 for ($i=0;$i<count($fecharecetas);$i++){
 
@@ -61,7 +64,7 @@ while($columna=mysqli_fetch_array($resultado)){
 $nombre=$columna['nombre'];
 }
 
-$sql = "INSERT INTO menurec (idMenu,pos,receta,precio,personas,fecha) VALUES ('$idMenu','','$nombre','$precio[$i]','$cantidad[$i]','$fecharecetas[$i]')";
+$sql = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$idMenu','','$tiempos[$i]','$nombre','$precio[$i]','$cantidad[$i]','$fecharecetas[$i]')";
 mysqli_query($conexion,$sql);
 }
 
