@@ -603,7 +603,7 @@
 
       Swal.fire({
         title: 'Eliminar el Articulo',
-        text: '¿Desea eliminar al articulo ' + data.nombre + '?',
+        text: '¿Desea eliminar al articulo ' + data.nombre + '? Si lo elimina este desaparecera de todas las recetas a las que este presente',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

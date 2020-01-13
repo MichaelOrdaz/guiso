@@ -171,15 +171,36 @@ class Article{
 
   public function delCliente(){
     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El Articulo es desconocido o invalido') );
-    $r = $this->db->query("UPDATE articulo SET activo = '0', fechaMod = now() WHERE idArticulo = '{$id}'");
+    $r = $this->db->query("UPDATE articulo SET activo = '0', fechaMod = now(), idArticulo = '' WHERE idArticulo = '{$id}'");
 
     $this->db->affected_rows > 0 or die( toJson(0, 'El articulo solicitado no existe o no puedo eliminarse, por favor verifique') );
     
-    //desactivamos unidades y subunidades
-    // $r = $this->db->query("UPDATE unidad SET activo = 0, fecha = now() WHERE cliente = '{$id}'");
-    // $r = $this->db->query("UPDATE subunidad SET activo = 0, fecha = now() WHERE cliente = '{$id}'");
+    //si elimino un articulo debe desaparecer de la receta, pues asi lo hacemmos y actualizamos el costo de la receta
+    $this->actualizarCostoRecetas( $id );
 
     echo toJson(1, 'El articulo se elimino correctamente');
+  }
+
+
+    //actualiza el costo de las recetas cuando un articulo cambia de precio
+  public function actualizarCostoRecetas( $idArticulo ){
+
+    $sql = "SELECT re.idReceta, (SUM( reart.cantidad * art.costo ) / re.porciones) AS nuevoCosto, re.costo as costoReceta FROM receta AS re JOIN recetaart AS reart ON re.idReceta=reart.receta JOIN articulo AS art ON art.idArticulo=reart.articulo WHERE 1 AND re.idReceta IN ( SELECT re.idReceta FROM receta AS re JOIN recetaart AS reart ON re.idReceta=reart.receta WHERE reart.articulo = '{$idArticulo}' ) GROUP BY re.idReceta";
+    $r = $this->db->query($sql);
+
+    if( $this->db->affected_rows === 0 ){
+      return;//no hay datos asociados a recetas
+    }
+
+    while( $row = $r->fetch_object() ){
+      //por cada receta recalculamos el costo en el query y si el costo es diferente aplicamos un update
+      if( $row->costoReceta != $row->nuevoCosto ){//si el cossto que voy a actualizar es diferente al que tiene realizo el query
+        $sql = sprintf("UPDATE receta SET costo = '%01.2f', fechaMod = now() WHERE idReceta = '%s'", $row->nuevoCosto, $row->idReceta);
+        $this->db->query($sql);
+      }
+
+    }
+
   }
 
 
