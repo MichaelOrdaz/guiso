@@ -78,7 +78,6 @@ color: black;
                     </div>
                     <div class="col-md-3 col-sm-12">
                     <select class="form-control" id="subunidad" style="height: 28px;">
-                    <option disabled> -- Seleccione subunidad -- </option>
                     </select>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
@@ -171,6 +170,7 @@ color: black;
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr>
+                            <th style='color:#337ab7'>Tiempo</th>
                             <th style='color:#337ab7'>Lunes</th>
                             <th style='color:#337ab7'>Martes</th>
                             <th style='color:#337ab7'>Miercoles</th>
@@ -333,7 +333,6 @@ url : 'menu/php/agregarmenu3.php',
 data : {nombre:$('#cliente').val()},
 type : 'POST',
 dataType: 'json',
-async:false,
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
@@ -348,7 +347,6 @@ url : 'menu/php/agregarmenu4.php',
 data : {nombre:$('#unidad').val()},
 type : 'POST',
 dataType: 'json',
-async:false,
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
@@ -399,7 +397,6 @@ success:function(respuesta){
 vector=respuesta.split(",");
 $('#semana').val(vector[0]);
 $('#lapso').val(vector[1]);
-
 ano=vector[2];
 
 $.ajax({
@@ -431,14 +428,24 @@ $('#agregarmenu')[0].disabled=false;
 
 tabla="";
 cont=0;
+ContTiemp=0;
 
 for (i=0;i<tiemp;i++){
 tabla+="<tr>";
 
+ContTiemp=ContTiemp+1;
+tabla+=
+"<td style='height:24px;width:12.5%;'>"+
+"<label style='margin-right:40px;color:#337ab7;'>Tiempo</label>"+
+"<br>"+
+"<select style='width:100%;height:24px;' class='tiempos' id="+"clave"+ContTiemp+" required>"+
+"</select>"+
+"</td>";
+
 if (band1==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
@@ -455,13 +462,13 @@ tabla+=
 }
 if (band1==0){
 tabla+=
-"<td style='height:24px'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";      
 }
 
 if (band2==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
@@ -478,13 +485,13 @@ tabla+=
 }
 if (band2==0){
 tabla+=
-"<td style='height:24px'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";  
 }
 
 if (band3==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
@@ -501,13 +508,13 @@ tabla+=
 }
 if (band3==0){
 tabla+=
-"<td style='height:24px'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";     
 }
 
 if (band4==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7;'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;;color:#337ab7' class="+"id"+cont+" disabled>"+
@@ -524,13 +531,13 @@ tabla+=
 }
 if (band4==0){
 tabla+=
-"<td style='height:24px;width:14%;'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";    
 }
 
 if (band5==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
@@ -547,13 +554,13 @@ tabla+=
 }
 if (band5==0){
 tabla+=
-"<td style='height:24px'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";      
 }
 
 if (band6==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
@@ -570,13 +577,13 @@ tabla+=
 }
 if (band6==0){
 tabla+=
-"<td style='height:24px'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";      
 }
 
 if (band7==1){
 cont=cont+1;
 tabla+=
-"<td style='height:24px;width:14%;'>"+
+"<td style='height:24px;width:12.5%;'>"+
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
@@ -593,7 +600,7 @@ tabla+=
 }
 if (band7==0){
 tabla+=
-"<td style='height:24px'></td>";    
+"<td style='height:24px;width:12.5%;'></td>";   
 }
 
 tabla+="</tr>";
@@ -619,12 +626,29 @@ $('.receta2').html(nombre);
 },
 });
 
+$.ajax({
+url : 'menu/php/agregarmenu12.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+respuesta=JSON.parse(respuesta);
+temp="";
+$.each(respuesta,function(key,value){
+temp+="<option value="+value.idTiempo+">"+value.tiempo+"</option>";
+});
+$('.tiempos').html(temp);
+},
+});
+
 $('.receta1').on('input',function(){
 $.ajax({
 url : 'menu/php/agregarmenu8.php',
 data : {
 nombre:$(this).val(),
-id:$(this).attr('id')
+id:$(this).attr('id'),
+subunidad:$("#subunidad").children("option:selected").val()
 },
 type : 'POST',
 success:function(respuesta){
@@ -654,6 +678,7 @@ $("#form").on('submit',function(evt){
 evt.preventDefault();
 band=0;
 bandc=0;
+tiempos="";
 
 for (var i=1;i<=cont;i++){
 
@@ -687,6 +712,15 @@ precio+=','+$('.costo'+i).val();
 
 }
 
+for (var i=1;i<=ContTiemp;i++){
+if(i==1){
+tiempos=$('#clave'+i).val();
+}
+if(i>1){
+tiempos+=','+$('#clave'+i).val();
+}
+}
+
 for (var i=1;i<=cont;i++){
 if(i==1){
 costosunidad=Number($('.costo'+i).val())*Number($('.cantidad'+i).val());
@@ -703,7 +737,8 @@ for (var i=1;i<=cont;i++){
 $.ajax({
 url : 'menu/php/existe.php',
 data : {
-clave:$('#'+i).val()
+clave:$('#'+i).val().toUpperCase(),
+subunidad:$("#subunidad").children("option:selected").val()
 },
 type : 'POST',
 async:false,
@@ -766,8 +801,9 @@ bandf=1;
 }
 
 if(band==1){
-alert("receta no existe");
+alert("Receta no existe o no es de otra subunidad");
 }
+
 if((band==0)&&(bandf==0)&&(bandc==0)){
 $.ajax({
 url : 'menu/php/agregarmenu9.php',
@@ -792,7 +828,8 @@ miercoles:band3,
 jueves:band4,
 viernes:band5,
 sabado:band6,
-domingo:band7
+domingo:band7,
+tiempos:tiempos
 },
 success:function(respuesta){
 Swal.fire("Exito", 'Menu agregado correctamente', 'success');

@@ -33,16 +33,21 @@ grid-column: 1 / 2;
                     
                     <div class="row" style="margin-bottom: 5px;"> 
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*Semana:</label>
+                    <label style="color: #337ab7;">*Fecha:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input class="form-control" placeholder="" id="semana" style="height: 24px;" disabled>
+                    <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" style="height: 24px" id="fecha" autocomplete="off" readonly />
+                    <span class="input-group-addon" style="padding: 3px 16px;">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*Cliente:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="cliente" style="height: 28px;" disabled>
+                    <select class="form-control" id="cliente" style="height: 28px;" >
                     <option disabled selected></option>
                     </select>
                     </div>
@@ -61,13 +66,13 @@ grid-column: 1 / 2;
                     <label style="color: #337ab7;">*Año:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input class="form-control" placeholder="" id="lapso" style="height: 24px;" disabled>
+                    <input class="form-control" placeholder="" id="ano" style="height: 24px;" disabled>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*Unidad:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="unidad" style="height: 28px;" disabled>
+                    <select class="form-control" id="unidad" style="height: 28px;" >
                     <option disabled selected></option>
                     </select>
                     </div>
@@ -84,6 +89,34 @@ grid-column: 1 / 2;
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
+                    <label style="color: #337ab7;">*Semana:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                    <input class="form-control" placeholder="" id="semana" style="height: 24px;" disabled>
+                    </div>
+                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
+                    <label style="color: #337ab7;">*SubUnidad:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                    <select class="form-control" id="subunidad" style="height: 28px;" >
+                    <option disabled selected></option>
+                    </select>
+                    </div>
+                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
+                    <label style="color: #337ab7;">*Grupo:</labelp>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                    <select class="form-control" id="grupo" style="height: 28px;">
+                    <option disabled selected></option>
+                    </select>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <!-- /.col-lg-6 (nested) -->
+                    </div>
+
+
+                    <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*ID menu:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
@@ -91,22 +124,6 @@ grid-column: 1 / 2;
                     <datalist id="idmenu">
                     </datalist>
                     </div>
-                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*SubUnidad:</label>
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                    <input type="" class="form-control" id="subunidad" disabled>
-                    </div>
-                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*Grupo:</labelp>
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="grupo" style="height: 28px;" disabled>
-                    <option disabled selected></option>
-                    </select>
-                    </div>
-                    <!-- /.col-lg-6 (nested) -->
-                    <!-- /.col-lg-6 (nested) -->
                     </div>
 
 
@@ -163,6 +180,7 @@ grid-column: 1 / 2;
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr>
+                            <th style='color:#337ab7'>Tiempo</th>
                             <th style='color:#337ab7'>Lunes</th>
                             <th style='color:#337ab7'>Martes</th>
                             <th style='color:#337ab7'>Miercoles</th>
@@ -191,6 +209,26 @@ grid-column: 1 / 2;
 
 temp=0;
 
+id="";
+idMenu="";
+semana="";
+numTiempos="";
+lapso="";
+elaboro="";
+descripcion="";
+cliente="";
+unidad="";
+subunidad="";
+costo="";
+
+(function(){
+$('#datetimepicker1').datepicker({
+format: "dd-mm-yyyy",
+language: 'es',
+autoclose: true,
+});
+})();
+
 $.ajax({
 url : 'menu/php/imprimirmenu.php',
 data : {},
@@ -206,10 +244,7 @@ allowOutsideClick: false,
 allowEscapeKey: false
 });
 },
-success:function(respuesta){
-
-console.log(respuesta);
-
+success:function(respuesta){  
 Swal.close();
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
@@ -221,18 +256,121 @@ $('#idmenu').html(tabla);
 },
 });
 
-idMenu="";
-semana="";
-numTiempos="";
-lapso="";
-elaboro="";
-descripcion="";
-cliente="";
+$.ajax({
+url : 'menu/php/agregarmenu1.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
 unidad="";
-subunidad="";
-costo="";
+unidad+="<option disabled selected> -- Selecione grupo -- </option>";
+$.each(res,function(key,value){
+grupo+="<option value="+value.idGrupo+">"+value.descripcion+"</option>";
+});
+$('#grupo').html(grupo);
+},
+});
+
+$.ajax({
+url : 'menu/php/agregarmenu2.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+unidad+="<option disabled selected> -- Selecione Cliente -- </option>";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idcliente+">"+value.nombre+"</option>";
+});
+$('#cliente').html(unidad);
+},
+});
+
+$('#cliente').on('change',function(){
+
+$.ajax({
+url : 'menu/php/agregarmenu3.php',
+data : {nombre:$('#cliente').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idunidad+">"+value.unidad+"</option>";
+});
+$('#unidad').html(unidad);
+
+$.ajax({
+url : 'menu/php/agregarmenu4.php',
+data : {nombre:$('#unidad').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#agregar').click();
+},
+});
+
+},
+});
+});
+
+$('#unidad').on('change',function(){
+$.ajax({
+url : 'menu/php/agregarmenu4.php',
+data : {nombre:$('#unidad').val()},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#agregar').click();
+},
+});
+});
+
+$('#subunidad').on('change',function(){
+$('#agregar').click();
+});
+
+$('#fecha').on('change',function(){
+fecha=$('#fecha').val();
+$.ajax({
+url : 'menu/php/agregarmenu5.php',
+data : {semana:$('#fecha').val()},
+type : 'POST',
+success:function(respuesta){
+vector=respuesta.split(",");
+$('#semana').val(vector[0]);
+$('#ano').val(vector[2]);
+id=vector[2]+"_"+vector[0]+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+},
+});
+});
 
 $('#idm').on('input',function(){
+
 $.ajax({
 url : 'menu/php/consultarmenu2.php',
 data : {idmenu:$('#idm').val()},
@@ -295,7 +433,37 @@ resjueves=value.jueves.split(",");
 resviernes=value.viernes.split(",");
 ressabado=value.sabado.split(",");
 resdomingo=value.domingo.split(",");
+
 tabla+="<tr>";
+
+if (reslunes[5]!=undefined){
+temporal=reslunes[5];
+}
+if (resmartes[5]!=undefined){
+temporal=resmartes[5];
+}
+if (resmiercoles[5]!=undefined){
+temporal=resmiercoles[5];
+}
+if (resjueves[5]!=undefined){
+temporal=resjueves[5];
+}
+if (resviernes[5]!=undefined){
+temporal=resviernes[5];
+}
+if (ressabado[5]!=undefined){
+temporal=ressabado[5];
+}
+if (resdomingo[5]!=undefined){
+temporal=resdomingo[5];
+}
+
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div>"+temporal+"</div>"+
+"</div>"+
+"</td>";
+
 if(reslunes[0]!=""){
 tabla+="<td style='color:#337ab7;width:14%;'>"+
 "<div class='grid-container'>"+
@@ -461,7 +629,6 @@ window.open('menu/php/menuexcel.php?semana='+semana+'&numTiempos='+numTiempos+'&
                                            '&descripcion='+descripcion+'&costoTot='+costoTot);
 },
 });
-
 });
 
 </script>
