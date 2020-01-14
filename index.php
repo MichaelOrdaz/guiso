@@ -247,6 +247,30 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                 </li> -->
               </ul>
             </li>
+  
+            <li>
+              <a href="javascript://"><i class="fa fa-cutlery fa-fw"></i> Menú M <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li>
+                  <a href="menus/view/agregar.php" class="ajaxLink">Agregar menú</a>
+                </li>
+                <?php if( $allowed ): ?>
+                <li>
+                  <a href="menu/view/eliminarmenu.php" class="ajaxLink">Eliminar menú</a>
+                </li>
+                <?php endif; ?>
+                <li>
+                  <a href="menu/view/consultarmenu.php" class="ajaxLink">Consultar menú</a>
+                </li>
+                <li>
+                  <a href="menu/view/modificarmenu.php" class="ajaxLink">Modificar menú</a>
+                </li>
+                <li>
+                  <a href="menu/view/copiarmenu.php" class="ajaxLink">Copiar de menú</a>
+                </li>
+              </ul>
+            </li>
+
             <!-- Explosion -->
             <li>
               <a href="javascript://"><i class="fa fa-bar-chart-o fa-fw"></i> Explosión de materiales<span class="fa arrow"></span></a>
