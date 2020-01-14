@@ -120,7 +120,7 @@ grid-column: 1 / 2;
                     <label style="color: #337ab7;">*ID menu:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input list="idmenu" class="form-control" id="idm" placeholder=" -- Seleccione menu --" autocomplete="off" style="height: 28px;">
+                    <input list="idmenu" class="form-control" id="idm" autocomplete="off" readonly placeholder=" -- Seleccione menu --" autocomplete="off" style="height: 28px;">
                     <datalist id="idmenu">
                     </datalist>
                     </div>
@@ -327,7 +327,7 @@ $('#subunidad').html(unidad);
 $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
-$('#idm').val(id);
+$("#idm").removeAttr("readonly");
 buscar();
 }
 },
@@ -355,6 +355,7 @@ $('#subunidad').html(unidad);
 $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
 $('#idm').val(id);
 buscar();
 }
@@ -366,6 +367,7 @@ $('#subunidad').on('change',function(){
 $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
 $('#idm').val(id);
 buscar();
 }
@@ -375,6 +377,7 @@ $('#grupo').on('change',function(){
 $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
 $('#idm').val(id);
 buscar();
 }
@@ -394,6 +397,7 @@ semana=vector[0];
 ano=vector[2];
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
 $('#idm').val(id);
 buscar();
 }
@@ -417,27 +421,11 @@ respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 $.each(res,function(key,value){
 
-idMenu=$('#idm').val();
-semana=value.semana;
-numTiempos=value.numTiempos;
-lapso=value.lapso;
-elaboro=value.elaboro;
-descripcion=value.descripcion;
-cliente=value.nombre;
-unidad=value.unidad;
-subunidad=value.subUnidad;
-costoTot=value.costoTot;
-
-$('#semana').val(value.semana);
+$('#elaboro').val(value.elaboro);
+$('#costo').val(value.costoTot);
 $('#tiem').html("<option>"+value.numTiempos+"</option>");
 temp=value.numTiempos;
-$('#lapso').val(value.lapso);
-$('#elaboro').val(value.elaboro);
-$('#grupo').html("<option>"+value.descripcion+"</option>");
-$('#cliente').html("<option>"+value.nombre+"</option>");
-$('#unidad').html("<option>"+value.unidad+"</option>");
-$('#subunidad').val(value.subUnidad);
-$('#costo').val(value.costoTot);
+
 });
 
 $.ajax({
@@ -494,14 +482,14 @@ if (resdomingo[5]!=undefined){
 temporal=resdomingo[5];
 }
 
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div>"+temporal+"</div>"+
 "</div>"+
 "</td>";
 
 if(reslunes[0]!=""){
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div class='item7' id='it7'>ID</div>"+
 "<div class='item6' id='it6'>"+reslunes[3]+"</div>"+
@@ -516,13 +504,13 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(reslunes[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(reslunes[0]!=""){
 $('#checkbox1').attr('checked', true);
 }
 if(resmartes[0]!=""){
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div class='item1' id='it1'>"+resmartes[0]+"</div>"+
 "<div class='item7' id='it7'>ID</div>"+
@@ -537,13 +525,13 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(resmartes[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(resmartes[0]!=""){
 $('#checkbox2').attr('checked', true);
 }
 if(resmiercoles[0]!=""){
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div class='item1' id='it1'>"+resmiercoles[0]+"</div>"+
 "<div class='item7' id='it7'>ID</div>"+
@@ -558,13 +546,13 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(resmiercoles[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(resmiercoles[0]!=""){
 $('#checkbox3').attr('checked', true);
 }
 if(resjueves[0]!=""){
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div class='item1' id='it1'>"+resjueves[0]+"</div>"+
 "<div class='item7' id='it7'>ID</div>"+
@@ -579,13 +567,13 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(resjueves[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(resjueves[0]!=""){
 $('#checkbox4').attr('checked', true);
 }
 if(resviernes[0]!=""){
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div class='item1' id='it1'>"+resviernes[0]+"</div>"+
 "<div class='item7' id='it7'>ID</div>"+
@@ -600,7 +588,7 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(resviernes[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(resviernes[0]!=""){
 $('#checkbox5').attr('checked', true);
@@ -621,13 +609,13 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(ressabado[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(ressabado[0]!=""){
 $('#checkbox6').attr('checked', true);
 }
 if(resdomingo[0]!=""){
-tabla+="<td style='color:#337ab7;width:14%;'>"+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div class='item1' id='it1'>"+resdomingo[0]+"</div>"+
 "<div class='item7' id='it7'>ID</div>"+
@@ -641,7 +629,7 @@ tabla+="<td style='color:#337ab7;width:14%;'>"+
 "</td>";
 }
 if(resdomingo[0]==""){
-tabla+="<td style='width:14%;'></td>";
+tabla+="<td style='width:12.5%;'></td>";
 }
 if(resdomingo[0]!=""){
 $('#checkbox7').attr('checked', true);

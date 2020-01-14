@@ -449,7 +449,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -472,7 +472,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -495,7 +495,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+"></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -518,7 +518,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7;'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;;color:#337ab7' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+"></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -541,7 +541,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7;x' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7;x' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -564,7 +564,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -587,7 +587,7 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+cont+" autocomplete='off' required>"+
+"<input list='browsers' style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
 "<datalist id='browsers' class="+"receta"+ContTiemp+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
@@ -648,11 +648,12 @@ $('.receta'+tiempo).html(nombre);
 });
 
 $('.receta1').on('input',function(){
+res = $(this).attr('id').replace("_","");
 $.ajax({
 url : 'menu/php/agregarmenu8.php',
 data : {
 nombre:$(this).val(),
-id:$(this).attr('id'),
+id:res,
 subunidad:$("#subunidad").children("option:selected").val()
 },
 type : 'POST',
@@ -717,12 +718,12 @@ precio+=','+$('.costo'+i).val();
 
 }
 
-for (var i=1;i<=ContTiemp;i++){
+for (var i=1;i<=tiemp;i++){
 if(i==1){
-tiempos=$('#clave'+i).val();
+tiempos=$('#'+i).val();
 }
-if(i>1){
-tiempos+=','+$('#clave'+i).val();
+if(i>i){
+tiempos+=","+$('#'+i).val();
 }
 }
 
@@ -805,11 +806,11 @@ alert("Seleccione un dia ");
 bandf=1;
 }
 
-if(band==1){
-alert("Receta no existe o no es de otra subunidad");
-}
+// if(band==1){
+// alert("Receta no existe o no es de otra subunidad");
+// }
 
-if((band==0)&&(bandf==0)&&(bandc==0)){
+if((bandf==0)&&(bandc==0)){
 $.ajax({
 url : 'menu/php/agregarmenu9.php',
 type : 'POST',

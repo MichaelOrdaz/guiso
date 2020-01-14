@@ -64,8 +64,9 @@ while($columna=mysqli_fetch_array($resultado)){
 $nombre=$columna['nombre'];
 }
 
-$sql = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$idMenu','','$tiempos[$i]','$nombre','$precio[$i]','$cantidad[$i]','$fecharecetas[$i]')";
-mysqli_query($conexion,$sql);
+$sql1 = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$idMenu','','$tiempos[$i]','$nombre','$precio[$i]','$cantidad[$i]','$fecharecetas[$i]')";
+mysqli_query($conexion,$sql1);
+
 }
 
 ?>

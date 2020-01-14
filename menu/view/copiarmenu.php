@@ -14,16 +14,21 @@ color: black;
                     
                     <div class="row" style="margin-bottom: 5px;"> 
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*Semana:</label>
+                    <label style="color: #337ab7;">*Fecha:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input class="form-control" placeholder="" id="semana" style="height: 24px;" disabled>
+                    <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" style="height: 24px" id="fecha" autocomplete="off" readonly />
+                    <span class="input-group-addon" style="padding: 3px 16px;">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*Cliente:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="cliente" style="height: 28px;" disabled>
+                    <select class="form-control" id="cliente" style="height: 28px;" >
                     <option disabled selected></option>
                     </select>
                     </div>
@@ -42,13 +47,13 @@ color: black;
                     <label style="color: #337ab7;">*Año:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input class="form-control" placeholder="" id="lapso" style="height: 24px;" disabled>
+                    <input class="form-control" placeholder="" id="ano" style="height: 24px;" disabled>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*Unidad:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="unidad" style="height: 28px;" disabled>
+                    <select class="form-control" id="unidad" style="height: 28px;">
                     <option disabled selected></option>
                     </select>
                     </div>
@@ -65,24 +70,24 @@ color: black;
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*ID menu:</label>
+                    <label style="color: #337ab7;">*Semana:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input list="idmenu" class="form-control" id="idm" placeholder=" -- Seleccione menu --" style="height: 28px;">
-                    <datalist id="idmenu">
-                    </datalist>
+                    <input class="form-control" placeholder="" id="semana" style="height: 24px;" disabled>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*SubUnidad:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input type="" class="form-control" id="subunidad" disabled>
+                    <select class="form-control" id="subunidad" style="height: 28px;" >
+                    <option disabled selected></option>
+                    </select>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*Grupo:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="grupo" style="height: 28px;" disabled>
+                    <select class="form-control" id="grupo" style="height: 28px;" >
                     <option disabled selected></option>
                     </select>
                     </div>
@@ -90,6 +95,16 @@ color: black;
                     <!-- /.col-lg-6 (nested) -->
                     </div>
 
+                    <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
+                    <label style="color: #337ab7;">*ID menu:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                    <input list="idMenu" class="form-control" id="idm" placeholder=" -- Seleccione menu --" autocomplete="off" style="height: 28px;">
+                    <datalist id="idMenu">
+                    </datalist>
+                    </div>
+                    </div>
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
@@ -103,19 +118,19 @@ color: black;
                     <div class="col-md-5 col-sm-12" style='color:#337ab7;'>
                     <label style="color: #337ab7;margin-right: 8px;">*dias:</label>
                     lunes
-                    <input type="checkbox" name=""  id="checkbox1" disabled>
+                    <input type="checkbox" name=""  id="checkbox1" >
                     martes
-                    <input type="checkbox" name=""  id="checkbox2" disabled>
+                    <input type="checkbox" name=""  id="checkbox2" >
                     miercoles
-                    <input type="checkbox" name=""  id="checkbox3" disabled>
+                    <input type="checkbox" name=""  id="checkbox3" >
                     jueves
-                    <input type="checkbox" name=""  id="checkbox4" disabled>
+                    <input type="checkbox" name=""  id="checkbox4" >
                     viernes
-                    <input type="checkbox" name=""  id="checkbox5" disabled>
+                    <input type="checkbox" name=""  id="checkbox5" >
                     sabando
-                    <input type="checkbox" name=""  id="checkbox6" disabled>
+                    <input type="checkbox" name=""  id="checkbox6" >
                     domingo
-                    <input type="checkbox" name=""  id="checkbox7" disabled>
+                    <input type="checkbox" name=""  id="checkbox7" >
                     </div>
                     <div class="col-md-2 col-sm-12">
                     <button type="submit" class="btn btn-default" style="color: #337ab7;height: 32px;" id="agregar">Agregar Tiempo</button>
@@ -144,6 +159,7 @@ color: black;
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr>
+                            <th style='color:#337ab7'>Tiempo</th>
                             <th style='color:#337ab7'>Lunes</th>
                             <th style='color:#337ab7'>Martes</th>
                             <th style='color:#337ab7'>Miercoles</th>
@@ -168,11 +184,16 @@ color: black;
 
 <script>
 
-
-temp=0;
+(function(){
+$('#datetimepicker1').datepicker({
+format: "dd-mm-yyyy",
+language: 'es',
+autoclose: true,
+});
+})();
 
 $.ajax({
-url : 'menu/php/imprimirmenu.php',
+url : 'menu/php/imprimirmenu2.php',
 data : {},
 type : 'POST',
 dataType: 'json',
@@ -190,89 +211,442 @@ success:function(respuesta){
 Swal.close();
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
-tabla="";
+tabla1="";
 $.each(res,function(key,value){
-tabla+="<option>"+value.idMenu+"</option>";
+tabla1+="<option>"+value.idMenu+"</option>";
 });
-$('#idmenu').html(tabla);
+$('#idMenu').html(tabla1);
 },
 });
 
+$.ajax({
+url : 'menu/php/agregarmenu1.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+grupo="";
+grupo+="<option disabled selected> -- Selecione grupo -- </option>";
+$.each(res,function(key,value){
+grupo+="<option value="+value.idGrupo+">"+value.descripcion+"</option>";
+});
+$('#grupo').html(grupo);
+},
+});
+
+$.ajax({
+url : 'menu/php/agregarmenu2.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+unidad+="<option disabled selected> -- Selecione Cliente -- </option>";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idcliente+">"+value.nombre+"</option>";
+});
+$('#cliente').html(unidad);
+},
+});
+
+$('#cliente').on('change',function(){
+
+$.ajax({
+url : 'menu/php/agregarmenu3.php',
+data : {nombre:$('#cliente').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idunidad+">"+value.unidad+"</option>";
+});
+$('#unidad').html(unidad);
+
+$.ajax({
+url : 'menu/php/agregarmenu4.php',
+data : {nombre:$('#unidad').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
+},
+});
+
+},
+});
+});
+
+$('#unidad').on('change',function(){
+$.ajax({
+url : 'menu/php/agregarmenu4.php',
+data : {nombre:$('#unidad').val()},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
+},
+});
+});
+
+$('#subunidad').on('change',function(){
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
+});
+
+$('#grupo').on('change',function(){
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
+});
+
+$('#fecha').on('change',function(){
+fecha=$('#fecha').val();
+$.ajax({
+url : 'menu/php/agregarmenu5.php',
+data : {semana:$('#fecha').val()},
+type : 'POST',
+success:function(respuesta){
+vector=respuesta.split(",");
+$('#semana').val(vector[0]);
+$('#ano').val(vector[2]);
+semana=vector[0];
+ano=vector[2];
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$('#idm').val(id);
+buscar();
+}
+},
+});
+});
 
 $('#idm').on('input',function(){
+
 $.ajax({
-url : 'menu/php/consultarmenu2.php',
+url : 'menu/php/modificarmenu.php',
 data : {idmenu:$('#idm').val()},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
+
+$('#checkbox1').attr('checked', false);
+$('#checkbox2').attr('checked', false);
+$('#checkbox3').attr('checked', false);
+$('#checkbox4').attr('checked', false);
+$('#checkbox5').attr('checked', false);
+$('#checkbox6').attr('checked', false);
+$('#checkbox7').attr('checked', false);
+
 $.each(res,function(key,value){
-$('#semana').val(value.semana);
-$('#tiem').html("<option>"+value.numTiempos+"</option>");
-temp=value.numTiempos;
-$('#lapso').val(value.lapso);
-$('#elaboro').val(value.elaboro);
-$('#grupo').html("<option>"+value.descripcion+"</option>");
-$('#cliente').html("<option>"+value.nombre+"</option>");
-$('#unidad').html("<option>"+value.unidad+"</option>");
-$('#subunidad').val(value.subUnidad);
-$('#costo').val(value.costoTot);
+
+idsubunidad=value.idsubunidad;
+lapsoi=value.lapsoi;
+lapso=value.lapso;
+res=lapso.split(",");
+lapsolunes=res[1];
+lapsomartes=res[2];
+lapsomiercoles=res[3];
+lapsojueves=res[4];
+lapsoviernes=res[5];
+lapsosabado=res[6];
+lapsodomingo=res[7];
+lunes=value.lunes;
+martes=value.martes;
+miercoles=value.miercoles;
+jueves=value.jueves;
+viernes=value.viernes;
+sabado=value.sabado;
+domingo=value.domingo;
+
+if(lunes==1){
+$('#checkbox1').attr('checked', true);
+}
+if(martes==1){
+$('#checkbox2').attr('checked', true);
+}
+if(miercoles==1){
+$('#checkbox3').attr('checked', true);
+}
+if(jueves==1){
+$('#checkbox4').attr('checked', true);
+}
+if(viernes==1){
+$('#checkbox5').attr('checked', true);
+}
+if(sabado==1){
+$('#checkbox6').attr('checked', true);
+}
+if(domingo==1){
+$('#checkbox7').attr('checked', true);
+}
+
 });
 
 $.ajax({
-url : 'menu/php/consultarmenu3.php',
-data : {
-idmenu:$('#idm').val(),
-tiem:temp
-},
+url : 'menu/php/modificarmenu1.php',
+data : {idmenu:$('#idm').val()},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 tabla="";
+cont=0;
 $.each(res,function(key,value){
+
 tabla+="<tr>";
-tabla+="<td style='color:#337ab7'>"+value.lunes+"</td>";
-if(value.lunes!=""){
-$('#checkbox1').attr('checked', true);
+
+reslunes=value.lunes;
+reslunes=reslunes.split(",");
+resmartes=value.martes;
+resmartes=resmartes.split(",");
+resmiercoles=value.miercoles;
+resmiercoles=resmiercoles.split(",");
+resjueves=value.jueves;
+resjueves=resjueves.split(",");
+resviernes=value.viernes;
+resviernes=resviernes.split(",");
+ressabado=value.sabado;
+ressabado=ressabado.split(",");
+resdomingo=value.domingo;
+resdomingo=resdomingo.split(",");
+
+if (reslunes[3]!=undefined){
+temporal=reslunes[3];
 }
-tabla+="<td style='color:#337ab7'>"+value.martes+"</td>";
-if(value.martes!=""){
-$('#checkbox2').attr('checked', true);
+if (resmartes[3]!=undefined){
+temporal=resmartes[3];
 }
-tabla+="<td style='color:#337ab7'>"+value.miercoles+"</td>";
-if(value.miercoles!=""){
-$('#checkbox3').attr('checked', true);
+if (resmiercoles[3]!=undefined){
+temporal=resmiercoles[3];
 }
-tabla+="<td style='color:#337ab7'>"+value.jueves+"</td>";
-if(value.jueves!=""){
-$('#checkbox4').attr('checked', true);
+if (resjueves[3]!=undefined){
+temporal=resjueves[3];
 }
-tabla+="<td style='color:#337ab7'>"+value.viernes+"</td>";
-if(value.viernes!=""){
-$('#checkbox5').attr('checked', true);
+if (resviernes[3]!=undefined){
+temporal=resviernes[3];
 }
-tabla+="<td style='color:#337ab7'>"+value.sabado+"</td>";
-if(value.sabado!=""){
-$('#checkbox6').attr('checked', true);
+if (ressabado[3]!=undefined){
+temporal=ressabado[3];
 }
-tabla+="<td style='color:#337ab7'>"+value.domingo+"</td>";
-if(value.domingo!=""){
-$('#checkbox7').attr('checked', true);
+if (resdomingo[3]!=undefined){
+temporal=resdomingo[3];
+}
+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div>"+temporal+"</div>"+
+"</div>"+
+"</td>";
+
+if(lunes==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+reslunes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+reslunes[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+reslunes[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(lunes==0){
+tabla+="<td style='height:24px'></td>";    
+}
+if(martes==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resmartes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+resmartes[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+resmartes[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsomartes+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(martes==0){
+tabla+="<td style='height:24px'></td>";    
+}
+if(miercoles==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resmiercoles[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+resmiercoles[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+resmiercoles[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsomiercoles+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(miercoles==0){
+tabla+="<td style='height:24px'></td>";    
+}
+if(jueves==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resjueves[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+resjueves[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+resjueves[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsojueves+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(jueves==0){
+tabla+="<td style='height:24px'></td>";    
+}
+if(viernes==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resviernes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+resviernes[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+resviernes[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsoviernes+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(viernes==0){
+tabla+="<td style='height:24px'></td>";    
+}
+if(sabado==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+ressabado[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+ressabado[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+ressabado[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsosabado+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(sabado==0){
+tabla+="<td style='height:24px'></td>";    
+}
+if(domingo==1){
+cont=cont+1;
+tabla+=
+"<td style='height:24px;color:#337ab7;width:14%;'>"+
+"Receta"+
+"<br>"+
+"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resdomingo[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id='browsers' class='recetasg'></datalist>"+
+"<br>"+
+"<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
+"<br>"+
+"<input style='width:65px;background-color:white;margin-bottom:5px' value='"+resdomingo[1]+"' id="+"precior"+cont+" disabled>"+
+"<input style='width:65px' value='"+resdomingo[2]+"' id="+"personas"+cont+" required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<br>"+
+"Fecha"+
+"<br>"+
+//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"</td>";
+}
+if(domingo==0){
+tabla+="<td style='height:24px'></td>";    
 }
 tabla+="</tr>";
 });
+
 $('#tabla').html(tabla);
-},
-});
 
 },
 });
+
+},
 });
 
-
+});
 
 </script>
