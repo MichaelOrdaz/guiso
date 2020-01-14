@@ -17,11 +17,11 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Seleccione la semana </label>
-                <div class="input-group datepicker">
+                <label> Seleccione la semana * </label>
+                <div class="input-group date datepicker">
                   <input type="text" class="form-control" name="week" readonly placeholder="Seleccione la semana" />
                   <div class="input-group-addon">
-                    <span class="glyphicon glyphicon-th"></span>
+                    <span class="fa fa-calendar"></span>
                   </div>
                 </div>
               </div>
@@ -30,66 +30,87 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Fechas * </label>
+                <input type="text" name="rango" class="form-control" placeholder="Rango de la semana" required readonly />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Costo Total del Menú </label>
+                <input type="number" name="costo" class="form-control" placeholder="Costo por el Menú" required min="0" step="0.01" readonly />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Cliente *</label>
+                <select name="cliente" class="form-control" required >
+                  <option value="" selected>Seleccione un Cliente</option>
+                </select>
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Unidad *</label>
+                <select name="unidad" class="form-control" required >
+                  <option value="" selected>Seleccione una unidad</option>
+                </select>
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Subunidad *</label>
+                <select name="subunidad" class="form-control" required >
+                  <option value="" selected>Seleccione una Subunidad</option>
+                </select>
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> No. de Tiempos *</label>
+                <input type="number" name="tiempos" class="form-control" placeholder="Ingrese el numero de tiempos que tendra el menú" required min="1" max="15" />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Grupo del Menú*</label>
+                <select name="grupo" class="form-control" required >
+                  <option value="" selected>Seleccione un grupo</option>
+                </select>
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label for="nombre"> Nombre del Grupo </label>
-                <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del grupo" required maxlength="150" />
+                <label> Elaboro * </label>
+                <input type="text" name="elaboro" class="form-control" placeholder="Ingrese el nombre del responsable" required maxlength="150" />
               </div>
             </div>
           
           </div>
 
           <div class="row">
+            <div class="col-xs-12">
+              <p>Dias del Menú *</p>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="1">Lunes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="2">Martes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="3">Miercoles</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="4">Jueves</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="5">Viernes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="6">Sabado</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="7">Domingo</label>
+            </div>
+          </div>
+
+          <div class="row mt-1">
             
-            <div class="col-sm-4 text-center">
-              <button type="submit" class="btn btn-primary"> Guardar Grupo </button>
+            <div class="col-xs-12 text-center">
+              <button type="submit" class="btn btn-primary"> Crear Cuerpo del Menú </button>
             </div>
 
           </div>
@@ -97,25 +118,17 @@
         </form>
 
         <hr />
-        
-        <h4 class="text-muted">Lista de Grupos</h4>
 
 
-        <div class="table-responsive">
-            
-          <table class="table table-condensed table-bordered" id="tabla_base">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Creado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-
-        </div>
+        <div class="row">
           
+          <div class="col-xs-12">
+            
+
+
+          </div>
+
+        </div>    
         
       </div>
     
@@ -127,235 +140,68 @@
 
 </div>
 
+<script src="menus/js/controlSelects.js"></script>
 <script>
   
 (function(){
 
-
-  $('.datepicker').datepicker({
-    format: "yyyy-mm-dd",
-    language: 'es',
-    autoclose: true,
-    // endDate: '0d',
-  });
-
-  // form_fechas.addEventListener('submit', function(ev){
-  //   if( this.start.value === '' || this.end.value === '' ){
-  //     ev.preventDefault();
-  //     Swal.fire('Las Fechas son requeridas', '', 'info');
-  //   }
-  // });
 
   var _ = document;
   var $$ = _.querySelector.bind(_);
 
   var form = _.formBase;
 
-  var insertBase = function(ev){
+
+  var insertMenu = function(ev){
     if(ev) ev.preventDefault();
 
-    let value = this.nombre.value.trim();
-
-    if( value.length === 0 ){
-      Swal.fire("Error", 'El nombre para el grupo es requerido', 'warning');
+    if( this.week.value === '' ){
+      Swal.fire('Las Semana es requerida', '', 'info');
       return;
     }
 
-    Swal.fire({
-      title: 'Agregar Grupo',
-      text: '¿Desea agregar el grupo ' + value + '?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, agregar'
-    }).then((result) => {
+    if( this.cliente.value === '' ){
+      Swal.fire("Error", 'El Cliente es requerido', 'warning');
+      return;
+    }
 
-      if (result.value) {
-        let data = $(this).serializeArray();
-        data.push({name: 'method', value: 'addBase'});
+    if( this.unidad.value === '' ){
+      Swal.fire("Error", 'La unidad es requerida', 'warning');
+      return;
+    }
 
-        $.ajax({
-          url: 'grupos/php/Grupos.php',
-          type: 'POST',
-          dataType: 'json',
-          data: data,
-          beforeSend: ()=>{
-            Swal.fire({
-              title: 'Guardando',
-              onOpen: ()=>{
-                Swal.showLoading()
-              },
-              allowOutsideClick: false,
-              allowEscapeKey: false
-            });
-          }
-        })
-        .done((response)=>{
-          if( response.status === 1 ){
-            Swal.fire('Exito', response.msg, 'success');
-            oTable.ajax.reload();//recargamos la tabla
-            this.reset();//limpiamos el formukario
-          }
-          else{
-            Swal.fire('Error', response.msg, 'error');
-          }
-        })
-        .fail(()=> {
-          Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
-        });
-        
-      }
+    if( this.subunidad.value === '' ){
+      Swal.fire("Error", 'La subunidad es requerida', 'warning');
+      return;
+    }
 
-    });
+    let tiempos = this.tiempos.valueAsNumber;
+    console.log(tiempos);
+    if( tiempos < 1 || tiempos > 15 ){
+      Swal.fire("Error", 'El tiempo es requerido y debe estar entre 1 y 15', 'warning');
+      return;
+    }
 
+    if( this.grupo.value === '' ){
+      Swal.fire("Error", 'El grupo es requerido', 'warning');
+      return;
+    }
+
+    //seleccionar por lo menos un check box de dias
+    if( this.querySelector('[name="dias[]"]:checked') === null ){
+      Swal.fire("Error", 'Debe seleccionar al menos un dia para crear el menu', 'warning');
+      return;
+    }
+
+    Swal.fire('Todo correcto')
 
   }
 
-  form.addEventListener('submit', insertBase);
-
-
-  var oTable = $("#tabla_base").DataTable({
-    order: [ [0, 'asc'] ],
-    ajax: {
-      url: "grupos/php/Grupos.php",
-      type: 'POST',
-      data: d=>{
-        d.method = 'getBases';
-      },
-      dataSrc: ''
-    },
-    columns: [
-      {data: 'descripcion', defaultContent: ''},
-      {data: 'fecha', defaultContent: ''},
-      {data: null, defaultContent: `
-        <button type="button" class="btn btn-info btn-xs edit" title="Modificar"> <i class="fa fa-edit"></i> </button>
-        <button type="button" class="btn btn-danger btn-xs del" title="eliminar"> <i class="fa fa-times"></i> </button>
-      `},
-    ]
-
-  });
-
-
-  $("#tabla_base").on('click', 'button', function(ev){
-
-    let data = oTable.row( $(this).parents('tr').eq(0) ).data();
-    console.log(data);
-
-    if( this.classList.contains('edit') ){
-
-      Swal.fire({
-        title: 'Modificar Grupo',
-        text: 'ingrese el nombre del grupo',
-        input: 'text',
-        inputValue: data.descripcion,
-        showCancelButton: true,
-        inputAttributes: {
-          maxlength: 150,
-        },
-        inputPlaceholder: 'Nuevo nombre del grupo',
-        inputValidator: (value) => {
-          if (!value) {
-            return 'El nombre no puede estar vacio'
-          }
-        }
-      }).then( r=>{
-
-        if(r.value){
-
-          $.ajax({
-            url: 'grupos/php/Grupos.php',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              method: 'editBase',
-              nombre: r.value,
-              id: data.idGrupo
-            },
-            beforeSend: ()=>{
-              Swal.fire({
-                title: 'Guardando',
-                onOpen: ()=>{
-                  Swal.showLoading()
-                },
-                allowOutsideClick: false,
-                allowEscapeKey: false
-              });
-            }
-          })
-          .done((response)=>{
-            if( response.status === 1 ){
-              Swal.fire('Exito', response.msg, 'success');
-              oTable.ajax.reload();//recargamos la tabla
-            }
-            else{
-              Swal.fire('Error', response.msg, 'error');
-            }
-          })
-          .fail(()=> {
-            Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
-          });
-
-        }
-
-      } );
-
-
-    }
-    else if( this.classList.contains('del') ){
-
-      Swal.fire({
-        title: 'Eliminar el grupo',
-        text: '¿Desea eliminar el grupo ' + data.descripcion + '?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar'
-      }).then((result) => {
-
-        if (result.value) {
-
-          $.ajax({
-            url: 'grupos/php/Grupos.php',
-            type: 'POST',
-            dataType: 'json',
-            data: {method: 'delBase', id: data.idGrupo},
-            beforeSend: ()=>{
-              Swal.fire({
-                title: 'Eliminando',
-                onOpen: ()=>{
-                  Swal.showLoading()
-                },
-                allowOutsideClick: false,
-                allowEscapeKey: false
-              });
-            }
-          })
-          .done((response)=>{
-            if( response.status === 1 ){
-              Swal.fire('Exito', response.msg, 'success');
-              oTable.ajax.reload();//recargamos la tabla
-            }
-            else{
-              Swal.fire('Error', response.msg, 'error');
-            }
-          })
-          .fail(()=> {
-            Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
-          });
-          
-        }
-
-      });
-
-    }
-
-
-
-  });
+  form.addEventListener('submit', insertMenu);
 
 
 })();
+
+
 
 </script>
