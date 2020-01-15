@@ -20,7 +20,7 @@
       start = date.startOf('week').format('YYYY-MM-DD'),
       end = date.endOf('week').format('YYYY-MM-DD');
 
-    form.week.value = week;
+    form.semana.value = week;
     form.rango.value = `${start} - ${end}`;
 
   });
@@ -217,5 +217,22 @@
   }
 
   getGrupos();
+
+
+  //funcionalidad de los input radio
+  //
+  
+  const changeRadio = function(ev){
+    if( this.value === 'T' ){
+      this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = true );
+    }
+    else if( this.value === 'N' ){
+      this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = false );
+    }
+  }
+
+  form.optradio.forEach(item=>{
+    item.addEventListener('change', changeRadio);
+  });
 
 })();
