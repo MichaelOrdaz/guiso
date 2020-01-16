@@ -8,7 +8,7 @@ define('KEY', 'JACE');//varibale para mis includes, requires
 require "../../db/db.php";
 
 //Orden de compra con presentacion
-class OCP{
+class OCM{
 
   private $db;
 
@@ -528,10 +528,10 @@ class OCP{
 
 }
 
-$OCP = new OCP();
+$OCM = new OCM();
 
 $method = filter_input(INPUT_POST, 'method', FILTER_SANITIZE_STRING);
 
-method_exists($OCP, $method) or die( 'Method not found' );
+method_exists($OCM, $method) or die( 'Method not found' );
 
-$OCP->{$method}();//llama a la funcion existente
+$OCM->{$method}();//llama a la funcion existente

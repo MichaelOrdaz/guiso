@@ -34,7 +34,7 @@ class Compra{
     $sql = "SELECT IFNULL(MAX(id), 1) AS orden FROM oc";
     $r = $this->db->query( $sql );
     $r = $r->fetch_object();
-    return date('y-W').'-'.$r->orden;
+    return date('y-W').'-'.($r->orden+1);
   }
 
   public function crearOC(){

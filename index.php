@@ -324,7 +324,23 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
             </li>
             
             <li>
-              <a data-archivo="MenuOCManual.php" data-menu="menu-ocm"> <i class="fa fa-line-chart"></i> OC manual</a>
+              <a href="javascript://"><i class="fa fa-area-chart fa-fw"></i> <abbr title="Orden de Compra">OC</abbr>Manual <span class="fa arrow"></span></a>
+              <!-- /.nav-second-level -->
+              <ul class="nav nav-second-level">
+                <li>
+                  <a href="OCM/view/generar.php" class="ajaxLink">Generación</a>
+                </li>
+                <li>
+                  <a href="OCM/view/cambiar.php" class="ajaxLink"> Modificacion </a>
+                </li>
+                <li>
+                  <a href="OCM/view/status" class="ajaxLink">Cambio de Status</a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- <li> -->
+              <!-- <a data-archivo="MenuOCManual.php" data-menu="menu-ocm"> <i class="fa fa-line-chart"></i> OC manual</a> -->
               <!-- <a href="javascript://"><i class="fa fa-folder-o fa-fw"></i> OC manual<span class="fa arrow"></span></a> -->
               <!-- /.nav-second-level -->
               <!-- <ul class="nav nav-second-level">
@@ -338,7 +354,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                   <a href="#" onclick="return false;" id="recetas">Cambio de estatus de OC manual</a>
                 </li>
               </ul> -->
-            </li>
+            <!-- </li> -->
              
             <li>
               <a href="facturas/view/facturas.php" class="ajaxLink"> <i class="fa fa-money fa-fw"></i> Facturas </a>
