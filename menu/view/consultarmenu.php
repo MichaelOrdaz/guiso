@@ -207,8 +207,6 @@ grid-column: 1 / 2;
 
 <script>
 
-temp=0;
-
 id="";
 idMenu="";
 semana="";
@@ -405,10 +403,6 @@ buscar();
 });
 });
 
-$('#idm').on('input',function(){
-buscar();
-});
-
 function buscar(){
 
 $.ajax({
@@ -424,7 +418,18 @@ $.each(res,function(key,value){
 $('#elaboro').val(value.elaboro);
 $('#costo').val(value.costoTot);
 $('#tiem').html("<option>"+value.numTiempos+"</option>");
-temp=value.numTiempos;
+
+idMenu=$('#idm').val();
+semana=value.semana;
+lapso=value.lapso;
+elaboro=value.elaboro;
+descripcion=value.descripcion;
+cliente=value.nombre;
+unidad=value.unidad;
+subunidad=value.subUnidad;
+costoTot=value.costoTot;
+numTiempos=value.numTiempos;
+costoTot=value.costoTot;
 
 });
 
@@ -432,7 +437,7 @@ $.ajax({
 url : 'menu/php/consultarmenu3.php',
 data : {
 idmenu:$('#idm').val(),
-tiem:temp
+tiem:numTiempos
 },
 type : 'POST',
 dataType: 'json',

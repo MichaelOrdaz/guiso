@@ -119,7 +119,7 @@
                           <div class="form-group">
                             <label>Articulo *</label>
                             <select name="articulo" class="form-control" required >
-                              <option value="">Seleccione un proveedor</option>
+                              <option value="">Seleccione un articulo</option>
                             </select>
                           </div>
                           
@@ -589,12 +589,12 @@
         console.log(data);
 
         if( data.status ){
-          Swal.fire("", 'La combinación Proveedor-Artículo ya existe el precio es ' + data.row.precio, 'info');
+          //Swal.fire("", 'La combinación Proveedor-Artículo ya existe el precio es ' + data.row.precio, 'info');
           this.form.precio.value = data.row.precio;
           this.form.info.value = data.row.info;
         }
         else{
-          Swal.fire('', 'La combinación Proveedor-Artículo no existe. Ahora puede ingresarla', 'info');
+          //Swal.fire('', 'La combinación Proveedor-Artículo no existe. Ahora puede ingresarla', 'info');
           this.form.precio.value = '';
           this.form.info.value = '';
         }

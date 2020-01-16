@@ -394,10 +394,6 @@ buscar();
 });
 });
 
-$('#idm').on('input',function(){
-buscar();
-});
-
 function buscar(){
 
 $.ajax({

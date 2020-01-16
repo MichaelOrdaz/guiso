@@ -13,11 +13,11 @@ color: black;
             <div class="panel-body" style="padding: 10px; padding-bottom: 4px;">
                     <div class="row" style="margin-bottom: 5px;"> 
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;">*Semana:</label>
+                    <label style="color: #337ab7;">*Fecha:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
                     <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" style="height: 24px" id="semana" autocomplete="off" readonly />
+                    <input type='text' class="form-control" style="height: 24px" id="fecha" autocomplete="off" readonly />
                     <span class="input-group-addon" style="padding: 3px 16px;">
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -45,7 +45,7 @@ color: black;
                     <label style="color: #337ab7;">*Año:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input class="form-control" placeholder="Ingrese año" id="anio" style="height: 24px;" readonly>
+                    <input class="form-control" placeholder="" id="ano" style="height: 24px;" readonly>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">Unidad:</label>
@@ -68,12 +68,10 @@ color: black;
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
-                    <label style="color: #337ab7;" >* id Menu:</label>
+                    <label style="color: #337ab7;">*semana:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <input list="idmenu" id="menu" class="form-control" autocomplete="off" style="height: 24px;" >
-                    <datalist id="idmenu">
-                    </datalist>
+                    <input class="form-control" placeholder="" id="semana" style="height: 24px;" readonly>
                     </div>
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">SubUnidad:</label>
@@ -97,19 +95,29 @@ color: black;
 
                     <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
+                    <label style="color: #337ab7;" >* ID Menu:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                    <input list="idmenu" id="idm" class="form-control" autocomplete="off" style="height: 24px;" >
+                    <datalist id="idmenu">
+                    </datalist>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <!-- /.col-lg-6 (nested) -->
+                    </div>
+
+                    <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-1 col-sm-12" style="margin-top: 6px;">
                     <label style="color: #337ab7;">*# Tiempos:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="tiemp" style="height: 28px;">
+                    <select class="form-control" id="tiemp" style="height: 28px;" disabled>
                     <option disabled selected> -- Seleccione id tiempo -- </option>
                     </select>
                     </div>
-                    <!-- /.col-lg-6 (nested) -->
-                    <!-- /.col-lg-6 (nested) -->
                     </div>
 
-
-                    <div class="row" style="margin-bottom: 5px;">
+                    <div class="row" style="margin-top: 20px;margin-bottom: 0px;">
                     <div class="col-md- col-sm-12" style='color:#337ab7;'>
                     <label style="color: #337ab7;margin-right: 8px;">*dias:</label>
                     lunes
@@ -127,9 +135,8 @@ color: black;
                     domingo
                     <input type="checkbox" name="" id="checkbox7" disabled>
                      <!-- <button type="submit" class="btn btn-default" style="color: #337ab7;height: 32px;margin-left: 242px;" id="agregar">Agregar Tiempo</button> -->
-                    <BUTTON type='submit' form='formulario' style="float: right;margin-bottom: 20px; background-color:#337ab7;" class="btn btn-primary" id="agregarmenu"> Agregar modificación </BUTTON>
-                    <BUTTON style="float: right;margin-bottom: 20px; background-color:#337ab7;" class="btn btn-primary" id="sumar"> Realizar Sumatoria</BUTTON>
-                    
+                    <BUTTON type='submit' form='formulario' style="float: right;margin-bottom: 5px; background-color:#337ab7;" class="btn btn-primary" id="agregarmenu"> Agregar modificación </BUTTON>
+                    <BUTTON style="float: right;margin-bottom: 5px; background-color:#337ab7;" class="btn btn-primary" id="sumar"> Realizar Sumatoria</BUTTON>
                     </div>
                     </div>
 
@@ -156,6 +163,7 @@ color: black;
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr>
+                        	<th style='color:#337ab7'>Tiempo</th>
                             <th style='color:#337ab7'>Lunes</th>
                             <th style='color:#337ab7'>Martes</th>
                             <th style='color:#337ab7'>Miercoles</th>
@@ -180,7 +188,16 @@ color: black;
 
 <script>
 
+contador1=0;
 idsubunidad="";
+
+(function(){
+$('#datetimepicker1').datepicker({
+format: "dd-mm-yyyy",
+language: 'es',
+autoclose: true,
+});
+})();
 
 $.ajax({
 url : 'menu/php/imprimirmenu2.php',
@@ -209,16 +226,164 @@ $('#idmenu').html(tabla1);
 },
 });
 
-$('#menu').on('input',function(){
+$.ajax({
+url : 'menu/php/agregarmenu1.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+grupo="";
+grupo+="<option disabled selected> -- Selecione grupo -- </option>";
+$.each(res,function(key,value){
+grupo+="<option value="+value.idGrupo+">"+value.descripcion+"</option>";
+});
+$('#grupo').html(grupo);
+},
+});
 
 $.ajax({
-url : 'menu/php/modificarmenu.php',
-data : {idmenu:$('#menu').val()},
+url : 'menu/php/agregarmenu2.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+unidad+="<option disabled selected> -- Selecione Cliente -- </option>";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idcliente+">"+value.nombre+"</option>";
+});
+$('#cliente').html(unidad);
+},
+});
+
+$('#cliente').on('change',function(){
+
+$.ajax({
+url : 'menu/php/agregarmenu3.php',
+data : {nombre:$('#cliente').val()},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idunidad+">"+value.unidad+"</option>";
+});
+$('#unidad').html(unidad);
+
+$.ajax({
+url : 'menu/php/agregarmenu4.php',
+data : {nombre:$('#unidad').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
+buscar();
+}
+},
+});
+
+},
+});
+});
+
+
+$('#unidad').on('change',function(){
+$.ajax({
+url : 'menu/php/agregarmenu4.php',
+data : {nombre:$('#unidad').val()},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
+$('#idm').val(id);
+buscar();
+}
+},
+});
+});
+
+$('#subunidad').on('change',function(){
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
+$('#idm').val(id);
+buscar();
+}
+});
+
+$('#grupo').on('change',function(){
+$('#agregar').click();
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
+$('#idm').val(id);
+buscar();
+}
+});
+
+$('#fecha').on('change',function(){
+fecha=$('#fecha').val();
+$.ajax({
+url : 'menu/php/agregarmenu5.php',
+data : {semana:$('#fecha').val()},
+type : 'POST',
+success:function(respuesta){
+vector=respuesta.split(",");
+$('#semana').val(vector[0]);
+$('#ano').val(vector[2]);
+semana=vector[0];
+ano=vector[2];
+if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
+$("#idm").removeAttr("readonly");
+$('#idm').val(id);
+buscar();
+}
+},
+});
+});
+
+function buscar(){
+
+$.ajax({
+url : 'menu/php/modificarmenu.php',
+data : {idmenu:$('#idm').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+
 $('#checkbox1').attr('checked', false);
 $('#checkbox2').attr('checked', false);
 $('#checkbox3').attr('checked', false);
@@ -226,16 +391,13 @@ $('#checkbox4').attr('checked', false);
 $('#checkbox5').attr('checked', false);
 $('#checkbox6').attr('checked', false);
 $('#checkbox7').attr('checked', false);
+
 $.each(res,function(key,value){
-$('#semana').val(value.semana);
-$('#anio').val(value.anio);
+    
 $('#tiemp').html("<option>"+value.numTiempos+"</option>");
-$('#cliente').html("<option>"+value.cliente+"</option>");
-$('#unidad').html("<option>"+value.unidad+"</option>");
-$('#subunidad').html("<option>"+value.subunidad+"</option>");
-$('#grupo').html("<option>"+value.grupo+"</option>");
 $('#elaboro').val(value.elaboro);
 $('#costo').val(value.costo);
+
 idsubunidad=value.idsubunidad;
 lapsoi=value.lapsoi;
 lapso=value.lapso;
@@ -254,6 +416,7 @@ jueves=value.jueves;
 viernes=value.viernes;
 sabado=value.sabado;
 domingo=value.domingo;
+
 if(lunes==1){
 $('#checkbox1').attr('checked', true);
 }
@@ -279,7 +442,7 @@ $('#checkbox7').attr('checked', true);
 
 $.ajax({
 url : 'menu/php/modificarmenu1.php',
-data : {idmenu:$('#menu').val()},
+data : {idmenu:$('#idm').val()},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
@@ -288,7 +451,9 @@ res=JSON.parse(respuesta);
 tabla="";
 cont=0;
 $.each(res,function(key,value){
+
 tabla+="<tr>";
+
 reslunes=value.lunes;
 reslunes=reslunes.split(",");
 resmartes=value.martes;
@@ -303,6 +468,35 @@ ressabado=value.sabado;
 ressabado=ressabado.split(",");
 resdomingo=value.domingo;
 resdomingo=resdomingo.split(",");
+
+if (reslunes[4]!=undefined){
+temporal=reslunes[4];
+}
+if (resmartes[4]!=undefined){
+temporal=resmartes[4];
+}
+if (resmiercoles[4]!=undefined){
+temporal=resmiercoles[4];
+}
+if (resjueves[4]!=undefined){
+temporal=resjueves[4];
+}
+if (resviernes[4]!=undefined){
+temporal=resviernes[4];
+}
+if (ressabado[4]!=undefined){
+temporal=ressabado[4];
+}
+if (resdomingo[4]!=undefined){
+temporal=resdomingo[4];
+}
+
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div>"+temporal+"</div>"+
+"</div>"+
+"</td>";
+
 if(lunes==1){
 cont=cont+1;
 tabla+=
@@ -495,13 +689,28 @@ $('#'+aux2).val(respuesta);
 }
 });
 
+$.ajax({
+url : 'menu/php/agregarmenu12.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+respuesta=JSON.parse(respuesta);
+temp="";
+temp+="<option disabled selected> -- Tiempos -- </option>";
+$.each(respuesta,function(key,value){
+temp+="<option value="+value.idTiempo+">"+value.tiempo+"</option>";
+});
+$('.tiempos1').html(temp);
 },
 });
 
 },
 });
-
+},
 });
+}
 
 $("#sumar").click(function(){
 for (var i=1;i<=cont;i++){
@@ -584,7 +793,7 @@ $.ajax({
 url : 'menu/php/modificarmenu2.php',
 type : 'POST',
 data : {
-idmenu:$('#menu').val(),
+idmenu:$('#idm').val(),
 fecharecetas:temp1,
 recetas:temp2,
 precio:temp3,

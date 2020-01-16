@@ -30,7 +30,7 @@ $vec4[$i]=$fecharecetas[$i];
 }
 
 for ($i=0;$i<count($recetas);$i++){
-$sql3 = "INSERT INTO menurec (idMenu,pos,receta,precio,personas,fecha) VALUES ('$id','','$vec1[$i]','$vec2[$i]','$vec3[$i]','$vec4[$i]')";
+$sql3 = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$id','',1,'$vec1[$i]','$vec2[$i]','$vec3[$i]','$vec4[$i]')";
 mysqli_query($conexion,$sql3);
 }
 

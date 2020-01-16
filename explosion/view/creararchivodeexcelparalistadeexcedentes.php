@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="col-xs-12 text-center">
-                    <button type="submit" class="btn btn-primary"> <i class="fa fa-file-excel-o"></i> Generar de Archivo</button>
+                    <button type="submit" class="btn btn-primary"> <i class="fa fa-file-excel-o"></i> Generar Archivo</button>
                 </div>
 
             </div>

@@ -102,7 +102,7 @@
                           
                           <div class="form-group">
                             <label>Nombre del artículo *</label>
-                            <input class="form-control" name="nombre" type="text" required maxlength="300" placeholder="Ingrese el nombre del artículo" pattern="^[\wÁÉÍÓÚáéíóúÑñ\s\.]+$" title="No se aceptan caracteres especiales" />
+                            <input class="form-control" name="nombre" type="text" required maxlength="300" placeholder="Ingrese el nombre del artículo" pattern="^[\wÁÉÍÓÚáéíóúÑñ\s\.\/]+$" title="No se aceptan caracteres especiales" />
                           </div>
 
                         </div>
@@ -129,6 +129,7 @@
                               <option value="METROS">METROS</option>
                               <option value="BULTOS">BULTOS</option>
                               <option value="PAQUETES">PAQUETES</option>
+                              <option value="CAJA">CAJA</option>
                               <option value="OTROS">OTROS</option>
                             </select>
                           </div>
@@ -147,6 +148,7 @@
                               <option value="METROS">METROS</option>
                               <option value="BULTOS">BULTOS</option>
                               <option value="PAQUETES">PAQUETES</option>
+                              <option value="CAJA">CAJA</option>
                               <option value="OTROS">OTROS</option>
                             </select>
                           </div>
@@ -251,7 +253,7 @@
               
               <div class="form-group">
                 <label>Nombre del artículo *</label>
-                <input class="form-control" name="nombre" type="text" required maxlength="300" placeholder="Ingrese el nombre del artículo" pattern="^[\wÁÉÍÓÚáéíóúÑñ\s\.]+$" title="No se aceptan caracteres especiales" />
+                <input class="form-control" name="nombre" type="text" required maxlength="300" placeholder="Ingrese el nombre del artículo" pattern="^[\wÁÉÍÓÚáéíóúÑñ\s\.\/]+$" title="No se aceptan caracteres especiales" />
               </div>
 
             </div>
@@ -278,6 +280,7 @@
                   <option value="METROS">METROS</option>
                   <option value="BULTOS">BULTOS</option>
                   <option value="PAQUETES">PAQUETES</option>
+                  <option value="CAJA">CAJA</option>
                   <option value="OTROS">OTROS</option>
                 </select>
               </div>
@@ -296,6 +299,7 @@
                   <option value="METROS">METROS</option>
                   <option value="BULTOS">BULTOS</option>
                   <option value="PAQUETES">PAQUETES</option>
+                  <option value="CAJA">CAJA</option>
                   <option value="OTROS">OTROS</option>
                 </select>
               </div>

@@ -239,12 +239,9 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
                 <li>
                   <a href="menu/view/modificarmenu.php" class="ajaxLink">Modificar menu</a>
                 </li>
-                <!-- <li>
+                <li>
                   <a href="menu/view/copiarmenu.php" class="ajaxLink">Copiar de menu</a>
                 </li>
-                <li>
-                  <a href="menu/view/imprimirmenu.php" class="ajaxLink">Imprimir menu</a>
-                </li> -->
               </ul>
             </li>
             <!-- Explosion -->

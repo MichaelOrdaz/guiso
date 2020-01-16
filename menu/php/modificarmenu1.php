@@ -20,10 +20,10 @@ while($columna=mysqli_fetch_array($resultado)){
 
 $tiempo=$columna['tiempo'];
 
-$consulta2 = "SELECT descripcion FROM tiempo WHERE idTiempo = '$tiempo' ";
-$resultado2 = mysqli_query($conexion,$consulta2);
-while($columna2=mysqli_fetch_array($resultado2)){
-$descripcion=$columna2['descripcion'];
+$consulta1 = "SELECT descripcion FROM tiempo WHERE idTiempo = '$tiempo' ";
+$resultado1 = mysqli_query($conexion,$consulta1);
+while($columna1=mysqli_fetch_array($resultado1)){
+$descripcion=$columna1['descripcion'];
 }
 
 $fecha = $columna['fecha'];
@@ -31,31 +31,31 @@ $fecha = str_replace(" 00:00:00","",$fecha);
 $dia = $dias[date('N', strtotime($fecha))];
 
 if("Lunes"==$dia){
-$matriz[$cont1][1]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont1][1]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont1=$cont1+1;
 }
 if("Martes"==$dia){
-$matriz[$cont2][2]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont2][2]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont2=$cont2+1;
 }
 if("Miercoles"==$dia){
-$matriz[$cont3][3]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont3][3]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont3=$cont3+1;
 }
 if("Jueves"==$dia){
-$matriz[$cont4][4]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont4][4]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont4=$cont4+1;
 }
 if("Viernes"==$dia){
-$matriz[$cont5][5]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont5][5]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont5=$cont5+1;
 }
 if("Sabado"==$dia){
-$matriz[$cont6][6]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont6][6]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont6=$cont6+1;
 }
 if("Domingo"==$dia){
-$matriz[$cont7][7]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$descripcion;
+$matriz[$cont7][7]=$columna['receta'].','.$columna['precio'].','.$columna['personas'].",".$columna['tiempo'].",".$descripcion;
 $cont7=$cont7+1;
 }
 

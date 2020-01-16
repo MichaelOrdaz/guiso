@@ -86,7 +86,7 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
     $idReceta = $itemMenu->idReceta;
 
     //aqui recupero los articulos de las recetas de los menus de la unidad
-    $articulosResult = $db->query( "SELECT re.porciones, reart.cantidad, art.idArticulo, art.nombre, art.costo, art.unidad, art.unidadA as presentacion, art.linea AS lineaId, (SELECT descripcion FROM linea WHERE idLinea = art.linea LIMIT 1) as linea from receta as re join recetaart as reart on re.idReceta=reart.receta join articulo as art on art.idArticulo=reart.articulo where reart.receta = '{$idReceta}'" );
+    $articulosResult = $db->query( "SELECT re.porciones, reart.cantidad, art.idArticulo, art.nombre, art.costo, art.unidad, art.unidadA as presentacion, art.linea AS lineaId, (SELECT descripcion FROM linea WHERE idLinea = art.linea LIMIT 1) as linea, reart.medida from receta as re join recetaart as reart on re.idReceta=reart.receta join articulo as art on art.idArticulo=reart.articulo where reart.receta = '{$idReceta}'" );
 
     if( $db->affected_rows <= 0 ) continue;
 
@@ -241,7 +241,7 @@ foreach ($stockProveedores as $proveedor) {
     $cantidadExcedente = 0;
     if( $conExcedente ){
 
-      $sql = "SELECT cantidad FROM excedente WHERE articulo = '{$row->idArticulo}' AND unidad = '{$unidad}' LIMIT 1";
+      $sql = "SELECT cantidad FROM excedente WHERE articulo = '{$row->idArticulo}' AND unidad = '{$unidad}' ORDER BY fecha desc LIMIT 1";
       $excedenteResult = $db->query($sql);
       $cantidadExcedente = $db->affected_rows > 0 ? $excedenteResult->fetch_object()->cantidad : 0;
     }
@@ -251,7 +251,7 @@ foreach ($stockProveedores as $proveedor) {
     $sheet->setCellValue("B{$indexRow}", $row->idArticulo);
     $sheet->setCellValue("C{$indexRow}", $row->nombre);
     $sheet->setCellValue("D{$indexRow}", $row->presentacion);
-    $sheet->setCellValue("E{$indexRow}", $row->unidad);
+    $sheet->setCellValue("E{$indexRow}", $row->medida);
     $sheet->setCellValue("F{$indexRow}", $row->cantidadNueva - $cantidadExcedente );
     $sheet->setCellValue("G{$indexRow}", $row->costo );
     $sheet->setCellValue("H{$indexRow}", "=F{$indexRow}*G{$indexRow}" );

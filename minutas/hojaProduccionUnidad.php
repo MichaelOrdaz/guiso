@@ -251,18 +251,19 @@ foreach ($rows as $key => $unidad) {
         //aqui puede haber varias recetas
         //entonces aqui tengo que sumar las personas de esas recetas
         $porciones = 0;
-        foreach ($recetas as $receta)
-          $porciones += $receta->personas;//sumatoria de las porciones de esa receta en esa fecha
+        //foreach ($recetas as $receta)
+          //$porciones += $receta->personas;//sumatoria de las porciones de esa receta en esa fecha
         //end foreach
+        $porciones = $recetas->personas ?:0;
 
         //ahora aqui debo consultar los aspectos basicos del articulo dado por la receta
-        $sql = "SELECT art.idArticulo, art.nombre, art.unidad, reart.cantidad, art.costo, re.porciones FROM receta AS re JOIN recetaart AS reart ON re.idReceta=reart.receta JOIN articulo AS art ON art.idArticulo=reart.articulo WHERE re.nombre = '{$recetas[0]->receta}'";
+        $sql = "SELECT art.idArticulo, art.nombre, art.unidad, reart.cantidad, art.costo, re.porciones, reart.medida FROM receta AS re JOIN recetaart AS reart ON re.idReceta=reart.receta JOIN articulo AS art ON art.idArticulo=reart.articulo WHERE re.nombre = '{$recetas->receta}'";
         $rslt = $db->query($sql);
         // echo $sql. ' - cantidad:' . $porciones . "<br>";
         if( $db->affected_rows > 0 ){
 
         //   //si la receta tiene articulos que dibujar entonces dibujo su header
-          headerReceta( $recetas[0]->receta, $porciones, $indexRow );
+          headerReceta( $recetas->receta, $porciones, $indexRow );
 
           while($articulo = $rslt->fetch_object() ){
 
@@ -270,7 +271,7 @@ foreach ($rows as $key => $unidad) {
 
             $sheet->setCellValue("A{$indexRow}", $articulo->idArticulo);
             $sheet->setCellValue("B{$indexRow}", $articulo->nombre);
-            $sheet->setCellValue("C{$indexRow}", $articulo->unidad);
+            $sheet->setCellValue("C{$indexRow}", $articulo->medida);
             $sheet->setCellValue("D{$indexRow}", $cantidad);
             $sheet->setCellValue("E{$indexRow}", $articulo->costo);
             $sheet->setCellValue("F{$indexRow}", "=D{$indexRow}*E{$indexRow}" );
