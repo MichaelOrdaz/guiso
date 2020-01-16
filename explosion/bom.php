@@ -145,7 +145,7 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
 
     //aqui recupero los articulos de las recetas de los menus de la unidad
     $articulosResult = $db->query( "SELECT re.porciones, reart.cantidad, art.idArticulo, art.nombre, art.costo, art.unidad, art.unidadA as presentacion, art.linea AS lineaId, reart.medida,
-     (SELECT descripcion FROM linea WHERE idLinea = art.linea LIMIT 1) as linea from receta as re join recetaart as reart on re.idReceta=reart.receta join articulo as art on art.idArticulo=reart.articulo where reart.receta = '{$idReceta}' ORDER BY art.nombre" );
+     (SELECT descripcion FROM linea WHERE idLinea = art.linea LIMIT 1) as linea from receta as re join recetaart as reart on re.idReceta=reart.receta join articulo as art on art.idArticulo=reart.articulo where reart.receta = '{$idReceta}'" );
 
     // $db->affected_rows or die('No hay información de los articulos');
     if( $db->affected_rows <= 0 ) continue;
@@ -176,10 +176,23 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
 
   }//whileMenu
   
-
   usort($stockArticulos, object_sorter('lineaId', 'ASC'));
-  
 
+  //se me ocurre que ya se que los articulos estan por linea entonces en un array agregarlos por linea
+  
+  $nuevoArray = [];
+  foreach ($stockArticulos as $item) {
+    $nuevoArray[$item->lineaId][] = $item;
+  }
+
+  $stockArticulos = [];
+  foreach ($nuevoArray as $value) {
+    $arr = $value;
+    usort($arr, object_sorter('nombre', 'ASC'));
+    $stockArticulos = array_merge( $stockArticulos, $arr );
+  }
+
+    
   $startLinea = $indexRow;//inicio de fila de la linea del articulo
   $lineaUnidad = $stockArticulos[0]->lineaId;//comenzamos con el indicador para verificar que las lineas sean diferentes y aplicar la sumatoria
 
@@ -193,7 +206,8 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
       $sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
       // $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
       $startLinea = $indexRow += 2;//dejamos un espacio en blanco entre lineas de articulos
-      continue;
+      
+      // continue;
 
     }
 
@@ -214,7 +228,7 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
     $sheet->setCellValue("F{$indexRow}", $row->cantidadNueva - $cantidadExcedente );
     $sheet->setCellValue("G{$indexRow}", $row->costo );
     $sheet->setCellValue("H{$indexRow}", "=F{$indexRow}*G{$indexRow}" );
-    $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
+    // $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
 
     $sheet->getStyle("A{$indexRow}:H{$indexRow}")->getAlignment()->setWrapText(true);
 
@@ -226,6 +240,11 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
   $sheet->setAutoFilter("A7:H{$indexRow}");
 
 }//whileUnidad
+
+//cuando termine que haga la suma de la ultima linea
+$cellTotal = "H{$startLinea}:H".($indexRow-1);//determinamos el rango
+$sheet->setCellValue("G{$indexRow}", 'Total');
+$sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
 
 
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -24,9 +24,9 @@
                 <div class="alert alert-info">
                   Aqui de debe cargar el documento generado en las opciones del menu lateral izquierdo, <b>Crear Lista de Excedentes</b> o <b>Crear archivo de excel para lista de excedentes</b>, sin modificar su estructura, solo la columna "Cantidad" es editable y es la que se tomara encuenta para agregar esa cantidad como excedente de la unidad del cliente que este especificado en la hoja de excel.
                 </div>
-                <div class="alert alert-danger">
+                <!-- <div class="alert alert-danger">
                   La opción de eliminar excedentes, borra los excedentes de todas la unidades que se hayan ingresando con anterioridad.
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -40,11 +40,11 @@
             </div>
             
             <?php if( $_SESSION['rol_comedor'] === '0' ): ?>
-            <div class="col-sm-6">
+            <!-- <div class="col-sm-6">
                 <div class="form-group">
                     <button class="btn btn-default text-blue btn-block btn-lg" type="button" id="borrar">Eliminar Excedentes</button>
                 </div>
-            </div>
+            </div> -->
             <?php endif; ?>
 
         </div>

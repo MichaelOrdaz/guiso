@@ -18,13 +18,6 @@ $rol = $_SESSION['rol_comedor'];
 $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
 // var_dump ($rol);
 // var_dump ($allowed);
-//variables de Angel
-//  =>  Mis variablas de sesion
-//  =>  Funciona para archivo eliminar, modificar
-$_SESSION['__js_form__'] = "./pages/personal_js/formulario.js";
-$_SESSION['__js_del_tab__'] = "./pages/personal_js/tabla-eliminar.js";
-$_SESSION['__js_edt_tab__'] = "./pages/personal_js/tabla-modificar.js";
-$_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
 
 ?>
 <!DOCTYPE html>
@@ -57,10 +50,9 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
   <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.20/datatables.min.css"/> -->
   <link rel="stylesheet" href="js/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker3.min.css">
 
-  <link rel="stylesheet" href="js/perfect-scrollbar-1.4.0/css/perfect-scrollbar.css">
+  <!-- <link rel="stylesheet" href="js/perfect-scrollbar-1.4.0/css/perfect-scrollbar.css"> -->
 
   <link rel="stylesheet" type="text/css" href="css/custom.css">
-  <link rel="stylesheet" type="text/css" href="css/pages.css">
   
   <style>
 
@@ -410,13 +402,10 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
   
   <script src="js/sweetalert2/dist/sweetalert2.all.js"></script>
 
-  <script src="js/perfect-scrollbar-1.4.0/dist/perfect-scrollbar.min.js"></script>
+  <!-- <script src="js/perfect-scrollbar-1.4.0/dist/perfect-scrollbar.min.js"></script> -->
 
   <!-- custom JS del equipo de desarollo para las redirecciones y funciones globales -->
   <script src="js/custom.js"></script>
-
-  <script type="text/javascript" src=<?php echo $_SESSION['__js_menu__'];?>></script>
-  <script type="text/javascript" src="./pages/personal_js/global.js"></script>
 
   <script>
   // $(document).ready( function(){
@@ -434,8 +423,6 @@ $_SESSION['__js_menu__'] = "./pages/personal_js/menu.js";
 
   window.addEventListener('DOMContentLoaded', ()=>{ document.body.style.display = 'block' });
   </script>
-<script type="text/javascript" src=<?php echo $_SESSION['__js_del_tab__'];?>></script>
-<script type="text/javascript" src=<?php echo $_SESSION['__js_edt_tab__'];?>></script>
 
 </body>
 </html>

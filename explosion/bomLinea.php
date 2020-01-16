@@ -176,20 +176,32 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
 
   usort($stockArticulos, object_sorter('lineaId', 'ASC'));
 
+  $nuevoArray = [];
+  foreach ($stockArticulos as $item) {
+    $nuevoArray[$item->lineaId][] = $item;
+  }
+
+  $stockArticulos = [];
+  foreach ($nuevoArray as $value) {
+    $arr = $value;
+    usort($arr, object_sorter('nombre', 'ASC'));
+    $stockArticulos = array_merge( $stockArticulos, $arr );
+  }
+
   $startLinea = $indexRow;//inicio de fila de la linea del articulo
   $lineaUnidad = $stockArticulos[0]->lineaId;//comenzamos con el indicador para verificar que las lineas sean diferentes y aplicar la sumatoria
 
-  $length = count($stockArticulos) - 1;//2
+  // $length = count($stockArticulos) - 1;//2
   foreach ($stockArticulos as $i => $row ) {
-    if( $row->lineaId !== $lineaUnidad || $length === $i ){//si la linea es diferente o si es el ultimo elemento del array
+    if( $row->lineaId !== $lineaUnidad ){//si la linea es diferente o si es el ultimo elemento del array
 
       $lineaUnidad = $row->lineaId;//hacemos el cambio de linea
       $cellTotal = "H{$startLinea}:H".($indexRow-1);//determinamos el rango
       $sheet->setCellValue("G{$indexRow}", 'Total');
       $sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
-      $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
+      // $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
       $startLinea = $indexRow += 2;//dejamos un espacio en blanco entre lineas de articulos
-      continue;
+      // continue;
 
     }
 
@@ -210,7 +222,7 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
     $sheet->setCellValue("F{$indexRow}", $row->cantidadNueva - $cantidadExcedente );
     $sheet->setCellValue("G{$indexRow}", $row->costo );
     $sheet->setCellValue("H{$indexRow}", "=F{$indexRow}*G{$indexRow}" );
-    $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
+    // $sheet->getCell("H{$indexRow}")->getCalculatedValue();//ejecuta la formula
 
     $sheet->getStyle("A{$indexRow}:H{$indexRow}")->getAlignment()->setWrapText(true);
 
@@ -223,6 +235,9 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
 
 }//whileUnidad
 
+$cellTotal = "H{$startLinea}:H".($indexRow-1);//determinamos el rango
+$sheet->setCellValue("G{$indexRow}", 'Total');
+$sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
 
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header("Content-disposition: attachment; filename=explosionPorUnidad&Linea ($start - $end).xlsx");
