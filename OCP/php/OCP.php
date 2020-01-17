@@ -214,7 +214,7 @@ class OCP{
       $row->nombre = $rslt->nombre;
 
       //y por cada articulo rescatamos su excedente
-      $sql = "SELECT cantidad FROM excedente WHERE articulo = '{$row->quantity}' AND unidad = '{$row->unidad}' LIMIT 1";
+      $sql = "SELECT cantidad FROM excedente WHERE articulo = '{$row->articulo}' AND unidad = '{$row->unidad}' LIMIT 1";
       $rslt = $this->db->query($sql);
       $rslt = $this->db->affected_rows > 0 ? $rslt->fetch_object()->cantidad : 0;
 
@@ -390,14 +390,11 @@ class OCP{
         continue;
 
       if( $value ){//si value es un valor verdadero, osea si no es 0 o vacio
-        $unidades[] = ['unidad'=> $key, 'cantidad'=> $value, 'total'=> 0];
+        $unidades[] = ['unidad'=> $key, 'cantidad'=> $value];
       }
     }
 
     $unidades or die( toJson(0, 'No hay cantidades validas para las unidades') );//si unidades tiene elementos
-
-    // var_dump($idArticulo, $presentacion, $precio, $orden);
-    // var_dump($unidades);
 
     $sql = "SELECT fechaI, fechaF FROM oc WHERE idOC = '{$orden}' LIMIT 1";
     $r = $this->db->query($sql);
@@ -414,14 +411,20 @@ class OCP{
     $factor = $r->factor;
     $linea = $r->linea;
 
-    // var_dump($factor);
-    foreach ($unidades as $unidad) {
+    //se calcula el precio una sola vez y no en cada iteracion ya que eso si afectaria 
+    if( $factor > 0 ){
+      $precio /= $factor;//sacar el precio por unidad de la presentacion, si es que factor existe
+    }
+
+    //este codigo hace que el precio del articulo se modifique y creo que no debe ser asi
+    foreach ($unidades as &$unidad) {
       if( $factor > 0 ){
         $unidad['cantidad'] *= $factor;
-        $precio /= $factor;
       }
       $unidad['total'] = $precio * $unidad['cantidad'];
     }
+
+    unset($unidad);//romper la referencia con el ultimo valor    
 
     $sql = "DELETE FROM bomoc WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
     $r = $this->db->query($sql);

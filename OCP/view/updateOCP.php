@@ -466,6 +466,7 @@
       }, 'json');
 
 
+      //traer los articulos solamente de ese proveedor
       $.post('OCP/php/OCP.php', {method: 'getArticulos', proveedorId}, (data, textStatus, xhr)=> {
         
         stockArticulos = data;//global

@@ -62,11 +62,10 @@
                   </label>
                   <select class="form-control" name="pago" required>
                       <option selected value="">Seleccione un tipo de pago</option>
-                      <option>Contado con cheque</option>
+                      <option>Transferencia Electrónica</option>
                       <option>Crédito</option>
                       <option>Efectivo</option>
-                      <option>Operación</option>
-                      <option>Unidades</option>
+                      <option>Compras Locales</option>
                   </select>
               </div>
             </div>
@@ -254,11 +253,10 @@
                   </label>
                   <select class="form-control" name="pago" required>
                       <option selected value="">Seleccione un tipo de pago</option>
-                      <option>Contado con cheque</option>
+                      <option>Transferencia Electrónica</option>
                       <option>Crédito</option>
                       <option>Efectivo</option>
-                      <option>Operación</option>
-                      <option>Unidades</option>
+                      <option>Compras Locales</option>
                   </select>
               </div>
             </div>
@@ -454,14 +452,16 @@
 
 
   var oTable = $("#tabla_base").DataTable({
+    "processing": true,
+    "serverSide": true,
     order: [ [0, 'asc'] ],
     ajax: {
       url: "proveedor/php/Proveedor.php",
       type: 'POST',
       data: d=>{
-        d.method = 'getProveedores';
+        d.method = 'getProveedoresAll';
       },
-      dataSrc: ''
+      // dataSrc: ''
     },
     columns: [
       {data: 'nombre', defaultContent: ''},

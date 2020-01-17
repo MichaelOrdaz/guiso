@@ -144,7 +144,7 @@ class Precios{
     // Si exiten parametros de busqueda (provenientes del cuadro de busqueda da la datatable) se aplican
     // los campos evaluados en el where se deben reemplazar por los que contenga la tabla a seleccionar
     if( ! empty( $requestData['search']['value'] ) ):
-      $sqlSearch = " AND ( proveedorName LIKE '%{$requestData['search']['value']}%' OR articuloName LIKE '%{$requestData['search']['value']}%' )";
+      $sqlSearch = " AND ( pro.nombre LIKE '%{$requestData['search']['value']}%' OR art.nombre LIKE '%{$requestData['search']['value']}%' )";
       $sql .= $sqlSearch;
       $sqlCount .= $sqlSearch;
       $result = $this->db->query( $sqlCount );

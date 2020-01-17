@@ -5,7 +5,7 @@
         
     <div class="panel panel-default">
             
-      <div class="panel-heading text-center bg-coral text-white"> Modificar Orden de Compra </div>
+      <div class="panel-heading text-center bg-coral text-white"> Generar Orden de Compra Manual</div>
 
       <div class="panel-body">
 
@@ -16,47 +16,55 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Cliente</label>
-                <input type="text" name="cliente" id="cliente" class="form-control input-sm" placeholder="nombre del cliente" list="listRecetas" />
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label class="text-blue">Unidades</label>
-                <input type="text" name="unidades" id="unidades" class="form-control input-sm" placeholder="Unidades en la Orden" required readonly />
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label class="text-blue">Proveedor</label>
-                <select name="proveedor" id="proveedor" class="form-control input-sm" required >
-                  <option value="" selected>Seleccione el proveedor</option>
+                <select name="cliente" class="form-control input-sm" required >
+                  <option value="" selected> Seleccione un Cliente</option>
                 </select>
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label class="text-blue">Semana</label>
-                <input type="text" name="semana" id="semana" class="form-control input-sm" placeholder="# de la semana del la orden" readonly />
+                <label class="text-blue">Unidades</label>
+                <input type="text" name="unidades" id="unidades" class="form-control input-sm" placeholder="Unidades en la Orden" required title="Campo solo informativo" />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label class="text-blue">Fecha</label>
-                <input type="text" name="fecha" id="fecha" class="form-control input-sm" placeholder="fecha de creación" required readonly />
+                <label class="text-blue">Proveedor</label>
+                <select name="proveedor" class="form-control input-sm" required >
+                  <option value="" selected> Seleccione un proveedor </option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label> Seleccione la semana * </label>
+                <div class="input-group date datepicker">
+                  <input type="text" class="form-control input-sm" name="semana" readonly placeholder="Seleccione la semana" />
+                  <div class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                  </div>
+                </div>
+              </div>
+                
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label> Fechas * </label>
+                <input type="text" name="rango" class="form-control input-sm" placeholder="Rango de la semana" required readonly />
               </div>
             </div>
           
           </div>
 
-          <!-- <div class="row">
-            <div class="col-xs-12 text-right">
-              <button type="submit" class="btn btn-primary"> <i class="fa fa-edit"></i> Modificar Orden de Compra</button>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <button type="submit" class="btn btn-primary"> Añadir Artículos </button>
             </div>
-          </div> -->
+          </div>
           <!-- endRow -->
 
         </form>
@@ -249,47 +257,120 @@
 
   var G_clientId;//variable global que guarda el id del cliente
 
-  //cuando cambie el identificador de la orden recuperamos los datos generales de esa orden
-  var getInfoOrden = function(ev){
-    let orden = this.value;
+  //config calendar
+  $('.datepicker').datepicker({
+    format: "yyyy-mm-dd",
+    language: 'es',
+    autoclose: true,
+    // endDate: '0d',
+  }).on('hide', function(ev){
 
-    // formReceta.proveedor.querySelectorAll('option:not(:first-child)').forEach(opt=>{
-    //   opt.parentNode.removeChild(opt);
-    // });//eliminamos los proveedores
+    let date = moment(ev.date);
+    let week = date.format('w'),
+      start = date.startOf('week').format('YYYY-MM-DD'),
+      end = date.endOf('week').format('YYYY-MM-DD');
 
-    formArticulos.reset();//limpiamos
-    oTable.clear().draw();//limpiamos la tabla
-    tblItems.closest('.panel').classList.add('hide');//ocultamos la tabla
-    $('.addInputUnits').empty();
+    formReceta.semana.value = week;
+    formReceta.rango.value = `${start} - ${end}`;
 
-    if( orden === '' ){
-      formReceta.reset();//limpiamos
-      formArticulos.querySelector('fieldset').disabled = true;//bloqueado
-      formReceta.proveedor.disabled = true;
-      formReceta.unidades.title = '';//ya que esta bloqueado el input, le colocamos un title
-      $$('#reimprimir').value = '';
+  });
+
+  var getClientes = ()=>{
+    $.post('clientes/php/Clientes.php', {method: 'getClientes'}, (data, textStatus, xhr)=> {
+      
+      var doc = _.createDocumentFragment();
+      for( let item of data ){
+        let option = _.createElement('option');
+        option.value = item.idCliente;
+        option.textContent = item.nombre;
+        
+        doc.appendChild( option );
+      }
+      formReceta.cliente.appendChild( doc );
+
+    }, 'json');
+  }
+
+  getClientes();
+
+  var getProveedor = ()=>{
+
+    $.post('proveedor/php/Proveedor.php', {method: 'getProveedores'}, (data, textStatus, xhr)=> {
+      
+      var doc = _.createDocumentFragment();
+      for( let item of data ){
+        let option = _.createElement('option');
+        option.value = item.idProveedor;
+        option.textContent = item.nombre;
+        
+        doc.appendChild( option );
+      }
+      formReceta.proveedor.appendChild( doc );
+
+    }, 'json');
+  }
+
+  getProveedor();
+
+
+  var loadUnidades = function(ev){
+
+    let cliente = this.value;
+    if( ! cliente ){
+      formReceta.unidades.value = '';
       return;
-
     }
-
-    $$('#reimprimir').value = orden;
-    formReceta.proveedor.disabled = false;
-    formReceta.proveedor.value = '';//resetamos el proveedor cuando cambie el cliente
-
-    //recuperamos los datos de esta orden
-    $.post('OCP/php/OCP.php', {method: 'getInfoOrden', orden}, function(data, textStatus, xhr) {
-
-      formReceta.cliente.value = data.cliente;
-      formReceta.unidades.value = data.unidades;
-      formReceta.unidades.title = data.unidades;//ya que esta bloqueado el input, le colocamos un title
-      formReceta.fecha.value = data.fecha;
-      formReceta.semana.value = data.semana;
-      G_clientId = data.clienteId;
-
+    $.post('clientes/php/Clientes.php', {method: 'getUnidades', cliente}, (data, textStatus, xhr)=> {
+      formReceta.unidades.value =  data.map( item=> item.unidad ).join(', ');
     }, 'json');
 
   }
-  formReceta.idOrden.addEventListener('change', getInfoOrden);
+
+  formReceta.cliente.addEventListener('change', loadUnidades);
+
+  // formReceta.proveedor.addEventListener('input', getProveedor);
+
+  //cuando cambie el identificador de la orden recuperamos los datos generales de esa orden
+  // var getInfoOrden = function(ev){
+  //   let orden = this.value;
+
+  //   // formReceta.proveedor.querySelectorAll('option:not(:first-child)').forEach(opt=>{
+  //   //   opt.parentNode.removeChild(opt);
+  //   // });//eliminamos los proveedores
+
+  //   formArticulos.reset();//limpiamos
+  //   oTable.clear().draw();//limpiamos la tabla
+  //   tblItems.closest('.panel').classList.add('hide');//ocultamos la tabla
+  //   $('.addInputUnits').empty();
+
+  //   if( orden === '' ){
+  //     formReceta.reset();//limpiamos
+  //     formArticulos.querySelector('fieldset').disabled = true;//bloqueado
+  //     formReceta.proveedor.disabled = true;
+  //     formReceta.unidades.title = '';//ya que esta bloqueado el input, le colocamos un title
+  //     $$('#reimprimir').value = '';
+  //     return;
+
+  //   }
+
+  //   $$('#reimprimir').value = orden;
+  //   formReceta.proveedor.disabled = false;
+  //   formReceta.proveedor.value = '';//resetamos el proveedor cuando cambie el cliente
+
+  //   //recuperamos los datos de esta orden
+  //   $.post('OCP/php/OCP.php', {method: 'getInfoOrden', orden}, function(data, textStatus, xhr) {
+
+  //     formReceta.cliente.value = data.cliente;
+  //     formReceta.unidades.value = data.unidades;
+  //     formReceta.unidades.title = data.unidades;//ya que esta bloqueado el input, le colocamos un title
+  //     formReceta.fecha.value = data.fecha;
+  //     formReceta.semana.value = data.semana;
+  //     G_clientId = data.clienteId;
+
+  //   }, 'json');
+
+  // }
+  // formReceta.idOrden.addEventListener('change', getInfoOrden);
 
 
   //funcion que crea y agrega los inputs nesarios de cada orden, al cliente, crear un input por unidad del cliente en la cual se colocara la cantidad vendida a esa unidad
@@ -427,8 +508,8 @@
     }
 
   }
-
-  formReceta.proveedor.addEventListener('change', changeProveedor);
+ 
+  // formReceta.proveedor.addEventListener('change', changeProveedor);
 
 
   // llenado del articulo

@@ -324,7 +324,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
             </li>
             
             <li>
-              <a href="javascript://"><i class="fa fa-area-chart fa-fw"></i> <abbr title="Orden de Compra">OC</abbr>Manual <span class="fa arrow"></span></a>
+              <a href="javascript://"><i class="fa fa-area-chart fa-fw"></i> <abbr title="Orden de Compra">OC</abbr> Manual <span class="fa arrow"></span></a>
               <!-- /.nav-second-level -->
               <ul class="nav nav-second-level">
                 <li>

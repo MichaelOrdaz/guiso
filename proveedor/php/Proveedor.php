@@ -25,6 +25,70 @@ class Proveedor{
     echo json_encode($rows);
   }
 
+  public function getMatchProveedores(){
+
+    $proveedorName = filter_input(INPUT_POST, 'proveedor', FILTER_SANITIZE_STRING) or die( json_encode([]) );
+
+    $r = $this->db->query("SELECT idProveedor, nombre FROM proveedor WHERE activo =  1 AND nombre LIKE '%{$proveedorName}%'");
+    $rows = [];
+    while( $rows[] = $r->fetch_object() );
+    array_pop($rows);
+    echo json_encode($rows); 
+
+  }
+
+  public function getProveedoresAll(){
+    $requestData = $_POST;
+    // los indices de las columnas de datatable deben coincidir conm el nombrte en la base de datos
+    $columns = array(
+      0 => 'nombre',
+      1 => "tipo",
+      2 => 'rfc',
+      3 => "pago",
+      4 => "ciudad",
+      5 => "estado",
+      6 => "fecha",
+    );
+
+    $totalFiltered = $totalData = 0;
+
+    $sql = "SELECT * FROM proveedor WHERE activo = 1 ";
+    $sqlCount = "SELECT COUNT(*) AS total FROM proveedor WHERE activo = 1";
+
+    $result = $this->db->query( $sqlCount );
+    $totalData = $totalFiltered = $result->fetch_object()->total;
+
+    // Si exiten parametros de busqueda (provenientes del cuadro de busqueda da la datatable) se aplican
+    // los campos evaluados en el where se deben reemplazar por los que contenga la tabla a seleccionar
+    if( ! empty( $requestData['search']['value'] ) ):
+      $sqlSearch = " AND ( nombre LIKE '%{$requestData['search']['value']}%' OR tipo LIKE '%{$requestData['search']['value']}%' OR rfc LIKE '%{$requestData['search']['value']}%' OR pago LIKE '%{$requestData['search']['value']}%' OR estado LIKE '%{$requestData['search']['value']}%' OR ciudad LIKE '%{$requestData['search']['value']}%' )";
+      $sql .= $sqlSearch;
+      $sqlCount .= $sqlSearch;
+      $result = $this->db->query( $sqlCount );
+      $totalFiltered = $result->fetch_object()->total;
+    endif;
+
+    // Es importante declarar el array colums de esa forma la datatable podrá ordenar ascendente o descendente los registros
+    // start y lengt en el limit son los encargados de solicitar el numero de pagina de la data table
+    $sql .= " ORDER BY " . $columns[$requestData['order'][0]['column']] ." {$requestData['order'][0]['dir']} LIMIT {$requestData['start']}, {$requestData['length']} ";
+    //ejecutamos el query Final
+    $result = $this->db->query( $sql );
+
+    while( $rows[] = $result->fetch_object() );
+    array_pop( $rows );
+
+    //Este array es el que recibe la datatable y convierte en el resultado deseado
+    $data = array(
+      "draw" => intval($requestData['draw']),   // Registros por paginado
+      "recordsTotal" => intval($totalData),   // Registros totales
+      "recordsFiltered" => intval($totalFiltered),// Registros filtrados por el cuadro de busqueda
+      "data" => $rows,  // Objeto que contiene la tabla a ser mostrada
+      // "sql"=> $sql
+    );
+
+    echo json_encode($data);
+  }
+
   public function checkProveedor( $name ){
     $this->db->query("SELECT idProveedor FROM proveedor WHERE nombre = '{$name}' LIMIT 1");
     return $this->db->affected_rows > 0;
