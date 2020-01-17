@@ -53,7 +53,7 @@
       order: [2, 'desc'],
       ajax: {
         type: 'POST',
-        url: 'OCP/php/OCP.php',
+        url: 'OCM/php/OCM.php',
         data: d=>{
           d.method = 'getOrdenes';
         },
@@ -144,7 +144,7 @@
         }).then((result) => {
           if (result.value) {
             
-            $.post('OCP/php/OCP.php', {method: textos.method, orden: rowData.idOC}, function(data, textStatus, xhr) {
+            $.post('OCM/php/OCM.php', {method: textos.method, orden: rowData.idOC}, function(data, textStatus, xhr) {
               
               if( data.status === 1)
                 Swal.fire('Exito', data.msg, 'success').then( r=>{oTable.ajax.reload();} );

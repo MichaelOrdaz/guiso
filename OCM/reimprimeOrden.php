@@ -21,7 +21,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $orden = filter_input(INPUT_POST, 'orden', FILTER_SANITIZE_STRING) or die(toJson(0, 'La orden es inválida'));
 
-$sql = "SELECT cliente, fechaI, fechaF FROM oc WHERE idOC = '{$orden}' LIMIT 1";
+$sql = "SELECT cliente, fechaI, fechaF FROM ocm WHERE idOC = '{$orden}' LIMIT 1";
 // echo $sql;
 $r = $db->query($sql);
 $db->affected_rows > 0 or die( toJson(0, 'Hubo un error al generar el reporte, por favor reintente elaborando otra OC') );
@@ -81,7 +81,7 @@ $proveedores = [];
 
   //aqui tenemos los articulo de la receta que se le asigno al menu
   
-  $items = $db->query("SELECT *, (SELECT nombre FROM articulo WHERE idArticulo = articulo LIMIT 1) AS nombre FROM bomoc WHERE 1 AND OC = '{$orden}'");
+  $items = $db->query("SELECT *, (SELECT nombre FROM articulo WHERE idArticulo = articulo LIMIT 1) AS nombre FROM bomocm WHERE 1 AND OC = '{$orden}'");
   
   // $items = $db->query("SELECT COUNT(*) AS total FROM bomoc WHERE 1 AND OC = '{$orden}'");
 

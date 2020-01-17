@@ -31,7 +31,7 @@ class Compra{
   }
 
   public function getOrden(){
-    $sql = "SELECT IFNULL(MAX(id), 1) AS orden FROM oc";
+    $sql = "SELECT IFNULL(MAX(id), 0) AS orden FROM oc";
     $r = $this->db->query( $sql );
     $r = $r->fetch_object();
     return date('y-W').'-'.($r->orden+1);

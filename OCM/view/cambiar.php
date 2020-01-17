@@ -156,7 +156,7 @@
 
     <div class="panel panel-default hide">
       
-      <form action="OCP/reimprimeOrden.php" class="my-1" method="POST" target="_blank">
+      <form action="OCM/reimprimeOrden.php" class="my-1" method="POST" target="_blank">
         <input type="hidden" name="orden" value="" id="reimprimir" />
         <button type="submit" class="btn btn-primary btn-sm"> Reimprimir Orden </button>
       </form>
@@ -278,7 +278,7 @@
     });
 
     //recuperar las ordenes
-    $.post('OCP/php/OCP.php', {method: 'getOrdenes'}, (data, textStatus, xhr)=> {
+    $.post('OCM/php/OCM.php', {method: 'getOrdenes'}, (data, textStatus, xhr)=> {
 
       var doc = _.createDocumentFragment();
       for( let item of data ){
@@ -296,7 +296,7 @@
     }, 'json');
 
     //recuperar los proveedores
-    $.post('OCP/php/OCP.php', {method: 'getProveedores'}, function(data, textStatus, xhr) {
+    $.post('OCM/php/OCM.php', {method: 'getProveedores'}, function(data, textStatus, xhr) {
       var doc = _.createDocumentFragment();
       for( let item of data ){
         let option = _.createElement('option');
@@ -342,7 +342,7 @@
     formReceta.proveedor.value = '';//resetamos el proveedor cuando cambie el cliente
 
     //recuperamos los datos de esta orden
-    $.post('OCP/php/OCP.php', {method: 'getInfoOrden', orden}, function(data, textStatus, xhr) {
+    $.post('OCM/php/OCM.php', {method: 'getInfoOrden', orden}, function(data, textStatus, xhr) {
 
       formReceta.cliente.value = data.cliente;
       formReceta.unidades.value = data.unidades;
@@ -414,7 +414,7 @@
 
     try{
       //rescatamos las unidades y cin ello agregamos a la tabla las unidades en cada columna
-      $.post('OCP/php/OCP.php', {method: 'getUnidadesClienteAndItemsOC', cliente: G_clientId, orden, proveedorId}, (data, textStatus, xhr)=> {
+      $.post('OCM/php/OCM.php', {method: 'getUnidadesClienteAndItemsOC', cliente: G_clientId, orden, proveedorId}, (data, textStatus, xhr)=> {
         //IF ERROR
         if(xhr.status >= 400)
           Swal.close('Error', 'Error en el servidor por favor reintente', 'error');
@@ -466,7 +466,7 @@
       }, 'json');
 
 
-      $.post('OCP/php/OCP.php', {method: 'getArticulos', proveedorId}, (data, textStatus, xhr)=> {
+      $.post('OCM/php/OCM.php', {method: 'getArticulos', proveedorId}, (data, textStatus, xhr)=> {
         
         stockArticulos = data;//global
 
@@ -559,7 +559,7 @@
         data.push({name: 'cliente', value: formReceta.cliente.value});//agregamos el cliente
 
 
-        $.post('OCP/php/OCP.php', data, (resp, textStatus, xhr)=> {
+        $.post('OCM/php/OCM.php', data, (resp, textStatus, xhr)=> {
 
           if( resp.status === 1 ){
             this.reset();
@@ -622,7 +622,7 @@
 
 
         console.log( data );
-        $.post('OCP/php/OCP.php', data, (resp, textStatus, xhr)=> {
+        $.post('OCM/php/OCM.php', data, (resp, textStatus, xhr)=> {
 
           if( resp.status === 1 ){
             this.reset();
@@ -689,7 +689,7 @@
           data.push({name: 'idArticulo', value: rowData.idArticulo});//agregamos el cliente
 
 
-          $.post('OCP/php/OCP.php', data, (resp, textStatus, xhr)=> {
+          $.post('OCM/php/OCM.php', data, (resp, textStatus, xhr)=> {
 
             if( resp.status === 1 ){
               Swal.fire('Exito', resp.msg, 'success').then(r=>{

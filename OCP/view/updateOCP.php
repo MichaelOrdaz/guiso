@@ -265,7 +265,6 @@
 
   // $(formArticulos).find('input, select, button[type="submit"], textarea').prop('disabled', true);//bloqueamos controles
 
-
   var getOrdenes = ()=>{
 
     Swal.fire({
@@ -400,7 +399,7 @@
     oTable.clear().draw();//limpiamos la tabla
     
     //si proveedor esta vacio
-    if( proveedor === '' ){
+    if( proveedorId === '' ){
       tblItems.closest('.panel').classList.add('hide');//ocultamos la tabla
       formArticulos.querySelector('fieldset').disabled = true;
       return;

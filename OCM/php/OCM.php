@@ -45,8 +45,8 @@ class OCM{
     fechaF, 
     (SELECT nombre FROM cliente WHERE idCliente = cliente LIMIT 1) AS cliente, 
     status, 
-    (SELECT nombre FROM usuario WHERE idUser = oc.usuario LIMIT 1) AS usuario
-    FROM oc WHERE 1 AND fecha > '{$dateLimit}' ORDER BY idoc DESC";
+    (SELECT nombre FROM usuario WHERE idUser = ocm.usuario LIMIT 1) AS usuario
+    FROM ocm WHERE 1 AND fecha > '{$dateLimit}' ORDER BY idoc DESC";
 
     $r = $this->db->query( $sql );
     while( $rows[] = $r->fetch_object() );
@@ -56,7 +56,7 @@ class OCM{
   }
 
   public function getOrden( $orden ){
-    $sql = "SELECT * FROM oc WHERE idOC = '{$orden}' LIMIT 1";
+    $sql = "SELECT * FROM ocm WHERE idOC = '{$orden}' LIMIT 1";
     $r = $this->db->query( $sql );
     if( $this->db->affected_rows > 0 )
       return $r->fetch_object();
@@ -69,7 +69,7 @@ class OCM{
 
     if( $this->getOrden($orden) ){
 
-      $sql = "UPDATE oc SET status = '2' WHERE idOC = '{$orden}'";
+      $sql = "UPDATE ocm SET status = '2' WHERE idOC = '{$orden}'";
       $this->db->query($sql);
 
       if( $this->db->affected_rows > 0 )
@@ -90,7 +90,7 @@ class OCM{
 
     if( $this->getOrden($orden) ){
 
-      $sql = "UPDATE oc SET status = '1' WHERE idOC = '{$orden}'";
+      $sql = "UPDATE ocm SET status = '1' WHERE idOC = '{$orden}'";
       $this->db->query($sql);
 
       if( $this->db->affected_rows > 0 )
@@ -110,11 +110,11 @@ class OCM{
 
     if( $this->getOrden($orden) ){
 
-      $sql = "DELETE FROM oc WHERE idOC = '{$orden}'";
+      $sql = "DELETE FROM ocm WHERE idOC = '{$orden}'";
       $this->db->query($sql);
 
       if( $this->db->affected_rows > 0 ){
-        $this->db->query("DELETE FROM bomoc WHERE oc = '{$orden}'");
+        $this->db->query("DELETE FROM bomocm WHERE oc = '{$orden}'");
         echo toJson(1, 'La Orden de Compra se Elimino Correctamente', ['drop'=> $this->db->affected_rows]);
       }
       else
@@ -133,7 +133,7 @@ class OCM{
 
     $orden = [];
 
-    $sql = "SELECT (SELECT nombre FROM cliente WHERE idCliente = cliente) AS cliente, cliente as idCliente, fechaI, fechaF FROM oc WHERE idOC = '{$oc}' LIMIT 1";
+    $sql = "SELECT (SELECT nombre FROM cliente WHERE idCliente = cliente) AS cliente, cliente as idCliente, fechaI, fechaF FROM ocm WHERE idOC = '{$oc}' LIMIT 1";
     $r = $this->db->query( $sql );
 
     $info = $r->fetch_object();
@@ -191,7 +191,7 @@ class OCM{
     $orden = filter_input(INPUT_POST, 'orden', FILTER_SANITIZE_STRING);
 
     // $sql = "SELECT OC, cliente, unidad, articulo, linea, cantidad, proveedor, presentacion, factor, costoU, costoT FROM bomoc WHERE OC = '{$orden}' AND proveedor = '{$proveedorId}' ORDER BY proveedor, linea, articulo, unidad";
-    $sql = "SELECT OC, cliente, unidad, articulo, linea, SUM(cantidad) AS quantity, proveedor, presentacion, factor, costoU FROM bomoc WHERE OC = '{$orden}' AND proveedor = '{$proveedorId}' GROUP BY articulo, unidad ORDER BY articulo";
+    $sql = "SELECT OC, cliente, unidad, articulo, linea, SUM(cantidad) AS quantity, proveedor, presentacion, factor, costoU FROM bomocm WHERE OC = '{$orden}' AND proveedor = '{$proveedorId}' GROUP BY articulo, unidad ORDER BY articulo";
 
     // echo $sql;
 
@@ -295,7 +295,7 @@ class OCM{
     $cliente = $dataOrden->cliente;
 
     //CUando se actualize una orden regresa al status 1 se reabre por asi decirlo
-    $sql = "UPDATE oc SET status = '1' WHERE idOC = '{$orden}'";
+    $sql = "UPDATE ocm SET status = '1' WHERE idOC = '{$orden}'";
     $this->db->query($sql);
 
 
@@ -315,7 +315,7 @@ class OCM{
     // var_dump($idArticulo, $presentacion, $precio, $orden);
     // var_dump($unidades);
 
-    $sql = "SELECT fechaI, fechaF FROM oc WHERE idOC = '{$orden}' LIMIT 1";
+    $sql = "SELECT fechaI, fechaF FROM ocm WHERE idOC = '{$orden}' LIMIT 1";
     $r = $this->db->query($sql);
     $r = $r->fetch_object();
     $fechaI = new DateTime($r->fechaI);
@@ -330,23 +330,23 @@ class OCM{
     $factor = $r->factor;
     $linea = $r->linea;
 
+    if( $factor > 0 ){
+      $precio /= $factor;
+    }
+
     // var_dump($factor);
-    foreach ($unidades as $unidad) {
-      // var_dump($unidad);
-      
+    foreach ($unidades as &$unidad) {
       if( $factor > 0 ){
         $unidad['cantidad'] *= $factor;
-        $precio /= $factor;
       }
       $unidad['total'] = $precio * $unidad['cantidad'];
-    
-      // var_dump($unidad);
     }
+    unset($unidad);
 
     // var_dump($unidades);
     // exit;
 
-    $sql = "SELECT OC, articulo, proveedor FROM bomoc WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
+    $sql = "SELECT OC, articulo, proveedor FROM bomocm WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
     $r = $this->db->query($sql);
 
     $this->db->affected_rows === 0 or die(toJson(0, 'El articulo ya existe en la orden de compra'));
@@ -354,7 +354,7 @@ class OCM{
     $conta = 0;
     foreach( $unidades as $unidad ){
 
-      $sql = "INSERT INTO bomoc ( OC, fechaI, fechaF, hoja, cliente, unidad, articulo, linea, cantidad, proveedor, presentacion, factor, costoU, costoT, fecha ) VALUES ('{$orden}', '{$fechaI->format('Y-m-d')}', '{$fechaF->format('Y-m-d')}', 0, '{$cliente}', '{$unidad['unidad']}', '{$idArticulo}', '{$linea}', '{$unidad['cantidad']}', '{$proveedor}', '{$presentation}', '{$factor}', '{$precio}', '{$unidad['total']}', now() )";
+      $sql = "INSERT INTO bomocm ( OC, fechaI, fechaF, hoja, cliente, unidad, articulo, linea, cantidad, proveedor, presentacion, factor, costoU, costoT, fecha ) VALUES ('{$orden}', '{$fechaI->format('Y-m-d')}', '{$fechaF->format('Y-m-d')}', 0, '{$cliente}', '{$unidad['unidad']}', '{$idArticulo}', '{$linea}', '{$unidad['cantidad']}', '{$proveedor}', '{$presentation}', '{$factor}', '{$precio}', '{$unidad['total']}', now() )";
       $this->db->query($sql);
 
       // $sqls[] = $sql;
@@ -380,7 +380,7 @@ class OCM{
     $cliente = $dataOrden->cliente;
 
     //CUando se actualize una orden regresa al status 1 se reabre por asi decirlo
-    $sql = "UPDATE oc SET status = '1' WHERE idOC = '{$orden}'";
+    $sql = "UPDATE ocm SET status = '1' WHERE idOC = '{$orden}'";
     $this->db->query($sql);
     
     //obtener por cada unidad es un insert
@@ -399,7 +399,7 @@ class OCM{
     // var_dump($idArticulo, $presentacion, $precio, $orden);
     // var_dump($unidades);
 
-    $sql = "SELECT fechaI, fechaF FROM oc WHERE idOC = '{$orden}' LIMIT 1";
+    $sql = "SELECT fechaI, fechaF FROM ocm WHERE idOC = '{$orden}' LIMIT 1";
     $r = $this->db->query($sql);
     $r = $r->fetch_object();
     $fechaI = new DateTime($r->fechaI);
@@ -414,16 +414,21 @@ class OCM{
     $factor = $r->factor;
     $linea = $r->linea;
 
+    if( $factor > 0 ){
+      $precio /= $factor;
+    }
+
     // var_dump($factor);
-    foreach ($unidades as $unidad) {
+    foreach ($unidades as &$unidad) {
       if( $factor > 0 ){
         $unidad['cantidad'] *= $factor;
-        $precio /= $factor;
       }
       $unidad['total'] = $precio * $unidad['cantidad'];
     }
 
-    $sql = "DELETE FROM bomoc WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
+    unset($unidad);
+
+    $sql = "DELETE FROM bomocm WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
     $r = $this->db->query($sql);
 
     $this->db->affected_rows > 0 or die(toJson(0, 'El articulo de la orden de compra no pudo actualizarse, por favor reintente'));
@@ -431,7 +436,7 @@ class OCM{
     $conta = 0;
     foreach( $unidades as $unidad ){
 
-      $sql = "INSERT INTO bomoc ( OC, fechaI, fechaF, hoja, cliente, unidad, articulo, linea, cantidad, proveedor, presentacion, factor, costoU, costoT, fecha ) VALUES ('{$orden}', '{$fechaI->format('Y-m-d')}', '{$fechaF->format('Y-m-d')}', 0, '{$cliente}', '{$unidad['unidad']}', '{$idArticulo}', '{$linea}', '{$unidad['cantidad']}', '{$proveedor}', '{$presentation}', '{$factor}', '{$precio}', '{$unidad['total']}', now() )";
+      $sql = "INSERT INTO bomocm ( OC, fechaI, fechaF, hoja, cliente, unidad, articulo, linea, cantidad, proveedor, presentacion, factor, costoU, costoT, fecha ) VALUES ('{$orden}', '{$fechaI->format('Y-m-d')}', '{$fechaF->format('Y-m-d')}', 0, '{$cliente}', '{$unidad['unidad']}', '{$idArticulo}', '{$linea}', '{$unidad['cantidad']}', '{$proveedor}', '{$presentation}', '{$factor}', '{$precio}', '{$unidad['total']}', now() )";
       $this->db->query($sql);
 
       // $sqls[] = $sql;
@@ -455,7 +460,7 @@ class OCM{
     $dataOrden or die( toJson(0, 'La Orden de compra no existe, por favor reintente') );
 
     //CUando se actualize una orden regresa al status 1 se reabre por asi decirlo
-    $sql = "UPDATE oc SET status = '1' WHERE idOC = '{$orden}'";
+    $sql = "UPDATE ocm SET status = '1' WHERE idOC = '{$orden}'";
     $this->db->query($sql);
 
     // $cliente = $dataOrden->cliente;
@@ -500,7 +505,7 @@ class OCM{
     //   $unidad['total'] = $precio * $unidad['cantidad'];
     // }
 
-    $sql = "DELETE FROM bomoc WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
+    $sql = "DELETE FROM bomocm WHERE OC = '{$orden}' AND articulo = '{$idArticulo}' AND proveedor = '{$proveedor}'";
     $r = $this->db->query($sql);
 
     $this->db->affected_rows > 0 or die(toJson(0, 'El articulo de la orden de compra no pudo eliminarse, por favor reintente'));
@@ -520,11 +525,58 @@ class OCM{
 
   }
 
+
+  public function getIDOrden(){
+    $sql = "SELECT IFNULL(MAX(id), 0) AS orden FROM ocm";
+    $r = $this->db->query( $sql );
+    $r = $r->fetch_object();
+    return date('y-W').'-'.($r->orden+1);
+  }
+
+  public function crearOC(){
+
+    //tegno el clienteId y usuario en sesion id
+    $client = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die(toJson(0, 'El cliente es inválido'));
+    $rango = filter_input(INPUT_POST, 'rango', FILTER_SANITIZE_STRING) or die(toJson(0, 'La fecha es inválida'));
+    // $end = filter_input(INPUT_POST, 'end', FILTER_SANITIZE_STRING) or die(toJson(0, 'La fecha final es inválida'));
+    //$this->uidUser;//id usuario en sesioon
+    
+    $rangos = explode(' - ', $rango);
+
+    $start = $rangos[0];
+    $end = $rangos[1];
+
+    try {
+      $fecha = new DateTime($start);
+    }catch (Exception $e) {
+      die( toJson(0, 'La fecha inicial es invalida') );
+    }
+
+    try {
+      $fecha = new DateTime($end);
+    }catch (Exception $e) {
+      die( toJson(0, 'La fecha final es invalida') );
+    }
+
+    // $sql = "SELECT COUNT(*) as total FROM menu as me inner join menurec as mr on me.idMenu = mr.idMenu WHERE ( date(mr.fecha) between '{$start}' AND '{$end}' ) AND me.activo = 1 AND me.cliente = '{$client}'";
+    // $r = $this->db->query($sql);
+    // $r = $r->fetch_object()->total;
+
+    // $r > 0 or die( toJson(0, 'No hay información en ese rango de fechas para generar la orden') );
+
+    //yo omito esta parte ya que pues es un auto incremtnable en la bd
+    $orden = $this->getIDOrden();
+    $sql = "INSERT INTO ocm (idOC, cliente, fechaI, fechaF, status, fecha, usuario) VALUES ( '{$orden}', '{$client}', '{$start}', '{$end}', 0, now(), '{$this->uidUser}' )";
+    $r = $this->db->query($sql);
+    $this->db->affected_rows > 0 or die(toJson(0, 'Error al generar la orden de compra por favor reintente'));
+    $idOrden = $this->db->insert_id;
+    echo toJson(1, "Orden de compra generada con el folio {$orden}", ['orden'=> $orden]);
+
+  }
+
   public function __destruct(){
     $this->db->close();
   }
-
-
 
 }
 

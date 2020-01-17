@@ -25,18 +25,11 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label class="text-blue">Unidades</label>
-                <input type="text" name="unidades" id="unidades" class="form-control input-sm" placeholder="Unidades en la Orden" required title="Campo solo informativo" />
+                <input type="text" name="unidades" id="unidades" class="form-control input-sm" placeholder="Unidades en la Orden" title="Campo solo informativo" />
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label class="text-blue">Proveedor</label>
-                <select name="proveedor" class="form-control input-sm" required >
-                  <option value="" selected> Seleccione un proveedor </option>
-                </select>
-              </div>
-            </div>
+            
             
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
@@ -59,12 +52,39 @@
             </div>
           
           </div>
-
+          
           <div class="row">
             <div class="col-xs-12 text-center">
-              <button type="submit" class="btn btn-primary"> Añadir Artículos </button>
+              <button type="submit" class="btn btn-primary"> Generar Orden de Compra </button>
             </div>
           </div>
+
+          <div class="row mt-1 hide">
+            <div class="col-sm-6 col-sm-offset-3 col-xs-offset-0">
+              <div class="form-group">
+                <label> ORDEN DE COMPRA </label>
+                <input type="text" name="ocm" class="form-control input-sm" placeholder="Identificador de Orden de compra" required readonly />
+              </div>
+            </div>
+
+            <div class="col-xs-12">
+            
+              <div class="alert alert-info">
+                <strong>¡Recuerda!</strong> Ahora agrega los artículos que necesites para esta orden de compra, recuerda que los articulos se filtran por el proveedor
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label class="text-blue">Proveedor</label>
+                <select name="proveedor" class="form-control input-sm" >
+                  <option value="" selected> Seleccione un proveedor </option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
           <!-- endRow -->
 
         </form>
@@ -153,7 +173,7 @@
 
     <div class="panel panel-default hide">
       
-      <form action="OCP/reimprimeOrden.php" class="my-1" method="POST" target="_blank">
+      <form action="OCM/reimprimeOrden.php" class="my-1" method="POST" target="_blank">
         <input type="hidden" name="orden" value="" id="reimprimir" />
         <button type="submit" class="btn btn-primary btn-sm"> Reimprimir Orden </button>
       </form>
@@ -328,49 +348,77 @@
 
   formReceta.cliente.addEventListener('change', loadUnidades);
 
-  // formReceta.proveedor.addEventListener('input', getProveedor);
 
-  //cuando cambie el identificador de la orden recuperamos los datos generales de esa orden
-  // var getInfoOrden = function(ev){
-  //   let orden = this.value;
+  const crearOC = function(ev){
+    if(ev) ev.preventDefault();
 
-  //   // formReceta.proveedor.querySelectorAll('option:not(:first-child)').forEach(opt=>{
-  //   //   opt.parentNode.removeChild(opt);
-  //   // });//eliminamos los proveedores
+    let cliente = this.cliente.value.trim();
+    let week = this.semana.value.trim();
+    let rango = this.rango.value.trim();
 
-  //   formArticulos.reset();//limpiamos
-  //   oTable.clear().draw();//limpiamos la tabla
-  //   tblItems.closest('.panel').classList.add('hide');//ocultamos la tabla
-  //   $('.addInputUnits').empty();
+    if( cliente.length === 0 ){
+      Swal.fire("Error", 'El cliente es requerido', 'warning');
+      return;
+    }
 
-  //   if( orden === '' ){
-  //     formReceta.reset();//limpiamos
-  //     formArticulos.querySelector('fieldset').disabled = true;//bloqueado
-  //     formReceta.proveedor.disabled = true;
-  //     formReceta.unidades.title = '';//ya que esta bloqueado el input, le colocamos un title
-  //     $$('#reimprimir').value = '';
-  //     return;
+    if( week.length === 0 ){
+      Swal.fire("Error", 'La semana es requerida', 'warning');
+      return;
+    }
 
-  //   }
+    if( rango.length === 0 ){
+      Swal.fire("Error", 'El rango es requerido', 'warning');
+      return;
+    }
 
-  //   $$('#reimprimir').value = orden;
-  //   formReceta.proveedor.disabled = false;
-  //   formReceta.proveedor.value = '';//resetamos el proveedor cuando cambie el cliente
+    $.ajax({
+      url: 'OCM/php/OCM.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        cliente,
+        rango,
+        method: 'crearOC'
+      },
+      beforeSend: ()=>{
+        Swal.fire({
+          title: 'Guardando',
+          onOpen: ()=>{
+            Swal.showLoading()
+          },
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+      }
+    })
+    .done((response)=>{
+      if( response.status === 1 ){
+        Swal.fire('Exito', response.msg, 'success');
 
-  //   //recuperamos los datos de esta orden
-  //   $.post('OCP/php/OCP.php', {method: 'getInfoOrden', orden}, function(data, textStatus, xhr) {
+        this.ocm.closest('.row').classList.remove('hide');//mostramos el input de proveedor y el de ocm
 
-  //     formReceta.cliente.value = data.cliente;
-  //     formReceta.unidades.value = data.unidades;
-  //     formReceta.unidades.title = data.unidades;//ya que esta bloqueado el input, le colocamos un title
-  //     formReceta.fecha.value = data.fecha;
-  //     formReceta.semana.value = data.semana;
-  //     G_clientId = data.clienteId;
+        this.cliente.disabled = true;
+        this.semana.disabled = true;
+        this.rango.disabled = true;
+        this.unidades.disabled = true;
 
-  //   }, 'json');
+        G_clientId = cliente;
+        
+        this.ocm.value = response.orden;
+        $$('#reimprimir').value = response.orden;
 
-  // }
-  // formReceta.idOrden.addEventListener('change', getInfoOrden);
+      }
+      else{
+        Swal.fire('Error', response.msg, 'error');
+      }
+    })
+    .fail(()=> {
+      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+    });
+
+  }
+
+  formReceta.addEventListener('submit', crearOC);
 
 
   //funcion que crea y agrega los inputs nesarios de cada orden, al cliente, crear un input por unidad del cliente en la cual se colocara la cantidad vendida a esa unidad
@@ -408,7 +456,7 @@
       allowEscapeKey: false
     });
 
-    let orden = formReceta.idOrden.value;
+    let orden = formReceta.ocm.value;
     // let client = formReceta.cliente.value;
     let proveedorId = this.value;
 
@@ -416,7 +464,7 @@
     oTable.clear().draw();//limpiamos la tabla
     
     //si proveedor esta vacio
-    if( proveedor === '' ){
+    if( proveedorId === '' ){
       tblItems.closest('.panel').classList.add('hide');//ocultamos la tabla
       formArticulos.querySelector('fieldset').disabled = true;
       return;
@@ -430,7 +478,7 @@
 
     try{
       //rescatamos las unidades y cin ello agregamos a la tabla las unidades en cada columna
-      $.post('OCP/php/OCP.php', {method: 'getUnidadesClienteAndItemsOC', cliente: G_clientId, orden, proveedorId}, (data, textStatus, xhr)=> {
+      $.post('OCM/php/OCM.php', {method: 'getUnidadesClienteAndItemsOC', cliente: G_clientId, orden, proveedorId}, (data, textStatus, xhr)=> {
         //IF ERROR
         if(xhr.status >= 400)
           Swal.close('Error', 'Error en el servidor por favor reintente', 'error');
@@ -482,7 +530,7 @@
       }, 'json');
 
 
-      $.post('OCP/php/OCP.php', {method: 'getArticulos', proveedorId}, (data, textStatus, xhr)=> {
+      $.post('OCM/php/OCM.php', {method: 'getArticulos', proveedorId}, (data, textStatus, xhr)=> {
         
         stockArticulos = data;//global
 
@@ -509,7 +557,7 @@
 
   }
  
-  // formReceta.proveedor.addEventListener('change', changeProveedor);
+  formReceta.proveedor.addEventListener('change', changeProveedor);
 
 
   // llenado del articulo
@@ -570,12 +618,12 @@
       if (result.value) {
         
         data.push({name: 'method', value: 'addArticle'});//agregamos el metodo
-        data.push({name: 'orden', value: formReceta.idOrden.value});//agregamos la orden
+        data.push({name: 'orden', value: formReceta.ocm.value});//agregamos la orden
         data.push({name: 'proveedor', value: formReceta.proveedor.value});//agregamos el proveedor
         data.push({name: 'cliente', value: formReceta.cliente.value});//agregamos el cliente
 
 
-        $.post('OCP/php/OCP.php', data, (resp, textStatus, xhr)=> {
+        $.post('OCM/php/OCM.php', data, (resp, textStatus, xhr)=> {
 
           if( resp.status === 1 ){
             this.reset();
@@ -632,13 +680,13 @@
       if (result.value) {
         
         data.push({name: 'method', value: 'updateArticle'});//agregamos el metodo
-        data.push({name: 'orden', value: formReceta.idOrden.value});//agregamos la orden
+        data.push({name: 'orden', value: formReceta.ocm.value});//agregamos la orden
         data.push({name: 'proveedor', value: formReceta.proveedor.value});//agregamos el proveedor
         data.push({name: 'cliente', value: formReceta.cliente.value});//agregamos el cliente
 
 
         console.log( data );
-        $.post('OCP/php/OCP.php', data, (resp, textStatus, xhr)=> {
+        $.post('OCM/php/OCM.php', data, (resp, textStatus, xhr)=> {
 
           if( resp.status === 1 ){
             this.reset();
@@ -700,12 +748,12 @@
           
           var data = [];
           data.push({name: 'method', value: 'removeArticle'});//agregamos el metodo
-          data.push({name: 'orden', value: formReceta.idOrden.value});//agregamos la orden
+          data.push({name: 'orden', value: formReceta.ocm.value});//agregamos la orden
           data.push({name: 'proveedor', value: formReceta.proveedor.value});//agregamos el proveedor
           data.push({name: 'idArticulo', value: rowData.idArticulo});//agregamos el cliente
 
 
-          $.post('OCP/php/OCP.php', data, (resp, textStatus, xhr)=> {
+          $.post('OCM/php/OCM.php', data, (resp, textStatus, xhr)=> {
 
             if( resp.status === 1 ){
               Swal.fire('Exito', resp.msg, 'success').then(r=>{

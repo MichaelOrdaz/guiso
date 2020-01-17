@@ -330,18 +330,19 @@ class OCP{
     $factor = $r->factor;
     $linea = $r->linea;
 
+    if( $factor > 0 ){
+      $precio /= $factor;
+    }
+
     // var_dump($factor);
-    foreach ($unidades as $unidad) {
-      // var_dump($unidad);
-      
+    foreach ($unidades as &$unidad) {
       if( $factor > 0 ){
         $unidad['cantidad'] *= $factor;
-        $precio /= $factor;
       }
       $unidad['total'] = $precio * $unidad['cantidad'];
-    
-      // var_dump($unidad);
     }
+
+    unset($unidad);
 
     // var_dump($unidades);
     // exit;
