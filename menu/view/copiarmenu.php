@@ -111,8 +111,28 @@ color: black;
                     <label style="color: #337ab7;">*# Tiempos:</label>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                    <select class="form-control" id="tiemp" style="height: 28px;" disabled>
-                    <option disabled selected></option>
+                    <select class="form-control" id="tiemp" style="height: 28px;">
+                    <option disabled selected> -- seleccione tiempo -- </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
                     </select>
                     </div>
                     <div class="col-md-5 col-sm-12" style='color:#337ab7;'>
@@ -189,7 +209,9 @@ color: black;
 
 temporal1="";
 
-contador1=0;
+num=0;
+
+band=0;
 
 lunes1=0;
 band1=0;
@@ -205,6 +227,14 @@ sabado1=0;
 band6=0;
 domingo1=0;
 band7=0;
+
+lunes="";
+martes="";
+miercoles="";
+jueves="";
+viernes="";
+sabado="";
+domingo1="";
 
 $("#checkbox1").click(function() { 
 band1=1;
@@ -340,8 +370,11 @@ $('#cliente').html(unidad);
 },
 });
 
-$('#cliente').on('change',function(){
+$('#tiemp').on('change',function(){
+num=$('#tiemp').val();
+});
 
+$('#cliente').on('change',function(){
 $.ajax({
 url : 'menu/php/agregarmenu3.php',
 data : {nombre:$('#cliente').val()},
@@ -355,7 +388,6 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idunidad+">"+value.unidad+"</option>";
 });
 $('#unidad').html(unidad);
-
 $.ajax({
 url : 'menu/php/agregarmenu4.php',
 data : {nombre:$('#unidad').val()},
@@ -369,15 +401,17 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
-$('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $('#idm').val(id);
+if (band!=1){
+$('#tabla').html('');
+$('#idm').val(id);
 buscar();
+}
 }
 },
 });
-
 },
 });
 });
@@ -397,31 +431,40 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
-$('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $('#idm').val(id);
+if (band!=1){
+$('#tabla').html('');
+$('#idm').val(id);
 buscar();
+}
 }
 },
 });
 });
 
 $('#subunidad').on('change',function(){
-$('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $('#idm').val(id);
+if (band!=1){
+$('#tabla').html('');
+$('#idm').val(id);
 buscar();
+}
 }
 });
 
 $('#grupo').on('change',function(){
-$('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $('#idm').val(id);
+if (band!=1){
+$('#tabla').html('');
+$('#idm').val(id);
 buscar();
+}
 }
 });
 
@@ -440,7 +483,11 @@ ano=vector[2];
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $('#idm').val(id);
+if (band!=1){
+$('#tabla').html('');
+$('#idm').val(id);
 buscar();
+}
 }
 },
 });
@@ -451,6 +498,9 @@ buscar();
 });
 
 function buscar(){
+
+contador1=0;
+cont=0;
 
 $.ajax({
 url : 'menu/php/modificarmenu.php',
@@ -473,7 +523,7 @@ $.each(res,function(key,value){
 
 $('#costo').val(value.costo);
 $('#elaboro').val(value.elaboro);
-$('#tiemp').html("<option>"+value.numTiempos+"</option>");
+$("#tiemp option[value="+value.numTiempos+"]").attr("selected",true);
 
 idsubunidad=value.idsubunidad;
 lapsoi=value.lapsoi;
@@ -571,7 +621,6 @@ respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 
 tabla="";
-cont=0;
 
 $.each(res,function(key,value){
 
@@ -623,6 +672,8 @@ if(contador1>1){
 temporal1+=","+temporal;
 }
 
+if(contador1<=$('#tiemp').val()){
+
 tabla+="<td style='width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<br>"+
@@ -637,8 +688,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+reslunes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+reslunes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -647,7 +698,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((lunes==1)&&(reslunes[0]=="")){
@@ -656,8 +707,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -666,7 +717,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(lunes==0){
@@ -681,8 +732,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resmartes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+resmartes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -691,7 +742,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsomartes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsomartes+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((martes==1)&&(resmartes[0]=="")){
@@ -700,8 +751,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -710,7 +761,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsomartes+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(martes==0){
@@ -725,8 +776,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resmiercoles[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+resmiercoles[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -735,7 +786,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsomiercoles+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsomiercoles+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((miercoles==1)&&(resmiercoles[0]=="")){
@@ -744,8 +795,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -754,7 +805,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsomiercoles+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(miercoles==0){
@@ -769,8 +820,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resjueves[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+resjueves[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -779,7 +830,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsojueves+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsojueves+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((jueves==1)&&(resjueves[0]=="")){
@@ -788,8 +839,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -798,7 +849,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsojueves+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(jueves==0){
@@ -813,8 +864,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resviernes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+resviernes[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -823,7 +874,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsoviernes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsoviernes+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((viernes==1)&&(resviernes[0]=="")){
@@ -832,8 +883,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -842,7 +893,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsoviernes+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(viernes==0){
@@ -857,8 +908,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+ressabado[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+ressabado[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -867,7 +918,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsosabado+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsosabado+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((sabado==1)&&(ressabado[0]=="")){
@@ -876,8 +927,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -886,7 +937,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsosabado+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(sabado==0){
@@ -901,8 +952,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='"+resdomingo[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='"+resdomingo[0]+"' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -911,7 +962,7 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if((domingo==1)&&(resdomingo[0]=="")){
@@ -920,8 +971,8 @@ tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -930,11 +981,13 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsolunes+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(domingo==0){
 tabla+="<td style='height:24px'></td>";    
+}
+
 }
 
 tabla+="</tr>";
@@ -964,23 +1017,63 @@ $('#'+i+' > option[value='+vector[i-1]+']').attr('selected', 'selected');
 },
 });
 
-for (i=1;i<$('#tiemp').val();i++){
+$('.tiempos1').on('input',function(){
+tiempo=$(this).attr('id');
+$.ajax({
+url : 'menu/php/agregarmenu7.php',
+data : {
+subunidad:$("#subunidad").children("option:selected").val(),
+tiempo:$(this).children("option:selected").val()
+},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+nombre="";
+$.each(res,function(key,value){
+nombre+="<option>"+value.nombre+"</option>";
+});
+$('#browsers'+tiempo).html(nombre);
+},
+});
+});
+
+$('.recetasj').on('input',function(){
+res=$(this).attr('id');
+res=res.replace("recetas","");
+$.ajax({
+url : 'menu/php/agregarmenu16.php',
+data : {
+nombre:$(this).val(),
+subunidad:$("#subunidad").children("option:selected").val()
+},
+type : 'POST',
+success:function(respuesta){
+$('#precior'+res).val(respuesta);
+},
+});
+});
+
+for (contador1;contador1<$('#tiemp').val();contador1++){
 tabla+="<tr>";
 
 tabla+=
-"<td style='height:24px;width:12.5%;'>"+
+"<td style='height:24px;width:14%;'>"+
 "<br>"+
-"<select style='width:100%;height:24px;' class='tiempos' required>"+
+"<select style='width:100%;height:24px;' class='tiempos2' id="+contador1+" required>"+
 "</select>"+
 "</td>";
 
 if(lunes==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -989,19 +1082,20 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(lunes==0){
 tabla+="<td style='width:14%;'></td>"; 
 }
 if(martes==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -1010,19 +1104,20 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(martes==0){
 tabla+="<td style='width:14%;'></td>"; 
 }
 if(miercoles==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -1031,19 +1126,20 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(miercoles==0){
 tabla+="<td style='width:14%;'></td>"; 
 }
 if(jueves==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -1052,19 +1148,20 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(jueves==0){
 tabla+="<td style='width:14%;'></td>"; 
 }
 if(viernes==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -1073,19 +1170,20 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(viernes==0){
 tabla+="<td style='width:14%;'></td>"; 
 }
 if(sabado==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -1094,19 +1192,20 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(sabado==0){
 tabla+="<td style='width:14%;'></td>"; 
 }
 if(domingo==1){
+cont=cont+1;
 tabla+=
 "<td style='height:24px;color:#337ab7;width:14%;'>"+
 "Receta"+
 "<br>"+
-"<input list='browsers' style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
-"<datalist id='browsers' class='recetasg'></datalist>"+
+"<input list="+"browsers"+contador1+" style='width:130px;margin-bottom:5px' value='' id="+"recetas"+cont+" class='recetasj' autocomplete='off' required>"+
+"<datalist id="+"browsers"+contador1+" class='recetasg'></datalist>"+
 "<br>"+
 "<label style='margin-right:30px;color:#337ab7;'>Costo</label><label style='color:#337ab7;'>Personas</label>"+
 "<br>"+
@@ -1115,20 +1214,176 @@ tabla+=
 "<br>"+
 "Fecha"+
 "<br>"+
-//"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
+"<input style='width:80px;background-color:white;' value='"+lapsodomingo+"' class="+"fecha"+cont+" disabled>"+
 "</td>";
 }
 if(domingo==0){
-tabla+="<td style='height:24px' ></td>"; 
+tabla+="<td style='width:14%;'></td>"; 
 }
 tabla+="</tr>";
 $('#tabla').html(tabla);
+
+$.ajax({
+url : 'menu/php/agregarmenu12.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+respuesta=JSON.parse(respuesta);
+temp="";
+temp+="<option disabled selected> -- Tiempos -- </option>";
+$.each(respuesta,function(key,value){
+temp+="<option value="+value.idTiempo+">"+value.tiempo+"</option>";
+});
+$('.tiempos2').html(temp);
+},
+});
+
+$('.tiempos1').on('input',function(){
+tiempo=$(this).attr('id');
+$.ajax({
+url : 'menu/php/agregarmenu7.php',
+data : {
+subunidad:$("#subunidad").children("option:selected").val(),
+tiempo:$(this).children("option:selected").val()
+},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+nombre="";
+$.each(res,function(key,value){
+nombre+="<option>"+value.nombre+"</option>";
+});
+$('#browsers'+tiempo).html(nombre);
+},
+});
+});
+
+$('.tiempos2').on('input',function(){
+tiempo=$(this).attr('id');
+$.ajax({
+url : 'menu/php/agregarmenu7.php',
+data : {
+subunidad:$("#subunidad").children("option:selected").val(),
+tiempo:$(this).children("option:selected").val()
+},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+nombre="";
+$.each(res,function(key,value){
+nombre+="<option>"+value.nombre+"</option>";
+});
+$('#browsers'+tiempo).html(nombre);
+},
+});
+});
+
+$('.recetasj').on('input',function(){
+res=$(this).attr('id');
+res=res.replace("recetas","");
+$.ajax({
+url : 'menu/php/agregarmenu16.php',
+data : {
+nombre:$(this).val(),
+subunidad:$("#subunidad").children("option:selected").val()
+},
+type : 'POST',
+success:function(respuesta){
+$('#precior'+res).val(respuesta);
+},
+});
+});
+
 }
 
 },
 });
+
 },
 });
+
+band=1;
+
 }
+
+$('#copiar').on('click',function(){
+
+for (i=1;i<=cont;i++){
+if(i==1){
+temp1=$('#recetas'+i).val();
+}
+if(i>1){
+temp1+=","+$('#recetas'+i).val();
+}
+if(i==1){
+temp2=$('#precior'+i).val();
+}
+if(i>1){
+temp2+=","+$('#precior'+i).val();
+}
+if(i==1){
+temp3=$('#personas'+i).val();
+}
+if(i>1){
+temp3+=","+$('#personas'+i).val();
+}
+if(i==1){
+temp4=$('.fecha'+i).val();
+}
+if(i>1){
+temp4+=","+$('.fecha'+i).val();
+}
+}
+
+for (var i=1;i<=cont;i++){
+if(i==1){
+costo=Number($('#precior'+i).val())*Number($('#personas'+i).val());
+}
+if(i>1){
+costo=costo+Number($('#precior'+i).val())*Number($('#personas'+i).val());
+}
+}
+
+$.ajax({
+url : 'menu/php/copiarmenu.php',
+type : 'POST',
+data :{
+idMenu:$('#idm').val(),
+anio:$('#ano').val(),
+semana:$('#semana').val(),
+cliente:$('#cliente').val(),
+unidad:$('#unidad').val(),
+subunidad:$('#subunidad').val(),
+costo:costo,
+elaboro:$('#elaboro').val(),
+grupo:$('#grupo').val(),
+tiempo:$('#tiemp').val(),
+recetas:temp1,
+precio:temp2,
+personas:temp3,
+fechas:temp4,
+lunes:lunes,
+martes:martes,
+miercoles:miercoles,
+jueves:jueves,
+viernes:viernes,
+sabado:sabado,
+domingo:domingo
+},
+async:true,
+success:function(respuesta){
+$("#contenedor").load('menu/view/copiarmenu.php');
+},
+});
+
+});
 
 </script>

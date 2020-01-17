@@ -315,6 +315,7 @@ $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
+$('#tabla').html('');
 $('#idm').val(id);
 buscar();
 }
@@ -344,6 +345,7 @@ $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
+$('#tabla').html('');
 $('#idm').val(id);
 buscar();
 }
@@ -357,6 +359,7 @@ $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
+$('#tabla').html('');
 $('#idm').val(id);
 buscar();
 }
@@ -367,6 +370,7 @@ $('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
+$('#tabla').html('');
 $('#idm').val(id);
 buscar();
 }
@@ -387,6 +391,7 @@ ano=vector[2];
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
+$('#tabla').html('');
 $('#idm').val(id);
 buscar();
 }

@@ -22,6 +22,10 @@ while($columna1=mysqli_fetch_array($resultado1)){
 $idreceta=$columna1['idReceta'];
 }
 
+if(!isset($idreceta)){
+continue;
+}
+
 $consulta2 = "SELECT descripcion FROM tiempo WHERE idTiempo = '$tiempo' ";
 $resultado2 = mysqli_query($conexion,$consulta2);
 while($columna2=mysqli_fetch_array($resultado2)){

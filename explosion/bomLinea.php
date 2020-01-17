@@ -233,11 +233,11 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
   // //set autoFilter de un rango
   $sheet->setAutoFilter("A7:H{$indexRow}");
 
-}//whileUnidad
+  $cellTotal = "H{$startLinea}:H".($indexRow-1);//determinamos el rango
+  $sheet->setCellValue("G{$indexRow}", 'Total');
+  $sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
 
-$cellTotal = "H{$startLinea}:H".($indexRow-1);//determinamos el rango
-$sheet->setCellValue("G{$indexRow}", 'Total');
-$sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
+}//whileUnidad
 
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header("Content-disposition: attachment; filename=explosionPorUnidad&Linea ($start - $end).xlsx");

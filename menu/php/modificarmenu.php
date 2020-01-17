@@ -12,6 +12,10 @@ while($columna=mysqli_fetch_array($resultado)){
 $cadena=$columna['lapso'];
 }
 
+if(!isset($cadena)){
+continue;
+}
+
 $resultado = str_replace(" - ", ",", $cadena);
 $porciones = explode(",",$resultado);
 

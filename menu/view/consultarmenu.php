@@ -207,21 +207,6 @@ grid-column: 1 / 2;
 
 <script>
 
-id="";
-idMenu="";
-semana="";
-numTiempos="";
-lapso="";
-elaboro="";
-descripcion="";
-cliente="";
-unidad="";
-subunidad="";
-costo="";
-
-ano="";
-semana="";
-
 (function(){
 $('#datetimepicker1').datepicker({
 format: "dd-mm-yyyy",
@@ -262,7 +247,6 @@ url : 'menu/php/agregarmenu1.php',
 data : {},
 type : 'POST',
 dataType: 'json',
-async:false,
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
@@ -280,7 +264,6 @@ url : 'menu/php/agregarmenu2.php',
 data : {},
 type : 'POST',
 dataType: 'json',
-async:false,
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
@@ -294,7 +277,6 @@ $('#cliente').html(unidad);
 });
 
 $('#cliente').on('change',function(){
-
 $.ajax({
 url : 'menu/php/agregarmenu3.php',
 data : {nombre:$('#cliente').val()},
@@ -308,7 +290,6 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idunidad+">"+value.unidad+"</option>";
 });
 $('#unidad').html(unidad);
-
 $.ajax({
 url : 'menu/php/agregarmenu4.php',
 data : {nombre:$('#unidad').val()},
@@ -322,15 +303,13 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
-$('#agregar').click();
-if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+if((ano!="")&&(semana!="")&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
 buscar();
 }
 },
 });
-
 },
 });
 });
@@ -350,7 +329,6 @@ $.each(res,function(key,value){
 unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
 });
 $('#subunidad').html(unidad);
-$('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
@@ -362,7 +340,6 @@ buscar();
 });
 
 $('#subunidad').on('change',function(){
-$('#agregar').click();
 if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
@@ -372,8 +349,7 @@ buscar();
 });
 
 $('#grupo').on('change',function(){
-$('#agregar').click();
-if((ano!=null)&&(semana!=null)&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
+if((ano!="")&&(semana!="")&&($('#cliente').val()!=null)&&($('#unidad').val()!=null)&&($('#subunidad').val()!=null)&&($('#grupo').val()!=null)){
 id=ano+"_"+semana+"_"+$('#cliente').val()+"_"+$('#unidad').val()+"_"+$('#subunidad').val()+"_"+$('#grupo').val();
 $("#idm").removeAttr("readonly");
 $('#idm').val(id);
@@ -403,41 +379,105 @@ buscar();
 });
 });
 
-function buscar(){
+$('#idm').on('input',function(){
+
+$('#tabla').html('');
+
+vec=$('#idm').val().split("_");
 
 $.ajax({
-url : 'menu/php/consultarmenu2.php',
+url : 'menu/php/consultarmenu4.php',
 data : {idmenu:$('#idm').val()},
+type : 'POST',
+async:false,
+success:function(respuesta){
+vec1=respuesta.split(",");
+$('#semana').val(vec1[0]);
+$('#tiem').html('<option>'+vec1[1]+'</option>');
+$('#costo').val(vec1[2]);
+$('#elaboro').val(vec1[3]);
+},
+});
+
+$.ajax({
+url : 'menu/php/agregarmenu2.php',
+data : {},
 type : 'POST',
 dataType: 'json',
 success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
+unidad="";
+unidad+="<option disabled selected> -- Selecione Cliente -- </option>";
 $.each(res,function(key,value){
+unidad+="<option value="+value.idcliente+">"+value.nombre+"</option>";
+});
+$('#cliente').html(unidad);
+$('#cliente > option[value='+vec[2]+']').attr('selected', 'selected');
+},
+});
 
-$('#elaboro').val(value.elaboro);
-$('#costo').val(value.costoTot);
-$('#tiem').html("<option>"+value.numTiempos+"</option>");
+$.ajax({
+url : 'menu/php/agregarmenu15.php',
+data : {nombre:$('#cliente').val()},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+unidad+="<option> -- Seleccione Unidad --</option>";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idunidad+">"+value.unidad+"</option>";
+});
+$('#unidad').html(unidad);
+$('#unidad > option[value='+vec[3]+']').attr('selected', 'selected');
+},
+});
 
-idMenu=$('#idm').val();
-semana=value.semana;
-lapso=value.lapso;
-elaboro=value.elaboro;
-descripcion=value.descripcion;
-cliente=value.nombre;
-unidad=value.unidad;
-subunidad=value.subUnidad;
-costoTot=value.costoTot;
-numTiempos=value.numTiempos;
-costoTot=value.costoTot;
+$.ajax({
+url : 'menu/php/agregarmenu14.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+unidad="";
+unidad+="<option> -- Seleccione SubUnidad --</option>";
+$.each(res,function(key,value){
+unidad+="<option value="+value.idsubunidad+">"+value.subunidad+"</option>";
+});
+$('#subunidad').html(unidad);
+$('#subunidad > option[value='+vec[4]+']').attr('selected', 'selected');
+},
+});
 
+$.ajax({
+url : 'menu/php/agregarmenu1.php',
+data : {},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+grupo="";
+grupo+="<option disabled selected> -- Selecione grupo -- </option>";
+$.each(res,function(key,value){
+grupo+="<option value="+value.idGrupo+">"+value.descripcion+"</option>";
+});
+$('#grupo').html(grupo);
+$('#grupo > option[value='+vec[5]+']').attr('selected', 'selected');
+},
 });
 
 $.ajax({
 url : 'menu/php/consultarmenu3.php',
 data : {
 idmenu:$('#idm').val(),
-tiem:numTiempos
+tiem:vec1[1]
 },
 type : 'POST',
 dataType: 'json',
@@ -445,7 +485,6 @@ success:function(respuesta){
 respuesta="["+respuesta+"]";
 res=JSON.parse(respuesta);
 tabla="";
-
 $('#checkbox1').attr('checked', false);
 $('#checkbox2').attr('checked', false);
 $('#checkbox3').attr('checked', false);
@@ -453,7 +492,6 @@ $('#checkbox4').attr('checked', false);
 $('#checkbox5').attr('checked', false);
 $('#checkbox6').attr('checked', false);
 $('#checkbox7').attr('checked', false);
-
 $.each(res,function(key,value){
 reslunes=value.lunes.split(",");
 resmartes=value.martes.split(",");
@@ -462,9 +500,7 @@ resjueves=value.jueves.split(",");
 resviernes=value.viernes.split(",");
 ressabado=value.sabado.split(",");
 resdomingo=value.domingo.split(",");
-
 tabla+="<tr>";
-
 if (reslunes[5]!=undefined){
 temporal=reslunes[5];
 }
@@ -487,11 +523,16 @@ if (resdomingo[5]!=undefined){
 temporal=resdomingo[5];
 }
 
+if (reslunes[0]!=""){
 tabla+="<td style='color:#337ab7;width:12.5%;'>"+
 "<div class='grid-container'>"+
 "<div>"+temporal+"</div>"+
 "</div>"+
 "</td>";
+}
+if (reslunes[0]==""){
+tabla+="<td style='color:#337ab7;width:12.5%;'></td>";
+}
 
 if(reslunes[0]!=""){
 tabla+="<td style='color:#337ab7;width:12.5%;'>"+
@@ -645,6 +686,236 @@ $('#tabla').html(tabla);
 },
 });
 
+});
+
+function buscar(){
+
+$('#tabla').html('');
+
+$.ajax({
+url : 'menu/php/consultarmenu4.php',
+data : {idmenu:$('#idm').val()},
+type : 'POST',
+async:false,
+success:function(respuesta){
+vec=respuesta.split(",");
+$('#semana').val(vec[0]);
+$('#tiem').html('<option>'+vec[1]+'</option>');
+$('#costo').val(vec[2]);
+$('#elaboro').val(vec[3]);
+},
+});
+
+$.ajax({
+url : 'menu/php/consultarmenu3.php',
+data : {
+idmenu:$('#idm').val(),
+tiem:vec[1]
+},
+type : 'POST',
+dataType: 'json',
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+tabla="";
+$('#checkbox1').attr('checked', false);
+$('#checkbox2').attr('checked', false);
+$('#checkbox3').attr('checked', false);
+$('#checkbox4').attr('checked', false);
+$('#checkbox5').attr('checked', false);
+$('#checkbox6').attr('checked', false);
+$('#checkbox7').attr('checked', false);
+$.each(res,function(key,value){
+reslunes=value.lunes.split(",");
+resmartes=value.martes.split(",");
+resmiercoles=value.miercoles.split(",");
+resjueves=value.jueves.split(",");
+resviernes=value.viernes.split(",");
+ressabado=value.sabado.split(",");
+resdomingo=value.domingo.split(",");
+tabla+="<tr>";
+if (reslunes[5]!=undefined){
+temporal=reslunes[5];
+}
+if (resmartes[5]!=undefined){
+temporal=resmartes[5];
+}
+if (resmiercoles[5]!=undefined){
+temporal=resmiercoles[5];
+}
+if (resjueves[5]!=undefined){
+temporal=resjueves[5];
+}
+if (resviernes[5]!=undefined){
+temporal=resviernes[5];
+}
+if (ressabado[5]!=undefined){
+temporal=ressabado[5];
+}
+if (resdomingo[5]!=undefined){
+temporal=resdomingo[5];
+}
+
+if (reslunes[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div>"+temporal+"</div>"+
+"</div>"+
+"</td>";
+}
+if (reslunes[0]==""){
+tabla+="<td style='color:#337ab7;width:12.5%;'></td>";
+}
+
+if(reslunes[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+reslunes[3]+"</div>"+
+"<div class='item1' id='it1'>"+reslunes[0]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+reslunes[1]+"</div>"+
+"<div class='item5' id='it5'>"+reslunes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+reslunes[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(reslunes[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(reslunes[0]!=""){
+$('#checkbox1').attr('checked', true);
+}
+if(resmartes[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resmartes[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resmartes[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resmartes[1]+"</div>"+
+"<div class='item5' id='it5'>"+resmartes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resmartes[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resmartes[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(resmartes[0]!=""){
+$('#checkbox2').attr('checked', true);
+}
+if(resmiercoles[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resmiercoles[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resmiercoles[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resmiercoles[1]+"</div>"+
+"<div class='item5' id='it5'>"+resmiercoles[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resmiercoles[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resmiercoles[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(resmiercoles[0]!=""){
+$('#checkbox3').attr('checked', true);
+}
+if(resjueves[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resjueves[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resjueves[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resjueves[1]+"</div>"+
+"<div class='item5' id='it5'>"+resjueves[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resjueves[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resjueves[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(resjueves[0]!=""){
+$('#checkbox4').attr('checked', true);
+}
+if(resviernes[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resviernes[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resviernes[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resviernes[1]+"</div>"+
+"<div class='item5' id='it5'>"+resviernes[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resviernes[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(resviernes[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(resviernes[0]!=""){
+$('#checkbox5').attr('checked', true);
+}
+if(ressabado[0]!=""){
+tabla+="<td style='color:#337ab7;width:14%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+ressabado[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+ressabado[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+ressabado[1]+"</div>"+
+"<div class='item5' id='it5'>"+ressabado[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+ressabado[4]+"</div>"+
+"</div>"+
+"</td>";
+}
+if(ressabado[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(ressabado[0]!=""){
+$('#checkbox6').attr('checked', true);
+}
+if(resdomingo[0]!=""){
+tabla+="<td style='color:#337ab7;width:12.5%;'>"+
+"<div class='grid-container'>"+
+"<div class='item1' id='it1'>"+resdomingo[0]+"</div>"+
+"<div class='item7' id='it7'>ID</div>"+
+"<div class='item6' id='it6'>"+resdomingo[3]+"</div>"+
+"<div class='item2' id='it2'>Costo</div>"+
+"<div class='item3' id='it3'>Personas</div>"+
+"<div class='item4' id='it4'>"+resdomingo[1]+"</div>"+
+"<div class='item5' id='it5'>"+resdomingo[2]+"</div>"+
+"<div class='item8' id='it8'>Fecha</div>"+
+"<div class='item9' id='it9'>"+resdomingo[4]+"</div>"+
+"</td>";
+}
+if(resdomingo[0]==""){
+tabla+="<td style='width:12.5%;'></td>";
+}
+if(resdomingo[0]!=""){
+$('#checkbox7').attr('checked', true);
+}
+tabla+="</tr>";
+});
+$('#tabla').html(tabla);
 },
 });
 
@@ -655,8 +926,7 @@ $.ajax({
 data : {},
 type : 'GET',
 success:function(respuesta){
-window.open('menu/php/menuexcel.php?semana='+semana+'&numTiempos='+numTiempos+'&idMenu='+idMenu+'&cliente='+cliente+'&unidad='+unidad+'&subunidad='+subunidad+'&lapso='+lapso+'&elaboro='+elaboro+
-                                           '&descripcion='+descripcion+'&costoTot='+costoTot);
+window.open('menu/php/menuexcel.php?idMenu='+$('#idm').val());
 },
 });
 });
