@@ -81,6 +81,21 @@ class Article{
     echo json_encode($rows);
   }
 
+  public function getArticleMatch(){
+
+    $term = filter_input(INPUT_POST, 'term', FILTER_SANITIZE_STRING) or die( toJson(0, 'El articulo es desconocido o invalido') );
+    $r = $this->db->query("SELECT idArticulo, nombre, costo FROM articulo WHERE activo = 1 AND nombre LIKE '%{$term}%' ORDER BY nombre LIMIT 25");
+    $rows = [];
+    while( $row = $r->fetch_object() ){
+      $rows[] = [ 'id'=> $row->idArticulo, 'text'=> $row->nombre, 'costo'=> $row->costo ];
+    }
+    // array_pop($rows);
+    
+    $response = ['results'=> $rows];
+
+    echo json_encode($response); 
+  }
+
   public function getArticle(){
     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El articulo es desconocido o invalido') );
     $r = $this->db->query("SELECT * FROM articulo WHERE idArticulo = '{$id}' AND activo = 1 LIMIT 1");

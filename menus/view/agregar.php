@@ -124,7 +124,29 @@
 
 
         </fieldset>
+
+        <div class="row mt-1">
+           <div class="col-xs-12">
+             
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>Nota</strong> El número de tiempos son las filas en las que consistira el menu, y los dias determinan el número de columnas
+            </div>
+           
+           </div>
+         </div> 
+
         </form>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="alert alert-success" id="box-message">
+              
+              Ninguna subunidad establecida   
+
+            </div>
+          </div>
+        </div>
 
         <hr />
   
@@ -158,6 +180,7 @@
 </div>
 
 <script src="menus/js/controlSelects.js"></script>
+<script src="menus/js/controlsBodyMenu.js"></script>
 <script>
   
 (function(){
@@ -172,7 +195,7 @@
 
 
   //en esta variable guardare la informacion que se coloque en el formulario de crear cuerpo del menu en memoria
-  var infoPrimerFormulario = null;
+  // var infoPrimerFormulario = null;
 
   var insertMenu = function(ev){
     if(ev) ev.preventDefault();
@@ -214,10 +237,14 @@
       return;
     }
 
-    infoPrimerFormulario = $(this).serializeArray();//establece la info en una variable global
+    // infoPrimerFormulario = $(this).serializeArray();//establece la info en una variable global
+    infoPrimerFormulario.setData( $(this).serializeArray() );//establece la info en una variable global
     
-    //lo importante del encabezado para empezar a contruir es tiempos y dias    
+    //lo importante del encabezado para empezar a contruir es tiempos y dias
+    //
+    //con esta linea recupero los checkbox de los dias que estan seleccionados y reupero su valor
     let dias = Array.from( this.querySelectorAll('[name="dias[]"]:checked') ).map( item=> Number( item.value ) );//recuperamos los values de los dias checkeados
+    //recordar que los valores de los check corresponde a su numero del dia en la semana, comenzado con lunes = 1, martes 2, miercoles 3 etc...    
 
     //inserta el html de las filas y clumnas
     let maquetado = '';
@@ -228,9 +255,11 @@
 
     formMenu.classList.remove('hide');//muestra el formulario del cuerpo del menu
 
-    this.getElementsByTagName('fieldset')[0].disabled = true;//bloquea el primer form
+    // this.getElementsByTagName('fieldset')[0].disabled = true;//bloquea el primer form
 
     getTiempos();//se coloca hasta aqui por que aqui ya existen los input tiempo[] en el dom y obtiene los tiempos
+
+    // $('.recetas').select2();
 
   }
 
@@ -257,7 +286,7 @@
             </select>
           </div>
         </div>
-
+        
         ${htmlDias}
 
       </div>
@@ -266,15 +295,19 @@
     return maquetado;
   }
 
+  //esta funcion crea un grupo de 3 input con  un label que corresponde a un dia de la semana
   const crearInputDay = (dia)=>{
 
     let dias = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
+    let diaLower = dias[dia].toLowerCase();
+
     return (`
+      
       <div class="col-md-3 col-sm-4">
         <div class="form-group">
           <label> ${dias[dia]} </label>
-          <select name="${dias[dia].toLowerCase()}[receta][]" class="form-control input-sm recetas" >
+          <select name="${diaLower}[receta][]" class="form-control input-sm recetas" >
             <option value="" selected>Seleccione una Receta</option>
           </select>
         </div>
@@ -282,13 +315,13 @@
           <div class="col-xs-6">
             <div class="form-group">
               <label> Costo </label>
-              <input type="number" name="${dias[dia].toLowerCase()}[costo][]" class="form-control input-sm costo" placeholder="Costo total" disabled />
+              <input type="number" name="${diaLower}[costo][]" class="form-control input-sm costo" placeholder="Costo total" disabled />
             </div>
           </div>
           <div class="col-xs-6">
             <div class="form-group">
               <label> # Personas</label>
-              <input type="number" name="${dias[dia].toLowerCase()}[personas][]" class="form-control input-sm personas" placeholder="Personas" step="1" min="1" />
+              <input type="number" name="${diaLower}[personas][]" class="form-control input-sm personas" placeholder="Personas" step="1" min="1" />
             </div>
           </div>
         </div>
@@ -303,11 +336,56 @@
 
     let info2 = $(this).serializeArray();
 
-    let data = infoPrimerFormulario.concat( info2 );
+    //validar que por cada tiempo (cada fila) exista minimo una receta 
+    console.log(info2);
+    
+    let flag = true;//comenzamos diciendo que todos los select estan vacios
+
+    let flag2 = [];//este flag es para verificar que los tiempos no se repitan
+
+    //recuperamos los select de tiempo
+    let selectTiempos = this.querySelectorAll('select[name="tiempo[]"]');
+
+    for( let item of selectTiempos ){
+
+      flag = true;
+      flag2.push( item.value );//metemos los values de cada tiempo
+      //tambien verificamos que los tiempos no esten repetidos
+
+      //cada select esta en una fila,
+      //recuperamos los select con clase receta dentro de esa fila  
+      let inputRecetas = item.closest('.row').querySelectorAll('select.recetas');
+      for( let selectReceta of inputRecetas ){
+        //si algun select tiene un valor cambiamos el flag a false
+        if( selectReceta.value !== '' ){
+          flag = false;
+          break;//como ya se que un input tiene un valor finalizamos el bucle ya que cumple con tener un select con valor la fila
+        }
+
+      }
+
+      if( flag ){//si flag es true todos estan vacios y debemos solicitar minimo un valor
+        console.log('entro ya que todos los input del row estan vacios', item, flag);
+        break;//finalizamos el codigo
+      }
+
+    }
+
+    if( flag ){
+      Swal.fire("Incompleto", 'Cada tiempo debe tener minimo una receta', 'warning');
+      return;
+    }
+
+    //verificamos si hay tiempos repetidos avisamos
+    if( selectTiempos.length !== [...new Set(flag2)].length ){
+      Swal.fire("Error", 'Los tiempos no pueden estar repetidos', 'warning');
+      return;
+    }
+
+    let data = infoPrimerFormulario.getData().concat( info2 );
 
     data.push( {name: 'costo', value: form.costo.value} );
     data.push( {name: 'method', value: 'addMenu'} );
-
 
     $.ajax({
       url: "menus/php/Menu.php",
@@ -326,10 +404,18 @@
       }
     })
     .done((response)=>{
+      if( response.status === 1 ){
+        Swal.fire('Exito', response.msg, 'success')
+        .then(r=>{
+          $('#contenedor').load('menus/view/agregar.php');
+        } );
+      }
+      else{
+        Swal.fire('Error', response.msg, 'error');
+      }
 
 
-
-      Swal.close();
+      // Swal.close();
     })
     .fail(()=> {
       Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
@@ -378,28 +464,38 @@
 
 
 
-  //cuando en el formulario un input de tiempo cambie,debo de hacer que se filtren las recetas por el tiempo y por la subunidad selecionada
-  
+
+  //manipula el cambio de tiempos en cada fila
+  //si el tiempo es vacio elimina todas las recetas de esa fila
+  //si existe el tiempo realiza una peticion y busca las recetas
   $(formMenu).on('change', 'select[name="tiempo[]"]', function(ev){
     
+    // console.log( "cambio tiempo");
+
     let row = this.closest('.row');
 
-    if( this.value === '' ){ 
+    let tiempo = this.value;
+    
+    $(row).find('.personas, .costo').val('');//los input de perosnas y costo siempre se limpian cuando cambie tiempo
+    $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
+
+    if( tiempo === '' ){ 
       //debeira limpiar tambien las recetas , y tambien por si las moscas deberia quitar los atribtos required de los campos personas de ese row
       $(row).find('.recetas').html('<option value="" selected > Seleccione una Receta </option>');
-      $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
+      // $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
       return;
     }
-    //primero obtengo su fila, para obtener de esa fila los select de recetas y llenarlos con la info
 
+    //primero obtengo su fila, para obtener de esa fila los select de recetas y llenarlos con la info
     $.ajax({
       url: "menus/php/Menu.php",
       type: 'POST',
       dataType: 'json', 
       data: {
         method: 'getRecetasTiempoSubUnidad',
-        subunidad: infoPrimerFormulario.find( item=> item.name === 'subunidad' ).value,
-        tiempo: this.value
+        // subunidad: infoPrimerFormulario.find( item=> item.name === 'subunidad' ).value,
+        subunidad: infoPrimerFormulario.getProperty('subunidad'),
+        tiempo: tiempo
       },
       beforeSend: ()=>{
         Swal.fire({
@@ -428,47 +524,79 @@
   });
 
 
-  //cuando cambie el select de recetas, recupero el option y coloco el costo
-  //en el input de costo
-  //tambien cuando receta cambie colocamos un required al campo personas
-  $(formMenu).on('change', '.recetas', function(ev){
+  //objeto que controla la informacion a quien se le guardara el menu y la muestra
+  const infoPrimerFormulario = {
 
-    let content = this.closest('.col-md-3.col-sm-4');
+    //este objeto lo que hara es que si cambia una de sus propiedades esto se refleje en el elemento box message del DOM
+    
+    //sus propiedades vienen dadas por un array de objetos Jquery, del metodo serializeArray
+    //example
+    //[
+    //  {name: 'nameInput1', 'value': 'valueInput1'},
+    //  {name: 'nameInput2', 'value': 'valueInput2'},
+    //  {name: 'nameInput N ...', 'value': 'valueInput N ...'},
+    //]
+    //
+    
+    info: null,
+    boxMessage: $$('#box-message'),
+    
+    getTextSelect: function(name){
+      //que regrese un valor solamente
+      let select = form[name];
+      if( ! select  ) return false;//si el select no existe regresa false
+      if( select.nodeName !== 'SELECT' ) return false;//si el elemetno no es un select regresa false
+      return select.options[select.selectedIndex].text;
+    },
 
-    if( this.value ){//si la receta es valida
-      let costo = this[this.selectedIndex].dataset.costo;
-      content.querySelector('.costo').value = costo;
-      content.querySelector('.personas').setAttribute('required', 'required');//lo hacemos required
-    }
-    else{
-      content.querySelector('.costo').value = '';
-      content.querySelector('.personas').removeAttribute('required');//lo hacemos opcional  
-    }
+    setData: function(data){
+      //establecemos la info del formulario en el momento del envio, pero ademas rescatamos las propiedades text de los select, en este caso hay 4
+      this.info = data;
 
-    sumatoria();
-
-  });
-
-  const sumatoria = ()=>{
-
-    var total = 0;
-    _.querySelectorAll('#wrapper .costo').forEach( item =>{
-      
-      //estando en el nodo costo, subimos al nodo row y bucamos personas
-      let personas = item.closest('.row').querySelector('.personas').value;
-      let costoReceta = item.value;
-
-      if( costoReceta && personas ){//si ambos existen
-        total += ( Number(costoReceta) * Number(personas) );
+      for( let item of ['unidad', 'subunidad', 'cliente', 'grupo'] ){
+        let value = this.getTextSelect(item);
+        if( value )
+          this.setProperty(item+'Name', value);
       }
 
-    });
+      this.changeBoxMessage();
+    },
+    getData: function(){
+      return this.info;
+    },
+    changeBoxMessage: function(){
+      if( ! this.info ){
+        this.boxMessage.innerHTML = 'Ninguna subunidad establecida';
+        return;
+      }
+      this.boxMessage.innerHTML = `Se agregará el menú a la subunidad ${ this.getProperty('subunidadName') }, unidad ${ this.getProperty('unidadName') }, ${ this.getProperty('clienteName') }, para la Semana ${ this.getProperty('semana') } (${this.getProperty('rango')}), grupo alimenticio del día ${ this.getProperty('grupoName') }. Elaborado por ${this.getProperty('elaboro')}`;
+    },
 
-    form.costo.value = total.toFixed(2);//colocamos el valor
+    //regresa false si la propiedad no existe
+    getProperty: function( name ){
+      let item = this.info.find( item=> item.name === name );
+      return item !== undefined ? item.value : false;
+    },
+
+    setProperty: function( name, value ){
+      //primero buscamos que la pripiedad no exista, 
+      let result = this.getProperty(name);
+      //si no existe se agrega
+      if( ! result ){
+        this.info.push({name, value});
+      }
+      else{
+        //si existe se cambie la propiedad
+        result[name].value = value;
+      }
+      this.changeBoxMessage();
+    }
+
+
+
 
   }
 
-  $(formMenu).on('input', '.personas', sumatoria);
 
 })();
 

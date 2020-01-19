@@ -42,7 +42,9 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   
 
   <!-- Bootstrap Core CSS -->
-  <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="css/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
   <!-- MetisMenu CSS -->
   <link href="css/metisMenu.min.css" rel="stylesheet">
   <!-- Timeline CSS -->
@@ -58,6 +60,9 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   <link rel="stylesheet" href="js/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker3.min.css">
 
   <!-- <link rel="stylesheet" href="js/perfect-scrollbar-1.4.0/css/perfect-scrollbar.css"> -->
+  
+  <!-- lib to select css -->
+  <link rel="stylesheet" href="js/select2-develop/dist/css/select2.min.css" />
 
   <link rel="stylesheet" type="text/css" href="css/custom.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/pages.css"> -->
@@ -421,7 +426,8 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   <!-- endWrapper -->
     
   <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script> -->
+  <script src="css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
   <script src="js/metisMenu.min.js"></script>
   <!-- <script src="js/raphael.min.js"></script> -->
   <script src="js/startmin.js"></script>
@@ -438,6 +444,10 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   <script src="js/sweetalert2/dist/sweetalert2.all.js"></script>
 
   <!-- <script src="js/perfect-scrollbar-1.4.0/dist/perfect-scrollbar.min.js"></script> -->
+
+  <!-- //lib to select -->
+  <script src="js/select2-develop/dist/js/select2.min.js"></script>
+  <script src="js/select2-develop/dist/js/i18n/es.js"></script>
 
   <!-- custom JS del equipo de desarollo para las redirecciones y funciones globales -->
   <script src="js/custom.js"></script>
@@ -461,8 +471,8 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
 
   window.addEventListener('DOMContentLoaded', ()=>{ document.body.style.display = 'block' });
   </script>
-<script type="text/javascript" src=<?php echo $_SESSION['__js_del_tab__'];?>></script>
-<script type="text/javascript" src=<?php echo $_SESSION['__js_edt_tab__'];?>></script>
+<!-- <script type="text/javascript" src=<?php echo $_SESSION['__js_del_tab__'];?>></script> -->
+<!-- <script type="text/javascript" src=<?php echo $_SESSION['__js_edt_tab__'];?>></script> -->
 
 </body>
 </html>

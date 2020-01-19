@@ -18,7 +18,7 @@ class Menu{
 
 
   public function addMenu(){
-    
+        
     $cliente = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
     $unidad = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
     $subunidad = filter_input(INPUT_POST, 'subunidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida') );
@@ -33,9 +33,7 @@ class Menu{
 
     $costo = filter_input(INPUT_POST, 'costo', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'El costo es desconocido o invalido') );
 
-    // $costo = filter_input(INPUT_POST, 'costo', FILTER_VALIDATE_INT) or die( toJson(0, 'El costo es desconocido o invalido') );
-
-    //guardar en base de datos los dias checkeados
+    //rescata los dias checkeados,
     $listaDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
     foreach ($listaDias as $key => $value) {
       $$value = 0;//cramos lunes martes miercoles etc en 0
@@ -43,7 +41,18 @@ class Menu{
     }
 
     //de rango saco el año
-    $anio = substr($rango, 0, 4);
+    //calculamos fechas del rango de fechas
+    $partes = explode(' - ', $rango);//dividimos la cadena
+
+    try {
+      // $fechaInicial = new DateTime( $rango[0] );
+      $fecha = new DateTime($partes[0]);
+    } catch (Exception $e) {
+      exit( toJson(0, 'La fecha es incorrecta') );
+    }
+
+    $anio = $fecha->format('Y');
+    // echo $anio;
 
     //se compruewba que el menu no exista
     $sql = "SELECT idMenu FROM menu WHERE semana = '{$semana}' AND cliente = '{$cliente}' AND unidad = '{$unidad}' AND subUnidad = '{$subunidad}' AND grupo = '{$grupo}' AND anio = '{$anio}'";
@@ -53,111 +62,125 @@ class Menu{
 
     $idMenu = "{$anio}_{$semana}_{$cliente}_{$unidad}_{$subunidad}_{$grupo}";//asi se crea el idMenu
     
-    $sql = " INSERT INTO menu SET idMenu = '{$idMenu}', anio = '{$anio}', semana = '{$semana}', numTiempos = '{$tiempos}', cliente = '{$cliente}', unidad = '{$unidad}', subUnidad = '{$subunidad}', costoTot = '{$costo}', elaboro = '{$elaboro}', grupo = '{$grupo}', lunes = '{$lunes}', martes = '{$martes}', miercoles = '{$miercoles}', jueves = '{$jueves}', viernes = '{$viernes}' sabado = '{$sabado}', domingo = '{$domingo}', status = 1, fecha = now(), activo = 1 ";
+    $sql = " INSERT INTO menu SET idMenu = '{$idMenu}', anio = '{$anio}', semana = '{$semana}', lapso = '{$rango}', numTiempos = '{$tiempos}', cliente = '{$cliente}', unidad = '{$unidad}', subUnidad = '{$subunidad}', costoTot = '{$costo}', elaboro = '{$elaboro}', grupo = '{$grupo}', lunes = '{$lunes}', martes = '{$martes}', miercoles = '{$miercoles}', jueves = '{$jueves}', viernes = '{$viernes}', sabado = '{$sabado}', domingo = '{$domingo}', status = 1, fecha = now(), activo = 1 ";
 
-    echo $sql;
+    // echo $sql;
+    $this->db->query( $sql );
 
-    var_dump($_POST);
+    $this->db->affected_rows > 0 or die( toJson(0, 'Error al guardar el menu, por favor reintente') );
 
+    //ahora insertamos en menurec
+    // necesito hacer el bucle por dias
 
-//array(15) {
-//   ["dias"]=>
-//   array(3) {
-//     [0]=>
-//     string(1) "5"
-//     [1]=>
-//     string(1) "6"
-//     [2]=>
-//     string(1) "7"
-//   }
-//   ["tiempo"]=>
-//   array(3) {
-//     [0]=>
-//     string(1) "1"
-//     [1]=>
-//     string(1) "3"
-//     [2]=>
-//     string(1) "4"
-//   }
-//   ["viernes"]=>
-//   array(2) {
-//     ["receta"]=>
-//     array(3) {
-//       [0]=>
-//       string(4) "BE14"
-//       [1]=>
-//       string(3) "SO8"
-//       [2]=>
-//       string(4) "PL41"
-//     }
-//     ["personas"]=>
-//     array(3) {
-//       [0]=>
-//       string(2) "10"
-//       [1]=>
-//       string(2) "40"
-//       [2]=>
-//       string(2) "70"
-//     }
-//   }
-//   ["sabado"]=>
-//   array(2) {
-//     ["receta"]=>
-//     array(3) {
-//       [0]=>
-//       string(4) "BE18"
-//       [1]=>
-//       string(4) "SO80"
-//       [2]=>
-//       string(4) "PL42"
-//     }
-//     ["personas"]=>
-//     array(3) {
-//       [0]=>
-//       string(2) "20"
-//       [1]=>
-//       string(2) "50"
-//       [2]=>
-//       string(2) "80"
-//     }
-//   }
-//   ["domingo"]=>
-//   array(2) {
-//     ["receta"]=>
-//     array(3) {
-//       [0]=>
-//       string(4) "BE19"
-//       [1]=>
-//       string(4) "SO87"
-//       [2]=>
-//       string(4) "PL43"
-//     }
-//     ["personas"]=>
-//     array(3) {
-//       [0]=>
-//       string(2) "30"
-//       [1]=>
-//       string(2) "60"
-//       [2]=>
-//       string(2) "90"
-//     }
-//   }
-//   ["method"]=>
-//   string(7) "addMenu"
-// }
+    $debug = [];
+
+    foreach ($_POST['dias'] as $dia){
+      
+      $i = 0;
+      foreach ($_POST['tiempo'] as $tiempo){
+        
+        $diaNumber = (int) $dia - 1;
+
+        $dayOfWeek = $listaDias[ $diaNumber ];//lunes, martes, miercoles, etc
+        
+        // echo "El dia $dia $dayOfWeek el tiempo $tiempo";
+
+        $idReceta = $_POST[$dayOfWeek]['receta'][$i];
+        $personas = $_POST[$dayOfWeek]['personas'][$i];
+        
+        // echo "colocamos la receta $idReceta con $personas <br>";
+
+        //en pos coloco el dia de la semana esto es del 1 al 7 lunes, martes
+        //en tiempos coloco el numero del tiempo como cantidad esto es coloco 1, 2, 3, 4, 5, n...
+        //es como la posision del tiempo, no es su id de tiempo
+        
+        $receta = $this->getReceta($idReceta);
+        $recetaName = '';
+        $costo = 0;
+        if( $receta ){//si la receta existe
+          $recetaName = $receta->nombre;
+          $costo = $receta->costo;
+        }
+        else{
+          $personas = 0;
+        }
+
+        //obtenemos fecha
+        //se me ocurre crear otra estancia de DT a partir de la fecha
+        $dt = new DateTime( $fecha->format('Y-m-d') );//creamos la fecha a partir del dia inicial
+        // $periodo = $dia - 1;
+        $dt->add( new DateInterval("P{$diaNumber}D") );//le añadimos el dia checkeado - 1;
+
+        $sql = "INSERT INTO menurec SET idMenu = '{$idMenu}', pos = '{$dia}', receta = '{$recetaName}', precio = '{$costo}', personas = '{$personas}', tiempo = '{$tiempo}', fecha = '{$dt->format('Y-m-d')}'";
+        
+        // echo $sql . "<br>";
+        $this->db->query( $sql );
+
+        $debug[] = $this->db->affected_rows;
+
+        $i++;
+      }
+
+    }
+
+    //si hay negativos en debug hubo errores
+    if( in_array(-1, $debug) ){
+      echo toJson(1, 'Se guardo el menu con algunos errores, por favor verifique');
+    }
+    else{
+      echo toJson(1, 'Se guardo el menu correctamente');
+    }
+
+    // var_dump($_POST);
+    // $sql = " INSERT INTO menurec SET idMenu = '{$idMenu}', pos = '{$anio}', receta = '{$semana}', precio = '{$tiempos}', personas = '{$cliente}', fecha = now()";
 
 
-
+    //dias son los checkbox entoces de aqui modificamos la fecha
+    //$tiempo son los select de tiempo con los id de los tiempos
+    //
+    //
+    // luego tenemos variables que se llaman dependiendo el dia seleccionado
+    // por ejemplo si selecciono em dias 1 existira la varialbe lunes
+    // si existe dias 2 existira martes, etc
+    // cada una de esas variables es otro array con dos key uno para personas u otro para recetas, y cada array tiene como longitud la varible tiempo
+    // 
 
   }
 
+  private function getReceta( $id ){
+    $r = $this->db->query("SELECT * FROM receta WHERE activo = 1 AND idReceta = '{$id}' LIMIT 1");
+    return $this->db->affected_rows > 0 ? $r->fetch_object() : false;
+  }
+
+  public function getRecetasTiempoSubUnidadMatch(){
+
+    $term = filter_input(INPUT_POST, 'term', FILTER_SANITIZE_STRING) or die( toJson(0, 'La receta es desconocida o invalida', ['results'=> [] ] ) );
+    $subunidad = filter_input(INPUT_POST, 'sub', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida', ['results'=> [] ] ) );
+    $tiempo = filter_input(INPUT_POST, 'tiempo', FILTER_VALIDATE_INT) or die( toJson(0, 'El tiempo es desconocido o invalido', ['results'=> [] ] ) );
+
+    $r = $this->db->query("SELECT idReceta, nombre, costo, subUnidad FROM receta WHERE activo = 1 AND nombre LIKE '%{$term}%' AND tiempo = '{$tiempo}' ORDER BY nombre LIMIT 25");
+    $rows = [];
+    while( $row = $r->fetch_object() ){
+
+      $partes = array_map(function($item){ 
+        return (int) trim($item); 
+      }, explode(',', $row->subUnidad) );
+
+      if( in_array( $subunidad, $partes ) ){
+        $rows[] = [ 'id'=> $row->idReceta, 'text'=> $row->nombre, 'costo'=> $row->costo ];
+      }
+    }
+    $response = ['results'=> $rows];
+    echo json_encode($response); 
+
+  }
 
   public function getRecetasTiempoSubUnidad(){
     $subunidad = filter_input(INPUT_POST, 'subunidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
     $tiempo = filter_input(INPUT_POST, 'tiempo', FILTER_VALIDATE_INT) or die( toJson(0, 'El tiempo es desconocido o invalido') );
 
 
-    $r = $this->db->query("SELECT idReceta, nombre, costo, subUnidad FROM receta WHERE 1 AND activo = 1 AND tiempo = '{$tiempo}'");
+    $r = $this->db->query("SELECT idReceta, nombre, costo, subUnidad FROM receta WHERE 1 AND activo = 1 AND tiempo = '{$tiempo}' ORDER BY  nombre");
     $rows = [];
     while( $row = $r->fetch_object() ){
 
