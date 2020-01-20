@@ -198,13 +198,63 @@ class Menu{
 
   }
 
-  public function getBases(){
 
-    $r = $this->db->query("SELECT * FROM grupo");
+  public function getMenus(){
+
+    ( $cliente = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) ) !== FALSE or die( toJson(0, 'El Cliente es desconocido o invalido') );
+    ( $unidad = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) ) !== FALSE or die( toJson(0, 'La unidad es desconocida o invalida') );
+    ( $subunidad = filter_input(INPUT_POST, 'subunidad', FILTER_VALIDATE_INT) ) !== FALSE or die( toJson(0, 'La subunidad es desconocida o invalida') );
+    ( $grupo = filter_input(INPUT_POST, 'grupo', FILTER_VALIDATE_INT) ) !== FALSE or die( toJson(0, 'El Grupo es desconocido o invalido') );
+    ( $semana = filter_input(INPUT_POST, 'semana', FILTER_VALIDATE_INT) ) !== FALSE or die( toJson(0, 'La semana es desconocida o invalida') );
+    ( $year = filter_input(INPUT_POST, 'anio', FILTER_VALIDATE_INT) ) !== FALSE or die( toJson(0, 'La año es desconocido o invalido') );
+
+    $where = '';
+    if( $cliente ) $where .= " AND cliente = '{$cliente}' ";
+    if( $unidad ) $where .= " AND unidad = '{$unidad}' ";
+    if( $subunidad ) $where .= " AND subunidad = '{$subunidad}' ";
+    if( $grupo ) $where .= " AND grupo = '{$grupo}' ";
+    if( $semana ) $where .= " AND semana = '{$semana}' ";
+    if( $year ) $where .= " AND anio = '{$year}' ";
+
+    $sql = "SELECT idMenu, lapso, numTiempos, costoTot, elaboro, lunes, martes, miercoles, jueves, viernes, sabado, domingo FROM menu WHERE 1 AND activo = 1 {$where} ORDER BY fecha DESC LIMIT 100";
+    $r = $this->db->query( $sql );
+
     $rows = [];
     while( $rows[] = $r->fetch_object() );
     array_pop($rows);
-    echo json_encode($rows);
+    echo toJson(1, 'OK', ['results'=>$rows, 'sql'=> $sql]);
+  }
+
+  public function getMenu(){
+
+    $menu = filter_input(INPUT_POST, 'menu', FILTER_SANITIZE_STRING) or die( toJson(0, 'El menu invalido') );
+
+    $r = $this->db->query("SELECT *, 
+      (SELECT nombre FROM cliente WHERE idCliente = menu.cliente ) AS clienteName, 
+      (SELECT unidad FROM unidad WHERE idUnidad = menu.unidad) AS unidadName, 
+      (SELECT subunidad.subUnidad FROM subunidad WHERE idSUnidad = menu.subunidad ) AS subunidadName, 
+      (SELECT descripcion FROM grupo WHERE idGrupo = menu.grupo) AS grupoName 
+      FROM menu WHERE idMenu = '{$menu}'");
+    $this->db->affected_rows > 0 or die( toJson(0, 'El menu solicitado no existe') );
+
+    echo toJson(1, 'OK', ['result'=> $r->fetch_object()]);
+
+  }
+
+
+  public function getBodyMenu(){
+
+    $menu = filter_input(INPUT_POST, 'menu', FILTER_SANITIZE_STRING) or die( toJson(0, 'El menu invalido') );
+
+    $r = $this->db->query("SELECT *, (SELECT idReceta FROM receta WHERE nombre = menurec.receta LIMIT 1) AS idReceta FROM menurec WHERE idMenu = '{$menu}'");
+
+    $this->db->affected_rows > 0 or die( toJson(0, 'El menu solicitado no existe') );
+
+    $rows = [];
+    while( $rows[] = $r->fetch_object() );
+    array_pop($rows);
+
+    echo toJson(1, 'OK', ['results'=> $rows]);
   }
 
   public function getBase(){

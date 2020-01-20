@@ -31,15 +31,8 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Fechas * </label>
-                <input type="text" name="rango" class="form-control input-sm" placeholder="Rango de la semana" required readonly />
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <label> Costo Total del Menú </label>
-                <input type="number" name="costo" class="form-control input-sm" placeholder="Costo por el Menú" required min="0" step="0.01" readonly />
+                <label> Año * </label>
+                <input type="text" name="anio" class="form-control input-sm" placeholder="Año" required readonly />
               </div>
             </div>
 
@@ -72,69 +65,86 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> No. de Tiempos *</label>
-                <input type="number" name="tiempos" class="form-control input-sm" placeholder="Ingrese el numero de tiempos que tendra el menú" required min="1" max="15" />
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-              <div class="form-group">
                 <label> Grupo del Menú*</label>
                 <select name="grupo" class="form-control input-sm" required >
                   <option value="" selected>Seleccione un grupo</option>
                 </select>
               </div>
             </div>
+          
+          </div>
+
+          <hr>
+
+          <div class="row mt-1">
+            <div class="col-xs-12">
+              <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú deseado
+              </div>
+            </div>
+          </div> 
+
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label> Menús *</label>
+                <select name="menu" class="form-control input-sm" required >
+                  <option value="" selected>Selecciona un menú</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label> No. de Tiempos *</label>
+                <input type="number" name="tiempos" class="form-control input-sm" placeholder="Número de tiempos del menú" required min="1" max="15" readonly />
+              </div>
+            </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label> Elaboro * </label>
-                <input type="text" name="elaboro" class="form-control input-sm" placeholder="Ingrese el nombre del responsable" required maxlength="150" />
+                <input type="text" name="elaboro" class="form-control input-sm" placeholder="Ingrese el nombre del responsable" required maxlength="150" readonly />
               </div>
             </div>
-          
+
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+                <label> Costo Total del Menú </label>
+                <input type="number" name="costo" class="form-control input-sm" placeholder="Costo por el Menú" required min="0" step="0.01" readonly />
+              </div>
+            </div>
+
           </div>
+
+
 
           <div class="row">
             <div class="col-xs-12">
               <p>
                 Dias del Menú *
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <label class="radio-inline"><input type="radio" name="optradio" value="T">Todos</label>
-                <label class="radio-inline"><input type="radio" name="optradio" value="N">Ninguno</label>
-                
               </p>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="1">Lunes</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="2">Martes</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="3">Miercoles</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="4">Jueves</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="5">Viernes</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="6">Sabado</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="7">Domingo</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="1" />Lunes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="2" />Martes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="3" />Miercoles</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="4" />Jueves</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="5" />Viernes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="6" />Sabado</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="7" />Domingo</label>
             </div>
           </div>
 
           <div class="row mt-1">
             
-            <div class="col-xs-12 text-center">
-              <button type="submit" class="btn btn-primary"> Crear Cuerpo del Menú </button>
-            </div>
+            <!-- <div class="col-xs-12 text-center"> -->
+              <!-- <button type="submit" class="btn btn-primary"> Crear Cuerpo del Menú </button> -->
+            <!-- </div> -->
 
           </div>
 
 
         </fieldset>
-
-        <div class="row mt-1">
-           <div class="col-xs-12">
-             
-            <div class="alert alert-warning alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>Nota</strong> El número de tiempos son las filas en las que consistira el menu, y los dias determinan el número de columnas
-            </div>
-           
-           </div>
-         </div> 
 
         </form>
 
@@ -157,6 +167,7 @@
          -->
         
         <form name="form_menu" id="form_menu" class="hide">
+        <fieldset disabled>
           
           <div id="wrapper"> </div>
           
@@ -166,6 +177,7 @@
             </div>
           </div>
 
+        </fieldset>  
         </form>
         <!-- end Wraper -->   
         
@@ -179,8 +191,8 @@
 
 </div>
 
-<script src="menus/js/controlSelects.js"></script>
-<script src="menus/js/controlsBodyMenu.js"></script>
+<script src="menus/js/formConsulta.js"></script>
+<!-- <script src="menus/js/controlsBodyMenu.js"></script> -->
 <script>
   
 (function(){
@@ -196,6 +208,230 @@
 
   //en esta variable guardare la informacion que se coloque en el formulario de crear cuerpo del menu en memoria
   // var infoPrimerFormulario = null;
+  // 
+  
+  const changeMenu = function(ev){
+
+    menu = this.value;
+
+    let info = this.options[this.selectedIndex].dataset.info;
+
+    // info = JSON.parse(info);
+    // console.log(info);
+    $.post('menus/php/Menu.php', {method: 'getMenu', menu}, (data, textStatus, xhr)=> {
+      
+      if( data.status === 0 ){
+        Swal.fire('Error', data.msg, 'error');
+        return;
+      }
+
+      infoPrimerFormulario.setData( data.result );
+
+      form.tiempos.value = data.result.numTiempos;
+      form.elaboro.value = data.result.elaboro;
+      form.costo.value = data.result.costoTot;
+
+      //checkear los dias
+      let listDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+      
+      form['dias[]'].forEach( function(checkbox, index){
+        checkbox.checked = false;
+        if( data.result[ listDias[index] ] === '1' ){
+          checkbox.checked = true;
+        }
+      });
+
+      //con esta linea recupero los checkbox de los dias que estan seleccionados y reupero su valor
+      let dias = Array.from( form.querySelectorAll('[name="dias[]"]:checked') ).map( item=> Number( item.value ) );//recuperamos los values de los dias checkeados
+      //recordar que los valores de los check corresponde a su numero del dia en la semana, comenzado con lunes = 1, martes 2, miercoles 3 etc...    
+
+      let maquetado = '';
+      for( let i = 0; i < data.result.numTiempos; i++ )
+        maquetado += crearTiempo( dias );
+
+      formMenu.querySelector('#wrapper').innerHTML = maquetado;
+
+      formMenu.classList.remove('hide');//muestra el formulario del cuerpo del menu
+
+      // this.getElementsByTagName('fieldset')[0].disabled = true;//bloquea el primer form
+
+      getTiempos();//se coloca hasta aqui por que aqui ya existen los input tiempo[] en el dom y obtiene los tiempos
+
+      //recuperar cuerpo del backend
+      $.ajax({
+        url: "menus/php/Menu.php",
+        type: 'POST',
+        dataType: 'json', 
+        data: {
+          method: 'getBodyMenu',
+          menu: menu,
+        },
+        beforeSend: ()=>{
+          Swal.fire({
+            title: 'Cargando',
+            onOpen: ()=>{
+              Swal.showLoading()
+            },
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          });
+        }
+      })
+      .done((response)=>{
+        console.log(response);
+        if( response.status === 1 ){
+          setTiempos( response.results );
+          Swal.close();
+        }
+        else{
+          Swal.fire('Error', response.msg, 'error');
+        }
+      })
+      .fail(()=> {
+        Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+      });
+      
+
+    }, 'json');//final del metodo POST
+
+
+
+  }
+
+  form.menu.addEventListener('change', changeMenu);
+
+
+  var setTiempos = function( data ){
+
+    let estructurar = {};
+    for( let item of data ){
+      if( ! ( item.tiempo in estructurar ) ){
+        estructurar[item.tiempo] = [];
+      }
+      estructurar[item.tiempo].push( item );
+    }
+
+    console.log(estructurar);
+
+    //tengo un objeto con las llaves de cada tiempo que exista, cada tiempo tiene un array de las recetas con sus posiciones  
+
+    // let recetasByTiempo = Object.values( estructurar );
+
+    let index = 0;
+    for( let prop in estructurar ){
+
+      //aqui prop sera el id del tiempo y por cada tiempo coloco recetas en sus respectivos dias
+      // console.log(prop, index);
+      //colocar el value en tiempo
+      let selectTiempo = formMenu.querySelectorAll('[name="tiempo[]"]')[index];
+      console.log(selectTiempo);
+      selectTiempo.value = prop;
+
+      // $(selectTiempo).trigger('change');//disparar un change en cada tiempo para cargar las recetas
+      
+      let row = selectTiempo.closest('.row');
+      
+      $(row).find('.personas, .costo').val('');//los input de perosnas y costo siempre se limpian cuando cambie tiempo
+      $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
+
+      if( prop === '' ){
+        //debeira limpiar tambien las recetas , y tambien por si las moscas deberia quitar los atribtos required de los campos personas de ese row
+        $(row).find('.recetas').html('<option value="" selected > Seleccione una Receta </option>');
+        // $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
+        return;
+      }
+
+      //primero obtengo su fila, para obtener de esa fila los select de recetas y llenarlos con la info
+      $.ajax({
+        url: "menus/php/Menu.php",
+        type: 'POST',
+        dataType: 'json', 
+        data: {
+          method: 'getRecetasTiempoSubUnidad',
+          subunidad: infoPrimerFormulario.getProperty('subUnidad'),
+          tiempo: prop//prop es tiempo
+        },
+        beforeSend: ()=>{
+          Swal.fire({
+            title: 'Cargando',
+            onOpen: ()=>{
+              Swal.showLoading()
+            },
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          });
+        }
+      })
+      .done((response)=>{
+        // console.log(response);
+        let doc = '<option value="" selected >Seleccione una receta</option>';
+        for( let item of response ){
+          doc += `<option value="${item.idReceta}" data-costo="${item.costo}">${item.nombre}</option>`;
+        }
+        $(row).find('.recetas').html(doc);
+
+        //una vez que tengo carga las recetas
+        //iteramos sobre ese tiempo las recetas que queriamos poner
+        let j = 0;
+        for( let item of estructurar[prop] ){
+
+          console.log(item);
+          //en item tengo, precio, personas y nombre de la receta, pos y tiempo, tiempo ya esta e idReceta
+          //comenzamos por lo facil colocamos costo y personas
+          
+          //este me intriga ya que si la receta no esta que hago, se me ocurre crear un select con la opcion y al cabo que tengo la receta y el costo y hasta el id
+          
+          let existe = row.querySelectorAll('.recetas')[j].querySelector('option[value="'+item.idReceta+'"]');
+
+          if( existe === null ){//no existe entonces lo agregamos y lo selected
+            $(row).append('<option value="'+item.idReceta+'" selected> '+item.receta+' </option>')  
+          }
+
+          row.querySelectorAll('.recetas')[j].value = item.idReceta;
+
+          row.querySelectorAll('.costo')[j].value = item.precio;
+          row.querySelectorAll('.personas')[j].value = item.personas;
+          
+          j++;
+        }
+
+
+
+        Swal.close();
+      })
+      .fail(()=> {
+        Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+      });
+
+
+      index++;
+      //ahora colocamos las recetas, esto quiere decir que la receta debe existir en la lista de opciones y si no lo que me queda es agregar un select con selected del elemento que esta
+      // ahora
+      // 
+      // ahora en mi objeto que estoy recorriendo el valor de la propiedad es un array
+      // y en el se deberia colocar la receta con sus valores como estan en el DOM
+      
+
+    }
+
+    //ordernar los item de los array por dia
+    // estructurar.sort( (a, b)=> {
+    //   let it1 = Number(a.pos);
+    //   let it2 = Number(b.pos);
+
+    //   if (it1 > it2){
+    //     return 1;
+    //   }
+    //   if (it1 < it2) {
+    //     return -1;
+    //   }
+    //   // a must be equal to b
+    //   return 0;
+    // });  
+
+
+
+  }
 
   var insertMenu = function(ev){
     if(ev) ev.preventDefault();
@@ -493,8 +729,7 @@
       dataType: 'json', 
       data: {
         method: 'getRecetasTiempoSubUnidad',
-        // subunidad: infoPrimerFormulario.find( item=> item.name === 'subunidad' ).value,
-        subunidad: infoPrimerFormulario.getProperty('subunidad'),
+        subunidad: infoPrimerFormulario.getProperty('subUnidad'),
         tiempo: tiempo
       },
       beforeSend: ()=>{
@@ -509,8 +744,8 @@
       }
     })
     .done((response)=>{
-      console.log(response);
-      let doc = '<option value="" selected >Seleccione una receta</option>';
+      // console.log(response);
+      let doc = '<option value="" selected >Seleccione un Tiempo</option>';
       for( let item of response ){
         doc += `<option value="${item.idReceta}" data-costo="${item.costo}">${item.nombre}</option>`;
       }
@@ -526,39 +761,12 @@
 
   //objeto que controla la informacion a quien se le guardara el menu y la muestra
   const infoPrimerFormulario = {
-
     //este objeto lo que hara es que si cambia una de sus propiedades esto se refleje en el elemento box message del DOM
-    
-    //sus propiedades vienen dadas por un array de objetos Jquery, del metodo serializeArray
-    //example
-    //[
-    //  {name: 'nameInput1', 'value': 'valueInput1'},
-    //  {name: 'nameInput2', 'value': 'valueInput2'},
-    //  {name: 'nameInput N ...', 'value': 'valueInput N ...'},
-    //]
-    //
-    
     info: null,
     boxMessage: $$('#box-message'),
-    
-    getTextSelect: function(name){
-      //que regrese un valor solamente
-      let select = form[name];
-      if( ! select  ) return false;//si el select no existe regresa false
-      if( select.nodeName !== 'SELECT' ) return false;//si el elemetno no es un select regresa false
-      return select.options[select.selectedIndex].text;
-    },
-
     setData: function(data){
       //establecemos la info del formulario en el momento del envio, pero ademas rescatamos las propiedades text de los select, en este caso hay 4
       this.info = data;
-
-      for( let item of ['unidad', 'subunidad', 'cliente', 'grupo'] ){
-        let value = this.getTextSelect(item);
-        if( value )
-          this.setProperty(item+'Name', value);
-      }
-
       this.changeBoxMessage();
     },
     getData: function(){
@@ -569,31 +777,17 @@
         this.boxMessage.innerHTML = 'Ninguna subunidad establecida';
         return;
       }
-      this.boxMessage.innerHTML = `Se agregará el menú a la subunidad ${ this.getProperty('subunidadName') }, unidad ${ this.getProperty('unidadName') }, ${ this.getProperty('clienteName') }, para la Semana ${ this.getProperty('semana') } (${this.getProperty('rango')}), grupo alimenticio del día ${ this.getProperty('grupoName') }. Elaborado por ${this.getProperty('elaboro')}`;
+      this.boxMessage.innerHTML = `Menú de la subunidad ${ this.getProperty('subunidadName') }, unidad ${ this.getProperty('unidadName') }, ${ this.getProperty('clienteName') }, para la Semana ${ this.getProperty('semana') } (${this.getProperty('lapso')}), grupo alimenticio del día ${ this.getProperty('grupoName') }. Elaborado por ${this.getProperty('elaboro')}`;
     },
-
     //regresa false si la propiedad no existe
     getProperty: function( name ){
-      let item = this.info.find( item=> item.name === name );
-      return item !== undefined ? item.value : false;
+      return name in this.info ? this.info[name] : false
     },
 
     setProperty: function( name, value ){
-      //primero buscamos que la pripiedad no exista, 
-      let result = this.getProperty(name);
-      //si no existe se agrega
-      if( ! result ){
-        this.info.push({name, value});
-      }
-      else{
-        //si existe se cambie la propiedad
-        result[name].value = value;
-      }
+      this.info[name] = value;
       this.changeBoxMessage();
     }
-
-
-
 
   }
 

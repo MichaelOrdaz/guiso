@@ -261,12 +261,9 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
                 <?php if( $allowed ): ?>
                 <li>
-                  <a href="menu/view/eliminarmenu.php" class="ajaxLink">Eliminar menú</a>
+                  <a href="menus/view/consultar.php" class="ajaxLink">Consultar & Eliminar menú</a>
                 </li>
                 <?php endif; ?>
-                <li>
-                  <a href="menu/view/consultarmenu.php" class="ajaxLink">Consultar menú</a>
-                </li>
                 <li>
                   <a href="menu/view/modificarmenu.php" class="ajaxLink">Modificar menú</a>
                 </li>
