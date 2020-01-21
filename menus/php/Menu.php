@@ -18,20 +18,35 @@ class Menu{
 
 
   public function addMenu(){
+
+    if( isset( $_POST['bandera'] ) ){
+      //si existe bandera, quiere decir que se quiere modificar el menu
+      //entonces se elimina el menu
+      $id = filter_input(INPUT_POST, 'idMenu', FILTER_SANITIZE_STRING) or die( toJson(0, 'El menu es desconocido o invalido') );
+      $this->db->query("SELECT idMenu FROM menu WHERE idMenu = '{$id}'");
+      $this->db->affected_rows > 0 or die ( toJson(0, 'El menu no existe por favor verifique') );
+      $r = $this->db->query("DELETE FROM menu WHERE idMenu = '{$id}'");
+      $r = $this->db->query("DELETE FROM menurec WHERE idMenu = '{$id}'");
+
+      $subunidad = filter_input(INPUT_POST, 'subUnidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida') );
+      $rango = filter_input(INPUT_POST, 'lapso', FILTER_SANITIZE_STRING) or die( toJson(0, 'La semana es desconocida o invalida') );
+    }
+    else{
+      $subunidad = filter_input(INPUT_POST, 'subunidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida') );
+
+      $rango = filter_input(INPUT_POST, 'rango', FILTER_SANITIZE_STRING) or die( toJson(0, 'La semana es desconocida o invalida') );
+    }
+
         
-    $cliente = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
-    $unidad = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
-    $subunidad = filter_input(INPUT_POST, 'subunidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La subunidad es desconocida o invalida') );
+      $costo = filter_input(INPUT_POST, 'costo', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'El costo es desconocido o invalido') );
+      $elaboro = filter_input(INPUT_POST, 'elaboro', FILTER_SANITIZE_STRING) or die( toJson(0, 'El elaboro es desconocido o invalido') );
+      $grupo = filter_input(INPUT_POST, 'grupo', FILTER_VALIDATE_INT) or die( toJson(0, 'El grupo es desconocido o invalido') );
+      $semana = filter_input(INPUT_POST, 'semana', FILTER_VALIDATE_INT) or die( toJson(0, 'La semana es desconocida o invalida') );
+      $cliente = filter_input(INPUT_POST, 'cliente', FILTER_VALIDATE_INT) or die( toJson(0, 'El Cliente es desconocido o invalido') );
+      $unidad = filter_input(INPUT_POST, 'unidad', FILTER_VALIDATE_INT) or die( toJson(0, 'La unidad es desconocida o invalida') );
+      $tiempos = filter_input(INPUT_POST, 'tiempos', FILTER_VALIDATE_INT) or die( toJson(0, 'El No. de tiempos es desconocido o invalido') );
 
-    $tiempos = filter_input(INPUT_POST, 'tiempos', FILTER_VALIDATE_INT) or die( toJson(0, 'El No. de tiempos es desconocido o invalido') );
-    $semana = filter_input(INPUT_POST, 'semana', FILTER_VALIDATE_INT) or die( toJson(0, 'La semana es desconocida o invalida') );
-    $rango = filter_input(INPUT_POST, 'rango', FILTER_SANITIZE_STRING) or die( toJson(0, 'La semana es desconocida o invalida') );
 
-    $grupo = filter_input(INPUT_POST, 'grupo', FILTER_VALIDATE_INT) or die( toJson(0, 'El grupo es desconocido o invalido') );
-
-    $elaboro = filter_input(INPUT_POST, 'elaboro', FILTER_SANITIZE_STRING) or die( toJson(0, 'El elaboro es desconocido o invalido') );
-
-    $costo = filter_input(INPUT_POST, 'costo', FILTER_VALIDATE_FLOAT) or die( toJson(0, 'El costo es desconocido o invalido') );
 
     //rescata los dias checkeados,
     $listaDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
@@ -268,6 +283,7 @@ class Menu{
     $r = $this->db->query("DELETE FROM menurec WHERE idMenu = '{$id}'");
     $this->db->affected_rows > 0 or die( toJson(0, 'El grupo solicitado no existe o no puedo eliminarse, por favor verifique') );
     echo toJson(1, 'El menu se elimino correctamente');
+
   }
 
   public function getBase(){

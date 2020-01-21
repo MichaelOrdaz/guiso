@@ -144,7 +144,7 @@ foreach ($estructurar as $key => $item) {
 }
 
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header("Content-disposition: attachment; filename=Menu {$idMenu} {$menu->cliente}.xlsx");
+header("Content-disposition: attachment; filename=Menu {$idMenu} {$menu->clienteName}.xlsx");
 header('Cache-Control: max-age=0');
 
 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

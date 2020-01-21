@@ -8,20 +8,24 @@
   var form = _.formBase;
 
   //config calendar
-  $('#formBase .datepicker').datepicker({
+  $('.datepicker').datepicker({
     format: "yyyy-mm-dd",
     language: 'es',
     autoclose: true,
     // endDate: '0d',
+    clearBtn: true
   }).on('hide', function(ev){
 
     let date = moment(ev.date);
     let week = date.format('w'),
-      start = date.startOf('week').format('YYYY-MM-DD'),
-      end = date.endOf('week').format('YYYY-MM-DD');
+      year = date.startOf('week').format('YYYY');
 
     form.semana.value = week;
-    form.rango.value = `${start} - ${end}`;
+    form.anio.value = year;
+
+    if( week ){
+      getMenus();
+    }
 
   });
    //obtener los clientes del sistema
@@ -83,6 +87,8 @@
         item.parentNode.removeChild(item);
     });
 
+    getMenus();//buscamos menus
+
     if( cliente === '' ) return;
 
     $.ajax({
@@ -114,6 +120,9 @@
       }
       form.unidad.appendChild(doc);
       Swal.close();
+
+      // getMenus();//buscamos menus
+
     })
     .fail(()=> {
       Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
@@ -132,6 +141,8 @@
     form.subunidad.querySelectorAll('option:not(:first-child)').forEach(item=>{
         item.parentNode.removeChild(item);
     });
+
+    getMenus();//buscamos menus
 
     if( unidad === '' ) return;
 
@@ -164,6 +175,9 @@
       }
       form.subunidad.appendChild(doc);
       Swal.close();
+
+      // getMenus();//buscamos menus
+
     })
     .fail(()=> {
       Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
@@ -209,6 +223,8 @@
       }
       form.grupo.appendChild(doc);
       Swal.close();
+
+      // getMenus();//buscamos menus
     })
     .fail(()=> {
       Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
@@ -218,21 +234,102 @@
 
   getGrupos();
 
+  //cuando cambie subunidad
+  form.subunidad.addEventListener('change', ()=> getMenus() );
+
+  //cuando cambie grupo
+  form.grupo.addEventListener('change', ()=> getMenus() );
+  
+  //cuando cambie fecha
+  // form.semana.addEventListener('change', ()=> getMenus() );
+
 
   //funcionalidad de los input radio
   //
   
-  const changeRadio = function(ev){
-    if( this.value === 'T' ){
-      this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = true );
-    }
-    else if( this.value === 'N' ){
-      this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = false );
-    }
+  // const changeRadio = function(ev){
+  //   if( this.value === 'T' ){
+  //     this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = true );
+  //   }
+  //   else if( this.value === 'N' ){
+  //     this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = false );
+  //   }
+  // }
+
+  // form.optradio.forEach(item=>{
+  //   item.addEventListener('change', changeRadio);
+  // });
+
+
+
+  const getMenus = ()=>{
+
+    let cliente = form.cliente.value;
+    let unidad = form.unidad.value;
+    let subunidad = form.subunidad.value;
+    let semana = form.semana.value;
+    let anio = form.anio.value;
+    let grupo = form.grupo.value;
+
+    let data = {};
+    data.method = 'getMenus';
+
+    if( cliente ) data.cliente = cliente;
+    if( unidad ) data.unidad = unidad;
+    if( subunidad ) data.subunidad = subunidad;
+    if( semana ) data.semana = semana;
+    if( anio ) data.anio = anio;
+    if( grupo ) data.grupo = grupo;
+
+    $.ajax({
+      url: "menus/php/Menu.php",
+      type: 'POST',
+      dataType: 'json', 
+      data,
+      beforeSend: ()=>{
+        Swal.fire({
+          title: 'Cargando',
+          onOpen: ()=>{
+            Swal.showLoading()
+          },
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+      }
+    })
+    .done((response)=>{
+
+      if( response.status ){
+        const doc = _.createDocumentFragment();
+        for( let item of response.results ){
+          let option = _.createElement('option');
+          option.value = item.idMenu;
+          option.textContent = item.idMenu;
+          option.dataset.info = JSON.stringify( item );
+          doc.appendChild(option);
+        }
+
+        form.menu.querySelectorAll('option:not(:first-child)').forEach( item=> item.parentNode.removeChild(item) );
+        form.menu.appendChild(doc);
+        Swal.close();
+      }
+      else{
+        Swal.fire('Error', response.msg, 'error');
+      }
+
+    })
+    .fail(()=> {
+      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+    });
+
   }
 
-  form.optradio.forEach(item=>{
-    item.addEventListener('change', changeRadio);
-  });
+  getMenus();
+
+
+  //checkbox de solo lectura
+  // form['dias[]'].forEach(item=>{
+  //   item.onclick = (ev)=>{ev.preventDefault()}
+  // });
 
 })();

@@ -13,6 +13,7 @@
     language: 'es',
     autoclose: true,
     // endDate: '0d',
+    clearBtn: true
   }).on('hide', function(ev){
 
     let date = moment(ev.date);

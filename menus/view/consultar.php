@@ -5,10 +5,19 @@
     <div class="panel panel-default">
 
       <div class="panel-heading bg-coral text-white text-center">
-        <h3 class="panel-title"> <i class="fa fa-cutlery"></i> Agregar Menu </h3>
+        <h3 class="panel-title"> <i class="fa fa-cutlery"></i> Consultar Menú </h3>
       </div>
       
       <div class="panel-body">
+
+        <div class="row mt-1">
+          <div class="col-xs-12">
+            <div class="alert alert-info alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú que desees modificar, recuerda que solo puedes modificar el cuerpo del menú ( tiempos, dias y recetas junto con personas )
+            </div>
+          </div>
+        </div> 
       
         <!-- un formulario para añadir nuevas bases -->
         <form action="POST" name="formBase" id="formBase">
@@ -18,7 +27,7 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Seleccione la semana * </label>
+                <label> Buscar en la semana </label>
                 <div class="input-group date datepicker">
                   <input type="text" class="form-control input-sm" name="semana" readonly placeholder="Seleccione la semana" />
                   <div class="input-group-addon">
@@ -31,14 +40,14 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Año * </label>
+                <label> Buscar en el Año </label>
                 <input type="text" name="anio" class="form-control input-sm" placeholder="Año" required readonly />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Cliente *</label>
+                <label> Buscar en el Cliente </label>
                 <select name="cliente" class="form-control input-sm" required >
                   <option value="" selected>Seleccione un Cliente</option>
                 </select>
@@ -47,7 +56,7 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Unidad *</label>
+                <label> Buscar en la Unidad </label>
                 <select name="unidad" class="form-control input-sm" required >
                   <option value="" selected>Seleccione una unidad</option>
                 </select>
@@ -56,7 +65,7 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Subunidad *</label>
+                <label> Buscar en la Subunidad </label>
                 <select name="subunidad" class="form-control input-sm" required >
                   <option value="" selected>Seleccione una Subunidad</option>
                 </select>
@@ -65,7 +74,7 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Grupo del Menú*</label>
+                <label> Buscar en el Grupo del Menú </label>
                 <select name="grupo" class="form-control input-sm" required >
                   <option value="" selected>Seleccione un grupo</option>
                 </select>
@@ -76,19 +85,10 @@
 
           <hr>
 
-          <div class="row mt-1">
-            <div class="col-xs-12">
-              <div class="alert alert-info alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú deseado
-              </div>
-            </div>
-          </div> 
-
           <div class="row">
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Menús *</label>
+                <label> Menús Existentes *</label>
                 <select name="menu" class="form-control input-sm" required >
                   <option value="" selected>Selecciona un menú</option>
                 </select>
@@ -97,14 +97,14 @@
             
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> No. de Tiempos *</label>
+                <label> No. de Tiempos </label>
                 <input type="number" name="tiempos" class="form-control input-sm" placeholder="Número de tiempos del menú" required min="1" max="15" readonly />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Elaboro * </label>
+                <label> Elaboro </label>
                 <input type="text" name="elaboro" class="form-control input-sm" placeholder="Ingrese el nombre del responsable" required maxlength="150" readonly />
               </div>
             </div>

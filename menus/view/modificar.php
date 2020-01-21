@@ -5,10 +5,19 @@
     <div class="panel panel-default">
 
       <div class="panel-heading bg-coral text-white text-center">
-        <h3 class="panel-title"> <i class="fa fa-cutlery"></i> Agregar Menu </h3>
+        <h3 class="panel-title"> <i class="fa fa-cutlery"></i> Modificar Menú </h3>
       </div>
       
       <div class="panel-body">
+
+        <div class="row mt-1">
+          <div class="col-xs-12">
+            <div class="alert alert-info alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú que desees modificar, recuerda que solo puedes modificar el cuerpo del menú ( tiempos, dias y recetas junto con personas )
+            </div>
+          </div>
+        </div> 
       
         <!-- un formulario para añadir nuevas bases -->
         <form action="POST" name="formBase" id="formBase">
@@ -18,7 +27,7 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Seleccione la semana * </label>
+                <label> Buscar en la semana </label>
                 <div class="input-group date datepicker">
                   <input type="text" class="form-control input-sm" name="semana" readonly placeholder="Seleccione la semana" />
                   <div class="input-group-addon">
@@ -31,15 +40,15 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Año * </label>
-                <input type="text" name="anio" class="form-control input-sm" placeholder="Año" required readonly />
+                <label> Buscar en la Año </label>
+                <input type="text" name="anio" class="form-control input-sm" placeholder="Año"  readonly />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Cliente *</label>
-                <select name="cliente" class="form-control input-sm" required >
+                <label> Buscar en el Cliente </label>
+                <select name="cliente" class="form-control input-sm"  >
                   <option value="" selected>Seleccione un Cliente</option>
                 </select>
               </div>
@@ -47,8 +56,8 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Unidad *</label>
-                <select name="unidad" class="form-control input-sm" required >
+                <label> Buscar en la Unidad </label>
+                <select name="unidad" class="form-control input-sm"  >
                   <option value="" selected>Seleccione una unidad</option>
                 </select>
               </div>
@@ -56,8 +65,8 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Subunidad *</label>
-                <select name="subunidad" class="form-control input-sm" required >
+                <label> Buscar en la Subunidad </label>
+                <select name="subunidad" class="form-control input-sm"  >
                   <option value="" selected>Seleccione una Subunidad</option>
                 </select>
               </div>
@@ -65,8 +74,8 @@
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Grupo del Menú*</label>
-                <select name="grupo" class="form-control input-sm" required >
+                <label> Buscar en el Grupo del Menú*</label>
+                <select name="grupo" class="form-control input-sm"  >
                   <option value="" selected>Seleccione un grupo</option>
                 </select>
               </div>
@@ -76,19 +85,10 @@
 
           <hr>
 
-          <div class="row mt-1">
-            <div class="col-xs-12">
-              <div class="alert alert-info alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú deseado
-              </div>
-            </div>
-          </div> 
-
           <div class="row">
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Menús *</label>
+                <label> Menús Existentes *</label>
                 <select name="menu" class="form-control input-sm" required >
                   <option value="" selected>Selecciona un menú</option>
                 </select>
@@ -98,13 +98,13 @@
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <label> No. de Tiempos *</label>
-                <input type="number" name="tiempos" class="form-control input-sm" placeholder="Número de tiempos del menú" required min="1" max="15" readonly />
+                <input type="number" name="tiempos" class="form-control input-sm" placeholder="Número de tiempos del menú" required min="1" max="15" />
               </div>
             </div>
 
             <div class="col-md-4 col-sm-6">
               <div class="form-group">
-                <label> Elaboro * </label>
+                <label> Elaboro </label>
                 <input type="text" name="elaboro" class="form-control input-sm" placeholder="Ingrese el nombre del responsable" required maxlength="150" readonly />
               </div>
             </div>
@@ -125,21 +125,21 @@
               <p>
                 Dias del Menú *
               </p>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="1" />Lunes</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="2" />Martes</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="3" />Miercoles</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="4" />Jueves</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="5" />Viernes</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="6" />Sabado</label>
-              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="7" />Domingo</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="1" disabled />Lunes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="2" disabled />Martes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="3" disabled />Miercoles</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="4" disabled />Jueves</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="5" disabled />Viernes</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="6" disabled />Sabado</label>
+              <label class="checkbox-inline"><input type="checkbox" name="dias[]" value="7" disabled />Domingo</label>
             </div>
           </div>
 
-          <div class="row mt-1">
+          <div class="row my-1">
             
-            <!-- <div class="col-xs-12 text-center"> -->
-              <!-- <button type="submit" class="btn btn-primary"> Crear Cuerpo del Menú </button> -->
-            <!-- </div> -->
+            <div class="col-xs-12 text-center">
+              <button type="submit" class="btn btn-primary" name="update" disabled> Modificar Cuerpo del Menú </button>
+            </div>
 
           </div>
 
@@ -167,13 +167,13 @@
          -->
         
         <form name="form_menu" id="form_menu" class="hide">
-        <fieldset disabled>
+        <fieldset>
           
           <div id="wrapper"> </div>
           
           <div class="row mt-1">
             <div class="col-xs-12 text-center">
-              <button type="submit" class="btn btn-primary">Guardar Menu</button>
+              <button type="submit" class="btn btn-primary">Modificar Menu</button>
             </div>
           </div>
 
@@ -191,8 +191,8 @@
 
 </div>
 
-<script src="menus/js/formConsulta.js"></script>
-<!-- <script src="menus/js/controlsBodyMenu.js"></script> -->
+<script src="menus/js/formModifica.js"></script>
+<script src="menus/js/controlsBodyMenu.js"></script>
 <script>
   
 (function(){
@@ -212,10 +212,45 @@
   
   const changeMenu = function(ev){
 
-    menu = this.value;
+    if( this.name === 'formBase' ) ev.preventDefault();
 
-    let info = this.options[this.selectedIndex].dataset.info;
+    menu = form.menu.value;
 
+    //si el menu es vacio ocultamos el cuerpo del menu y desactivamos el btn de eliminar
+    if( menu === '' ){
+      formMenu.classList.add('hide');
+      form.tiempos.value = form.elaboro.value = form.costo.value = '';//limpiamos los input readonly
+      form.update.disabled = true;
+      infoPrimerFormulario.setData( null );//limiamos la info del alert success
+      //quitamos checked de los dias y los desahabilitamos
+      form['dias[]'].forEach(item=>{
+        item.checked = false;
+        item.setAttribute('disabled', 'disabled');
+      });
+      Swal.fire("", "El menu no puede estar vacio", 'warning');
+      return;
+    }
+
+    let tiempos;
+    
+    if( this.name === 'formBase' ){
+
+      tiempos = form.tiempos.valueAsNumber;
+      
+      if( tiempos < 1 || tiempos > 15 ){
+        Swal.fire("", 'El tiempo es requerido y debe estar entre 1 y 15', 'warning');
+        return;
+      }
+
+      //seleccionar por lo menos un check box de dias
+      if( form.querySelector('[name="dias[]"]:checked') === null ){
+        Swal.fire("", 'Debe seleccionar al menos un dia para crear el menu', 'warning');
+        return;
+      }
+
+    }
+
+    // let info = this.options[this.selectedIndex].dataset.info;
     // info = JSON.parse(info);
     // console.log(info);
     $.post('menus/php/Menu.php', {method: 'getMenu', menu}, (data, textStatus, xhr)=> {
@@ -225,28 +260,48 @@
         return;
       }
 
-      infoPrimerFormulario.setData( data.result );
+      //serializamos los datos
+      infoPrimerFormulario.setData( infoPrimerFormulario.serializar(data.result) );
 
-      form.tiempos.value = data.result.numTiempos;
+      console.log( infoPrimerFormulario.getData() );
+
+      form.update.disabled = false;
       form.elaboro.value = data.result.elaboro;
       form.costo.value = data.result.costoTot;
+
+
+      if( this.name === 'menu' ){
+        tiempos = data.result.numTiempos;
+        form.tiempos.value = tiempos;
+      }
+
+      infoPrimerFormulario.setProperty('tiempos', tiempos);
 
       //checkear los dias
       let listDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
       
-      form['dias[]'].forEach( function(checkbox, index){
-        checkbox.checked = false;
-        if( data.result[ listDias[index] ] === '1' ){
-          checkbox.checked = true;
-        }
-      });
+      if( this.name === 'menu' ){
+
+        form['dias[]'].forEach( function(checkbox, index){
+          checkbox.checked = false;
+          checkbox.removeAttribute('disabled');
+
+          if( data.result[ listDias[index] ] === '1' ){
+            checkbox.checked = true;
+          } 
+        });
+
+      }
+
+      let diasCheck = $( form.querySelectorAll('[name="dias[]"]:checked') ).serializeArray();
+      infoPrimerFormulario.setDias( diasCheck );
 
       //con esta linea recupero los checkbox de los dias que estan seleccionados y reupero su valor
       let dias = Array.from( form.querySelectorAll('[name="dias[]"]:checked') ).map( item=> Number( item.value ) );//recuperamos los values de los dias checkeados
       //recordar que los valores de los check corresponde a su numero del dia en la semana, comenzado con lunes = 1, martes 2, miercoles 3 etc...    
 
       let maquetado = '';
-      for( let i = 0; i < data.result.numTiempos; i++ )
+      for( let i = 0; i < tiempos; i++ )
         maquetado += crearTiempo( dias );
 
       formMenu.querySelector('#wrapper').innerHTML = maquetado;
@@ -278,7 +333,7 @@
         }
       })
       .done((response)=>{
-        console.log(response);
+        // console.log(response);
         if( response.status === 1 ){
           setTiempos( response.results );
           Swal.close();
@@ -299,6 +354,7 @@
   }
 
   form.menu.addEventListener('change', changeMenu);
+  form.addEventListener('submit', changeMenu);
 
 
   var setTiempos = function( data ){
@@ -311,7 +367,7 @@
       estructurar[item.tiempo].push( item );
     }
 
-    console.log(estructurar);
+    // console.log(estructurar);
 
     //tengo un objeto con las llaves de cada tiempo que exista, cada tiempo tiene un array de las recetas con sus posiciones  
 
@@ -324,7 +380,11 @@
       // console.log(prop, index);
       //colocar el value en tiempo
       let selectTiempo = formMenu.querySelectorAll('[name="tiempo[]"]')[index];
-      console.log(selectTiempo);
+      // console.log(selectTiempo);
+
+      //si el tiempo como cantidad no existe en el dom pero si en bd, entonces que continue el bucle a la siguiente iteracion
+      if( selectTiempo === undefined ) continue;
+
       selectTiempo.value = prop;
 
       // $(selectTiempo).trigger('change');//disparar un change en cada tiempo para cargar las recetas
@@ -372,27 +432,57 @@
 
         //una vez que tengo carga las recetas
         //iteramos sobre ese tiempo las recetas que queriamos poner
-        let j = 0;
+        // let j = 0;
+        let listDias = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+        
         for( let item of estructurar[prop] ){
 
-          console.log(item);
+          // console.log(item);
           //en item tengo, precio, personas y nombre de la receta, pos y tiempo, tiempo ya esta e idReceta
           //comenzamos por lo facil colocamos costo y personas
           
           //este me intriga ya que si la receta no esta que hago, se me ocurre crear un select con la opcion y al cabo que tengo la receta y el costo y hasta el id
           
-          let existe = row.querySelectorAll('.recetas')[j].querySelector('option[value="'+item.idReceta+'"]');
+          //primero buscamos que el nodo de receta exista en el dom
+          //
+          //
+          //aqui tengo un inconveniente al realizar la modificacion, si se cambian los dias, no es secuencia, por lo tanto debo usar la pos para detenctar en que campo colocar cada receta
+          //
+          //se que pos es
+          //1 = Lunes
+          //2 = marte
+          //3 = miercoles, etc
+          
+          let dia = listDias[Number(item.pos)];//convertimos la pos de receta en su dia
+          //aqui dia debe ser lunes, o martes, etc
+
+          //ahora con toda seguridad buscamos su select
+          let selectReceta = row.querySelector(`select[name="${dia}[receta][]"]`);
+
+          if( selectReceta === null ) continue;
+          
+          // let selectReceta = row.querySelectorAll('.recetas')[j];
+
+          //buscamos que la receta exista como una opcion del select
+          let existe = selectReceta.querySelector('option[value="'+item.idReceta+'"]');
 
           if( existe === null ){//no existe entonces lo agregamos y lo selected
             $(row).append('<option value="'+item.idReceta+'" selected> '+item.receta+' </option>')  
           }
 
-          row.querySelectorAll('.recetas')[j].value = item.idReceta;
+          selectReceta.value = item.idReceta;//establecemos valor
 
-          row.querySelectorAll('.costo')[j].value = item.precio;
-          row.querySelectorAll('.personas')[j].value = item.personas;
+          let divComun = selectReceta.closest('.col-md-3.col-sm-4');
+
+          divComun.querySelector('.personas').value = item.personas;
+          divComun.querySelector('.costo').value = item.precio;
+
+          // row.querySelectorAll('.recetas')[j].value = item.idReceta;
+
+          // row.querySelectorAll('.costo')[j].value = item.precio;
+          // row.querySelectorAll('.personas')[j].value = item.personas;
           
-          j++;
+          // j++;
         }
 
 
@@ -414,92 +504,7 @@
 
     }
 
-    //ordernar los item de los array por dia
-    // estructurar.sort( (a, b)=> {
-    //   let it1 = Number(a.pos);
-    //   let it2 = Number(b.pos);
-
-    //   if (it1 > it2){
-    //     return 1;
-    //   }
-    //   if (it1 < it2) {
-    //     return -1;
-    //   }
-    //   // a must be equal to b
-    //   return 0;
-    // });  
-
-
-
   }
-
-  var insertMenu = function(ev){
-    if(ev) ev.preventDefault();
-
-    if( this.semana.value === '' ){
-      Swal.fire('Las Semana es requerida', '', 'info');
-      return;
-    }
-
-    if( this.cliente.value === '' ){
-      Swal.fire("", 'El Cliente es requerido', 'warning');
-      return;
-    }
-
-    if( this.unidad.value === '' ){
-      Swal.fire("", 'La unidad es requerida', 'warning');
-      return;
-    }
-
-    if( this.subunidad.value === '' ){
-      Swal.fire("", 'La subunidad es requerida', 'warning');
-      return;
-    }
-
-    let tiempos = this.tiempos.valueAsNumber;
-    if( tiempos < 1 || tiempos > 15 ){
-      Swal.fire("", 'El tiempo es requerido y debe estar entre 1 y 15', 'warning');
-      return;
-    }
-
-    if( this.grupo.value === '' ){
-      Swal.fire("", 'El grupo es requerido', 'warning');
-      return;
-    }
-
-    //seleccionar por lo menos un check box de dias
-    if( this.querySelector('[name="dias[]"]:checked') === null ){
-      Swal.fire("", 'Debe seleccionar al menos un dia para crear el menu', 'warning');
-      return;
-    }
-
-    // infoPrimerFormulario = $(this).serializeArray();//establece la info en una variable global
-    infoPrimerFormulario.setData( $(this).serializeArray() );//establece la info en una variable global
-    
-    //lo importante del encabezado para empezar a contruir es tiempos y dias
-    //
-    //con esta linea recupero los checkbox de los dias que estan seleccionados y reupero su valor
-    let dias = Array.from( this.querySelectorAll('[name="dias[]"]:checked') ).map( item=> Number( item.value ) );//recuperamos los values de los dias checkeados
-    //recordar que los valores de los check corresponde a su numero del dia en la semana, comenzado con lunes = 1, martes 2, miercoles 3 etc...    
-
-    //inserta el html de las filas y clumnas
-    let maquetado = '';
-    for( let i = 0; i < tiempos; i++ )
-      maquetado += crearTiempo( dias );
-
-    formMenu.querySelector('#wrapper').innerHTML = maquetado;
-
-    formMenu.classList.remove('hide');//muestra el formulario del cuerpo del menu
-
-    // this.getElementsByTagName('fieldset')[0].disabled = true;//bloquea el primer form
-
-    getTiempos();//se coloca hasta aqui por que aqui ya existen los input tiempo[] en el dom y obtiene los tiempos
-
-    // $('.recetas').select2();
-
-  }
-
-  form.addEventListener('submit', insertMenu);
 
   //crear tiempos recibe un array de numeros, que cada numero es un dia osea 1 = lunes, 2 martes 3 miercoles
   const crearTiempo = function( dias ){
@@ -601,7 +606,7 @@
       }
 
       if( flag ){//si flag es true todos estan vacios y debemos solicitar minimo un valor
-        console.log('entro ya que todos los input del row estan vacios', item, flag);
+        // console.log('entro ya que todos los input del row estan vacios', item, flag);
         break;//finalizamos el codigo
       }
 
@@ -622,40 +627,60 @@
 
     data.push( {name: 'costo', value: form.costo.value} );
     data.push( {name: 'method', value: 'addMenu'} );
+    data.push( {name: 'bandera', value: '1'} );
 
-    $.ajax({
-      url: "menus/php/Menu.php",
-      type: 'POST',
-      dataType: 'json', 
-      data: data,
-      beforeSend: ()=>{
-        Swal.fire({
-          title: 'Cargando',
-          onOpen: ()=>{
-            Swal.showLoading()
-          },
-          allowOutsideClick: false,
-          allowEscapeKey: false
+
+    Swal.fire({
+      title: 'Modificar Menu',
+      text: '¿Está seguro de modificar el menú '+menu+' ?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Modificar'
+    }).then((result) => {
+
+      if (result.value) {
+        
+        $.ajax({
+          url: "menus/php/Menu.php",
+          type: 'POST',
+          dataType: 'json', 
+          data: data,
+          beforeSend: ()=>{
+            Swal.fire({
+              title: 'Cargando',
+              onOpen: ()=>{
+                Swal.showLoading()
+              },
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            });
+          }
+        })
+        .done((response)=>{
+          if( response.status === 1 ){
+            Swal.fire('Exito', response.msg, 'success')
+            .then(r=>{
+              // $('#contenedor').load('menus/view/modificar.php');
+            } );
+          }
+          else{
+            Swal.fire('Error', response.msg, 'error');
+          }
+
+
+          // Swal.close();
+        })
+        .fail(()=> {
+          Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
         });
-      }
-    })
-    .done((response)=>{
-      if( response.status === 1 ){
-        Swal.fire('Exito', response.msg, 'success')
-        .then(r=>{
-          $('#contenedor').load('menus/view/agregar.php');
-        } );
-      }
-      else{
-        Swal.fire('Error', response.msg, 'error');
+        
       }
 
-
-      // Swal.close();
-    })
-    .fail(()=> {
-      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
     });
+
+
 
   }
 
@@ -758,7 +783,7 @@
 
   });
 
-
+  /*
   //objeto que controla la informacion a quien se le guardara el menu y la muestra
   const infoPrimerFormulario = {
     //este objeto lo que hara es que si cambia una de sus propiedades esto se refleje en el elemento box message del DOM
@@ -790,6 +815,97 @@
     }
 
   }
+  */
+
+    //objeto que controla la informacion a quien se le guardara el menu y la muestra
+  const infoPrimerFormulario = {
+
+    //este objeto lo que hara es que si cambia una de sus propiedades esto se refleje en el elemento box message del DOM
+    
+    //sus propiedades vienen dadas por un array de objetos Jquery, del metodo serializeArray
+    //example
+    //[
+    //  {name: 'nameInput1', 'value': 'valueInput1'},
+    //  {name: 'nameInput2', 'value': 'valueInput2'},
+    //  {name: 'nameInput N ...', 'value': 'valueInput N ...'},
+    //]
+    //
+    
+    info: null,
+    boxMessage: $$('#box-message'),
+    
+    getTextSelect: function(name){
+      //que regrese un valor solamente
+      let select = form[name];
+      if( ! select  ) return false;//si el select no existe regresa false
+      if( select.nodeName !== 'SELECT' ) return false;//si el elemetno no es un select regresa false
+      return select.options[select.selectedIndex].text;
+    },
+
+    setData: function(data){
+      //establecemos la info del formulario en el momento del envio, pero ademas rescatamos las propiedades text de los select, en este caso hay 4
+      this.info = data;
+      /*
+      for( let item of ['unidad', 'subunidad', 'cliente', 'grupo'] ){
+        let value = this.getTextSelect(item);
+        if( value )
+          this.setProperty(item+'Name', value);
+      }
+      */
+
+      this.changeBoxMessage();
+    },
+    getData: function(){
+      return this.info;
+    },
+    changeBoxMessage: function(){
+      if( ! this.info ){
+        this.boxMessage.innerHTML = 'Ninguna subunidad establecida';
+        return;
+      }
+      this.boxMessage.innerHTML = `Se Modificará el menú de la subunidad ${ this.getProperty('subunidadName') }, unidad ${ this.getProperty('unidadName') }, ${ this.getProperty('clienteName') }, de la Semana ${ this.getProperty('semana') } (${this.getProperty('lapso')}), grupo alimenticio del día ${ this.getProperty('grupoName') }. Elaborado por ${this.getProperty('elaboro')}`;
+    },
+
+    //regresa false si la propiedad no existe
+    getProperty: function( name ){
+      let item = this.info.find( item=> item.name === name );
+      return item !== undefined ? item.value : false;
+    },
+
+    setProperty: function( name, value ){
+      //primero buscamos que la propiedad no exista, 
+      let result = this.getProperty(name);
+      //si no existe se agrega
+      if( ! result ){
+        this.info.push({name, value});
+      }
+      else{
+        //si existe se cambie la propiedad
+        result[name].value = value;
+      }
+      this.changeBoxMessage();
+    },
+    setDias: function( ArraySerialize ){
+      this.info = this.info.concat( ArraySerialize );
+    },
+    serializar: function( objeto ){
+
+      let array = [];
+      for( let prop in objeto ){
+        if( ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].includes(prop) )
+          continue;
+        array.push( { 'name': prop, 'value': objeto[prop] } );
+      }
+      return array;
+
+    }
+
+
+
+
+
+  }
+
 
 
 })();
