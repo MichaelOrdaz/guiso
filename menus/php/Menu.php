@@ -222,7 +222,7 @@ class Menu{
     $rows = [];
     while( $rows[] = $r->fetch_object() );
     array_pop($rows);
-    echo toJson(1, 'OK', ['results'=>$rows, 'sql'=> $sql]);
+    echo toJson(1, 'OK', ['results'=>$rows]);
   }
 
   public function getMenu(){
@@ -255,6 +255,19 @@ class Menu{
     array_pop($rows);
 
     echo toJson(1, 'OK', ['results'=> $rows]);
+  }
+
+  public function delMenu(){
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING) or die( toJson(0, 'El menu es desconocido o invalido') );
+
+    $this->db->query("SELECT idMenu FROM menu WHERE idMenu = '{$id}'");
+
+    $this->db->affected_rows > 0 or die ( toJson(0, 'El menu no existe por favor verifique') );
+
+    $r = $this->db->query("DELETE FROM menu WHERE idMenu = '{$id}'");
+    $r = $this->db->query("DELETE FROM menurec WHERE idMenu = '{$id}'");
+    $this->db->affected_rows > 0 or die( toJson(0, 'El grupo solicitado no existe o no puedo eliminarse, por favor verifique') );
+    echo toJson(1, 'El menu se elimino correctamente');
   }
 
   public function getBase(){

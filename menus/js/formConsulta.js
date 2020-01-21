@@ -329,6 +329,76 @@
   //checkbox de solo lectura
   form['dias[]'].forEach(item=>{
     item.onclick = (ev)=>{ev.preventDefault()}
-  })
+  });
+
+
+    //si se presiona eliminar menu
+  $$('#delMenu').addEventListener('click', function(ev){
+
+    let menu = form.menu.value;
+
+    if( menu === '' ){
+      Swal.fire("Invalido", 'El menu que deseas eliminar es invalido', 'error');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Eliminar Menu',
+      text: '¿Está seguro de borrar el menú '+menu+' ?. Sólo elimine el menú si no ha generado más operaciones a partir de este menú, de lo contrario la información se podría ver afectada por la falta de este menú',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+
+      if (result.value) {
+        
+        $.ajax({
+          url: "menus/php/Menu.php",
+          type: 'POST',
+          dataType: 'json', 
+          data: {
+            method: 'delMenu',
+            id: menu
+          },
+          beforeSend: ()=>{
+            Swal.fire({
+              title: 'Cargando',
+              onOpen: ()=>{
+                Swal.showLoading()
+              },
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            });
+          }
+        })
+        .done((response)=>{
+          if( response.status ){
+            Swal.fire('Exito', response.msg, 'success')
+            .then(r=>{
+              form.menu.value = '';
+              // $(form.menu).trigger('change');
+              let ev = new Event('change');
+              form.menu.dispatchEvent(ev);
+              getMenus();//buscamos
+            });
+
+          }
+          else{
+            Swal.fire('Error', response.msg, 'error');
+          }
+        })
+        .fail(()=> {
+          Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+        });
+        
+      }
+
+    });
+
+  });
+
+
 
 })();

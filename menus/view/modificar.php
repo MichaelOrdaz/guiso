@@ -158,14 +158,8 @@
           </div>
         </div>
 
-        <div class="row hide">
-          <div class="col-xs-12">
-            <button class="btn btn-danger" id="delMenu" >Eliminar Menú</button>
-            <a href="#" target="_blank" rel="noopener" class="btn btn-primary" id="printMenu" >Exportar Menú</a>
-          </div>
-        </div>
-  
         <hr />
+  
         <!-- 
           debo tener una tipo tabla con maximo 8 columnas y maximo 15 filas
           las columnas van dadas por el numero de dias que se seleccionen 
@@ -177,11 +171,11 @@
           
           <div id="wrapper"> </div>
           
-          <!-- <div class="row mt-1">
+          <div class="row mt-1">
             <div class="col-xs-12 text-center">
               <button type="submit" class="btn btn-primary">Guardar Menu</button>
             </div>
-          </div> -->
+          </div>
 
         </fieldset>  
         </form>
@@ -210,8 +204,6 @@
   var form = _.formBase;
 
   var formMenu = _.form_menu;
-  
-  $$('#printMenu').disabled = true;
 
 
   //en esta variable guardare la informacion que se coloque en el formulario de crear cuerpo del menu en memoria
@@ -222,28 +214,6 @@
 
     menu = this.value;
 
-    //si el menu es vacio ocultamos el cuerpo del menu y desactivamos el btn de eliminar
-    if( menu === '' ){
-      formMenu.classList.add('hide');
-      // $$('#delMenu').disabled = true;
-      // $$('#printMenu').disabled = true;
-      $$('#printMenu').href = '#';
-      $$('#delMenu').closest('.row').classList.add('hide');
-
-      form.tiempos.value = form.elaboro.value = form.costo.value = '';//limpiamos los input readonly
-
-      infoPrimerFormulario.setData( null );//limiamos la info del alert success
-
-      //quitamos checked de los dias
-      formBase['dias[]'].forEach(item=> item.checked = false );
-
-      return;
-    }
-
-    $$('#delMenu').closest('.row').classList.remove('hide');
-    // $$('#printMenu').disabled = true;
-    $$('#printMenu').href = 'menus/printMenu.php?menu='+menu;
-    // $$('#delMenu').disabled = false;
     let info = this.options[this.selectedIndex].dataset.info;
 
     // info = JSON.parse(info);
@@ -444,9 +414,92 @@
 
     }
 
+    //ordernar los item de los array por dia
+    // estructurar.sort( (a, b)=> {
+    //   let it1 = Number(a.pos);
+    //   let it2 = Number(b.pos);
+
+    //   if (it1 > it2){
+    //     return 1;
+    //   }
+    //   if (it1 < it2) {
+    //     return -1;
+    //   }
+    //   // a must be equal to b
+    //   return 0;
+    // });  
+
 
 
   }
+
+  var insertMenu = function(ev){
+    if(ev) ev.preventDefault();
+
+    if( this.semana.value === '' ){
+      Swal.fire('Las Semana es requerida', '', 'info');
+      return;
+    }
+
+    if( this.cliente.value === '' ){
+      Swal.fire("", 'El Cliente es requerido', 'warning');
+      return;
+    }
+
+    if( this.unidad.value === '' ){
+      Swal.fire("", 'La unidad es requerida', 'warning');
+      return;
+    }
+
+    if( this.subunidad.value === '' ){
+      Swal.fire("", 'La subunidad es requerida', 'warning');
+      return;
+    }
+
+    let tiempos = this.tiempos.valueAsNumber;
+    if( tiempos < 1 || tiempos > 15 ){
+      Swal.fire("", 'El tiempo es requerido y debe estar entre 1 y 15', 'warning');
+      return;
+    }
+
+    if( this.grupo.value === '' ){
+      Swal.fire("", 'El grupo es requerido', 'warning');
+      return;
+    }
+
+    //seleccionar por lo menos un check box de dias
+    if( this.querySelector('[name="dias[]"]:checked') === null ){
+      Swal.fire("", 'Debe seleccionar al menos un dia para crear el menu', 'warning');
+      return;
+    }
+
+    // infoPrimerFormulario = $(this).serializeArray();//establece la info en una variable global
+    infoPrimerFormulario.setData( $(this).serializeArray() );//establece la info en una variable global
+    
+    //lo importante del encabezado para empezar a contruir es tiempos y dias
+    //
+    //con esta linea recupero los checkbox de los dias que estan seleccionados y reupero su valor
+    let dias = Array.from( this.querySelectorAll('[name="dias[]"]:checked') ).map( item=> Number( item.value ) );//recuperamos los values de los dias checkeados
+    //recordar que los valores de los check corresponde a su numero del dia en la semana, comenzado con lunes = 1, martes 2, miercoles 3 etc...    
+
+    //inserta el html de las filas y clumnas
+    let maquetado = '';
+    for( let i = 0; i < tiempos; i++ )
+      maquetado += crearTiempo( dias );
+
+    formMenu.querySelector('#wrapper').innerHTML = maquetado;
+
+    formMenu.classList.remove('hide');//muestra el formulario del cuerpo del menu
+
+    // this.getElementsByTagName('fieldset')[0].disabled = true;//bloquea el primer form
+
+    getTiempos();//se coloca hasta aqui por que aqui ya existen los input tiempo[] en el dom y obtiene los tiempos
+
+    // $('.recetas').select2();
+
+  }
+
+  form.addEventListener('submit', insertMenu);
 
   //crear tiempos recibe un array de numeros, que cada numero es un dia osea 1 = lunes, 2 martes 3 miercoles
   const crearTiempo = function( dias ){
@@ -512,6 +565,103 @@
     `);
   }
 
+
+  const insertaMenu = function(ev){
+
+    if(ev) ev.preventDefault();
+
+    let info2 = $(this).serializeArray();
+
+    //validar que por cada tiempo (cada fila) exista minimo una receta 
+    console.log(info2);
+    
+    let flag = true;//comenzamos diciendo que todos los select estan vacios
+
+    let flag2 = [];//este flag es para verificar que los tiempos no se repitan
+
+    //recuperamos los select de tiempo
+    let selectTiempos = this.querySelectorAll('select[name="tiempo[]"]');
+
+    for( let item of selectTiempos ){
+
+      flag = true;
+      flag2.push( item.value );//metemos los values de cada tiempo
+      //tambien verificamos que los tiempos no esten repetidos
+
+      //cada select esta en una fila,
+      //recuperamos los select con clase receta dentro de esa fila  
+      let inputRecetas = item.closest('.row').querySelectorAll('select.recetas');
+      for( let selectReceta of inputRecetas ){
+        //si algun select tiene un valor cambiamos el flag a false
+        if( selectReceta.value !== '' ){
+          flag = false;
+          break;//como ya se que un input tiene un valor finalizamos el bucle ya que cumple con tener un select con valor la fila
+        }
+
+      }
+
+      if( flag ){//si flag es true todos estan vacios y debemos solicitar minimo un valor
+        console.log('entro ya que todos los input del row estan vacios', item, flag);
+        break;//finalizamos el codigo
+      }
+
+    }
+
+    if( flag ){
+      Swal.fire("Incompleto", 'Cada tiempo debe tener minimo una receta', 'warning');
+      return;
+    }
+
+    //verificamos si hay tiempos repetidos avisamos
+    if( selectTiempos.length !== [...new Set(flag2)].length ){
+      Swal.fire("Error", 'Los tiempos no pueden estar repetidos', 'warning');
+      return;
+    }
+
+    let data = infoPrimerFormulario.getData().concat( info2 );
+
+    data.push( {name: 'costo', value: form.costo.value} );
+    data.push( {name: 'method', value: 'addMenu'} );
+
+    $.ajax({
+      url: "menus/php/Menu.php",
+      type: 'POST',
+      dataType: 'json', 
+      data: data,
+      beforeSend: ()=>{
+        Swal.fire({
+          title: 'Cargando',
+          onOpen: ()=>{
+            Swal.showLoading()
+          },
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+      }
+    })
+    .done((response)=>{
+      if( response.status === 1 ){
+        Swal.fire('Exito', response.msg, 'success')
+        .then(r=>{
+          $('#contenedor').load('menus/view/agregar.php');
+        } );
+      }
+      else{
+        Swal.fire('Error', response.msg, 'error');
+      }
+
+
+      // Swal.close();
+    })
+    .fail(()=> {
+      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+    });
+
+  }
+
+  formMenu.addEventListener('submit', insertaMenu);
+
+
   //function que consulta y agrega los tiempos
   const getTiempos = ()=>{
 
@@ -548,6 +698,67 @@
   }
 
 
+
+
+
+  //manipula el cambio de tiempos en cada fila
+  //si el tiempo es vacio elimina todas las recetas de esa fila
+  //si existe el tiempo realiza una peticion y busca las recetas
+  $(formMenu).on('change', 'select[name="tiempo[]"]', function(ev){
+    
+    // console.log( "cambio tiempo");
+
+    let row = this.closest('.row');
+
+    let tiempo = this.value;
+    
+    $(row).find('.personas, .costo').val('');//los input de perosnas y costo siempre se limpian cuando cambie tiempo
+    $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
+
+    if( tiempo === '' ){ 
+      //debeira limpiar tambien las recetas , y tambien por si las moscas deberia quitar los atribtos required de los campos personas de ese row
+      $(row).find('.recetas').html('<option value="" selected > Seleccione una Receta </option>');
+      // $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
+      return;
+    }
+
+    //primero obtengo su fila, para obtener de esa fila los select de recetas y llenarlos con la info
+    $.ajax({
+      url: "menus/php/Menu.php",
+      type: 'POST',
+      dataType: 'json', 
+      data: {
+        method: 'getRecetasTiempoSubUnidad',
+        subunidad: infoPrimerFormulario.getProperty('subUnidad'),
+        tiempo: tiempo
+      },
+      beforeSend: ()=>{
+        Swal.fire({
+          title: 'Cargando',
+          onOpen: ()=>{
+            Swal.showLoading()
+          },
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+      }
+    })
+    .done((response)=>{
+      // console.log(response);
+      let doc = '<option value="" selected >Seleccione un Tiempo</option>';
+      for( let item of response ){
+        doc += `<option value="${item.idReceta}" data-costo="${item.costo}">${item.nombre}</option>`;
+      }
+      $(row).find('.recetas').html(doc);
+      Swal.close();
+    })
+    .fail(()=> {
+      Swal.fire('', 'La Red no esta disponible, intente más tarde', 'error');
+    });
+
+  });
+
+
   //objeto que controla la informacion a quien se le guardara el menu y la muestra
   const infoPrimerFormulario = {
     //este objeto lo que hara es que si cambia una de sus propiedades esto se refleje en el elemento box message del DOM
@@ -579,8 +790,6 @@
     }
 
   }
-
-
 
 
 })();
