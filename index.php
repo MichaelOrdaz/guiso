@@ -18,7 +18,6 @@ $rol = $_SESSION['rol_comedor'];
 $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
 // var_dump ($rol);
 // var_dump ($allowed);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,13 +32,11 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
 
   <title>Guisopak - Sistema Control de Comedores</title>
   
-
   <!-- Bootstrap Core CSS -->
-  <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
   <!-- MetisMenu CSS -->
   <link href="css/metisMenu.min.css" rel="stylesheet">
-  <!-- Timeline CSS -->
-  <!-- <link href="css/timeline.css" rel="stylesheet"> -->
   <!-- Custom CSS -->
   <link href="css/startmin.css" rel="stylesheet">
   <!-- Custom Fonts -->
@@ -51,9 +48,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   <link rel="stylesheet" href="js/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker3.min.css">
 
   <!-- <link rel="stylesheet" href="js/perfect-scrollbar-1.4.0/css/perfect-scrollbar.css"> -->
-
   <link rel="stylesheet" type="text/css" href="css/custom.css">
-  
   <style>
 
     overflow-y{
@@ -127,58 +122,27 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 <li>
                   <a href="usuarios/view/menu.php" class="ajaxLink">Usuarios</a>
                 </li>
-                <!-- <li>
-                  <a href="articulo/view/menu.php" class="ajaxLink" >Artículos</a>
-                </li> -->
-
                 <li>
                   <a href="articulos/view/article.php" class="ajaxLink" >Artículos</a>
                 </li>
-
                 <li>
                   <a href="tiempo/view/main.php" class="ajaxLink" >Tiempos</a>
                 </li>
-
-<!--                 <li>
-                  <a href="javascript://" data-archivo="MenuProveedor.php" data-menu="menu-proveedor">Proveedores </a>
-                </li> -->
-
                 <li>
                   <a href="proveedor/view/menu.php" class="ajaxLink">Proveedores </a>
                 </li>
-
                 <li>
                   <a href="precios/view/menu.php" class="ajaxLink">Ajustar Precios </a>
                 </li>
-
-                <!-- <li>
-                  <a href="javascript://" data-archivo="MenuClientes.php" data-menu="menu-cliente">Clientes </a>
-                </li> -->
-
                 <li>
                   <a href="clientes/view/clientes.php" class="ajaxLink">Clientes </a>
                 </li>
-                
-                <!-- <li>
-                  <a href="javascript://" data-archivo="MenuLinea.php" data-menu="menu-linea">Líneas </a>
-                </li> -->
-
                 <li>
                   <a href="lineas/view/menu.php" class="ajaxLink">Líneas </a>
                 </li>
-
-                <!-- <li>
-                  <a href="javascript://" data-archivo="MenuGrupos.php" data-menu="menu-grupo">Grupos </a>
-                </li> -->
-
                 <li>
                   <a href="grupos/view/menu.php" class="ajaxLink"> Grupos </a>
                 </li>
-
-                <!-- <li>
-                  <a href="javascript://" data-archivo="MenuBases.php" data-menu="menu-base">Bases </a>
-                </li> -->
-
                 <li>
                   <a href="bases/view/menu.php" class="ajaxLink"> Bases </a>
                 </li>
@@ -187,7 +151,6 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
             </li>
             <?php endif; ?>
 
-            
             <li>
               <a href="javascript://">
                 <i class="fa fa-book fa-fw"></i> Recetas <span class="fa arrow"></span>
@@ -236,6 +199,27 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
+  
+            <li>
+              <a href="javascript://"><i class="fa fa-cutlery fa-fw"></i> Menú M <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li>
+                  <a href="menus/view/agregar.php" class="ajaxLink">Agregar menú</a>
+                </li>
+                <?php if( $allowed ): ?>
+                <li>
+                  <a href="menus/view/consultar.php" class="ajaxLink">Consultar, Eliminar menú</a>
+                </li>
+                <?php endif; ?>
+                <li>
+                  <a href="menus/view/modificar.php" class="ajaxLink">Modificar menú</a>
+                </li>
+                <li>
+                  <a href="menus/view/copiar.php" class="ajaxLink">Copiar de menú</a>
+                </li>
+              </ul>
+            </li>
+
             <!-- Explosion -->
             <li>
               <a href="javascript://"><i class="fa fa-bar-chart-o fa-fw"></i> Explosión de materiales<span class="fa arrow"></span></a>
@@ -311,16 +295,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
             </li>
 
             <li>
-              <!-- <a href="#"><i class="fa fa-file-excel-o"></i>Presupuesto de Compras</a> -->
               <a href="compras/view/presupuestodec.php" class="ajaxLink"> <i class="fa fa-file-excel-o"></i> Presupuesto de Compras</a>
-                <!-- <ul class="nav nav-second-level"> -->
-                <!-- <li>
-                  <a href="compras/view/presupuestodec.php" class="ajaxLink">Presupuesto de Compras</a>
-                </li> -->
-                <!-- <li>
-                  <a href="compras/view/compdecomprasyfac.php" class="ajaxLink">Comparativo de Compras vs Facturado</a>
-                </li> -->
-              <!-- </ul> -->
             </li>
             
             <li>
@@ -338,48 +313,10 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
-
-            <!-- <li> -->
-              <!-- <a data-archivo="MenuOCManual.php" data-menu="menu-ocm"> <i class="fa fa-line-chart"></i> OC manual</a> -->
-              <!-- <a href="javascript://"><i class="fa fa-folder-o fa-fw"></i> OC manual<span class="fa arrow"></span></a> -->
-              <!-- /.nav-second-level -->
-              <!-- <ul class="nav nav-second-level">
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Generacion de OC manual</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Modificacion de OC manual</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Cambio de estatus de OC manual</a>
-                </li>
-              </ul> -->
-            <!-- </li> -->
              
             <li>
               <a href="facturas/view/facturas.php" class="ajaxLink"> <i class="fa fa-money fa-fw"></i> Facturas </a>
-              <!-- <a href="javascript://"><i class="fa fa-money fa-fw"></i> Facturas<span class="fa arrow"></span></a> -->
-                <!-- /.nav-second-level -->
-              <!-- <ul class="nav nav-second-level">
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Crear factura a partir de OC</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="modifcarfacturasatravesdeoc">Modificar facturas a traves de OC</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Crear facturas a partir de OC</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="modifcarfacturasatravesdeocmanuales">Modificar facturas a traves de OC manuales</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Cambiar estatus de facturas</a>
-                </li>
-                <li>
-                  <a href="#" onclick="return false;" id="recetas">Cambiar estatus de factura manual</a>
-                </li>
-              </ul> -->
+
             </li>
             
           </ul>
@@ -402,7 +339,8 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   <!-- endWrapper -->
     
   <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script> -->
+  <script src="css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
   <script src="js/metisMenu.min.js"></script>
   <!-- <script src="js/raphael.min.js"></script> -->
   <script src="js/startmin.js"></script>
@@ -424,18 +362,6 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
   <script src="js/custom.js"></script>
 
   <script>
-  // $(document).ready( function(){
-    
-  //   $("a[data-menu]").click( function(){
-  //     cargarMenu($(this).attr("data-menu"), $(this).attr("data-archivo"));
-  //   }); //Funcion clic 
-  //   // Botones que cargan menu por defecto
-  //   $("a[id='GuisoPakLink']").click(function(){
-  //     cargarContenido();
-  //   });
-  //   // Cargar el menu por defecto
-  //   // cargarContenido();
-  // });
 
   window.addEventListener('DOMContentLoaded', ()=>{ document.body.style.display = 'block' });
   </script>

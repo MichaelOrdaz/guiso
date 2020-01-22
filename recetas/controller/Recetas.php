@@ -31,7 +31,6 @@ class Receta{
 
   }
 
-
   public function actualizacionMasiva(){
 
     $sql = "SELECT re.idReceta, re.costo as costoReceta, re.nombre, re.porciones, reart.cantidad, art.costo, art.nombre FROM receta AS re JOIN recetaart AS reart ON re.idReceta=reart.receta JOIN articulo AS art ON art.idArticulo=reart.articulo WHERE 1";
