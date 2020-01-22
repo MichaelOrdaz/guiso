@@ -14,7 +14,7 @@
           <div class="col-xs-12">
             <div class="alert alert-info alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú que desees modificar, recuerda que solo puedes modificar el cuerpo del menú ( tiempos, dias y recetas junto con personas )
+              <strong>Nota</strong> Llena los campos para filtar los datos hasta el menú que desees consultar
             </div>
           </div>
         </div> 
