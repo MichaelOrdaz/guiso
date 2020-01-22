@@ -34,7 +34,8 @@ if( ! empty( $_SESSION['usuario_comedor'] ) ){
         <title>GuisoPak - Sistema de Comedores</title>
 
         <!-- Bootstrap Core CSS -->
-        <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <!-- <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet"> -->
+        <link href="css/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- MetisMenu CSS -->
         <link href="./css/metisMenu.min.css" rel="stylesheet">
@@ -91,7 +92,7 @@ if( ! empty( $_SESSION['usuario_comedor'] ) ){
         <script src="./js/jquery.min.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="./js/bootstrap.min.js"></script>
+        <!-- <script src="./js/bootstrap.min.js"></script> -->
 
         <!-- Metis Menu Plugin JavaScript -->
         <script src="./js/metisMenu.min.js"></script>

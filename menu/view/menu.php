@@ -449,13 +449,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off'>"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;color:#337ab7;' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3' >"+
+"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3' >"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7;' value="+lunes+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -472,13 +472,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off'>"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;;color:#337ab7' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7;color:#337ab7' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<input style='width:60%;color:#337ab7;color:#337ab7' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3'>"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7' value="+martes+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -495,13 +495,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' >"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;;color:#337ab7' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<input style='width:60%;color:#337ab7' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3'>"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7' value="+miercoles+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -518,13 +518,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7;'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;;color:#337ab7' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' >"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;color:#337ab7;' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3'>"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7;' value="+jueves+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -541,13 +541,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' >"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;color:#337ab7;' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3'>"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7;' value="+viernes+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -564,13 +564,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7;'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' >"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7;'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;color:#337ab7;' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<input style='width:60%;color:#337ab7;' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3'>"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7;' value="+sabado+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -587,13 +587,13 @@ tabla+=
 "<label style='margin-right:40px;color:#337ab7'>Id</label><label style='color:#337ab7'>Receta</label>"+
 "<br>"+
 "<input style='width:20%;margin-right:10px;color:#337ab7;' class="+"id"+cont+" disabled>"+
-"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' required>"+
+"<input list="+"browsers"+i+" style='width:60%;color:#337ab7;' class='receta1' id="+"_"+cont+" autocomplete='off' >"+
 "<datalist id="+"browsers"+i+" ></datalist>"+
 "<br>"+
 "<label style='margin-right:15px;margin-top:10px;color:#337ab7'>Costo</label><label style='color:#337ab7'>Personas</label>"+
 "<br>"+
 "<input style='width:20%;margin-top:2px;margin-right:10px;color:#337ab7' class="+"costo"+cont+" disabled>"+
-"<input style='width:60%;color:#337ab7' class="+"cantidad"+cont+" name='cantidad' required pattern='^[0-9]{0,3}$' maxlength='3'>"+
+"<input style='width:60%;color:#337ab7' class="+"cantidad"+cont+" name='cantidad' pattern='^[0-9]{0,3}$' maxlength='3'>"+
 "<br>"+
 "<input style='width:80px;margin-top:10px;color:#337ab7' value="+domingo+" class="+"fecha"+cont+" disabled>"+
 "</td>";
@@ -630,6 +630,29 @@ $('#browsers'+tiempo).html(nombre);
 });
 });
 
+$(".tiempos").keydown(function(){
+tiempo=$(this).attr('id');
+$.ajax({
+url : 'menu/php/agregarmenu7.php',
+data : {
+subunidad:$("#subunidad").children("option:selected").val(),
+tiempo:$(this).children("option:selected").val()
+},
+type : 'POST',
+dataType: 'json',
+async:false,
+success:function(respuesta){
+respuesta="["+respuesta+"]";
+res=JSON.parse(respuesta);
+nombre="";
+$.each(res,function(key,value){
+nombre+="<option>"+value.nombre+"</option>";
+});
+$('#browsers'+tiempo).html(nombre);
+},
+});
+});    
+
 $.ajax({
 url : 'menu/php/agregarmenu12.php',
 data : {},
@@ -647,7 +670,7 @@ $('.tiempos').html(temp);
 },
 });
 
-$('.receta1').on('input',function(){
+$('.receta1').on('change',function(){
 res = $(this).attr('id').replace("_","");
 $.ajax({
 url : 'menu/php/agregarmenu8.php',
@@ -659,8 +682,14 @@ subunidad:$("#subunidad").children("option:selected").val()
 type : 'POST',
 success:function(respuesta){
 res=respuesta.split(",");
+if(res[2]==0){
+$('.cantidad'+res[0]).removeAttr('required');
+}
+else{
 $('.id'+res[0]).val(res[1]);
 $('.costo'+res[0]).val(res[2]);
+$('.cantidad'+res[0]).attr('required','required');
+}
 },
 });
 });
@@ -730,23 +759,6 @@ costosunidad=costosunidad+Number($('.costo'+i).val())*Number($('.cantidad'+i).va
 res=$('#elaboro').val().replace("'","");
 res=res.replace('"',"");
 
-// for (var i=1;i<=cont;i++){
-// $.ajax({
-// url : 'menu/php/existe.php',
-// data : {
-// clave:$('#'+i).val().toUpperCase(),
-// subunidad:$("#subunidad").children("option:selected").val()
-// },
-// type : 'POST',
-// async:false,
-// success:function(respuesta){
-// if(respuesta==0){
-// band=1;
-// }
-// },
-// });
-// }
-
 $.ajax({
 url : 'menu/php/existe1.php',
 data : {
@@ -796,10 +808,6 @@ if(band1==0&&band2==0&&band3==0&&band4==0&&band5==0&&band6==0&&band7==0){
 alert("Seleccione un dia ");
 bandf=1;
 }
-
-// if(band==1){
-// alert("Receta no existe o no es de otra subunidad");
-// }
 
 if((bandf==0)&&(bandc==0)){
 $.ajax({

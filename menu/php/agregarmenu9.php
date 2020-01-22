@@ -54,17 +54,15 @@ $cantidad = explode(",",$cantidad);
 $precio = explode(",",$precio);
 
 for ($i=0;$i<count($fecharecetas);$i++){
-
+$nombre="";
 $consulta = "SELECT nombre,tiempo FROM receta WHERE idReceta = '$idrecetas[$i]' ";
 $resultado = mysqli_query($conexion,$consulta);
 while($columna=mysqli_fetch_array($resultado)){
 $nombre=$columna['nombre'];
 $tiempo=$columna['tiempo'];
 }
-
 $sql1 = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$idMenu','','$tiempo','$nombre','$precio[$i]','$cantidad[$i]','$fecharecetas[$i]')";
 mysqli_query($conexion,$sql1);
-
 }
 
 ?>

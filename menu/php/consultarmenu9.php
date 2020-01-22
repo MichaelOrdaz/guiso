@@ -23,12 +23,6 @@ while($columna1=mysqli_fetch_array($resultado1)){
 $idreceta=$columna1['idReceta'];
 }
 
-$consulta2 = "SELECT descripcion FROM tiempo WHERE idTiempo = '$tiempo' ";
-$resultado2 = mysqli_query($conexion,$consulta2);
-while($columna2=mysqli_fetch_array($resultado2)){
-$tiempo=$columna2['descripcion'];
-}
-
 $fecha = $columna['fecha'];
 $fecha = str_replace(" 00:00:00","",$fecha);
 $dia = $dias[date('N', strtotime($fecha))];

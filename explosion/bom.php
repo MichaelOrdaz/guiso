@@ -239,6 +239,12 @@ while( $itemUnidad = $unidadResult->fetch_object() ){
   // //set autoFilter de un rango
   $sheet->setAutoFilter("A7:H{$indexRow}");
 
+  
+  //cuando termine que haga la suma de la ultima linea
+  $cellTotal = "H{$startLinea}:H".($indexRow-1);//determinamos el rango
+  $sheet->setCellValue("G{$indexRow}", 'Total');
+  $sheet->setCellValue("H{$indexRow}", "=SUM($cellTotal)");
+
 }//whileUnidad
 
 //cuando termine que haga la suma de la ultima linea

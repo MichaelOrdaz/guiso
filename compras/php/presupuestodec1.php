@@ -74,35 +74,35 @@ $idunidad5=strval($idunidad5);
 }
 
 if (isset($idunidad[0])){
-$consulta1 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad1' ";
+$consulta1 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad1' AND activo='1' ";
 $resultado = mysqli_query($conexion,$consulta1);
 while($columna=mysqli_fetch_array($resultado)){
 $unidadnom1 = $columna['unidad'];
 }
 }
 if (isset($idunidad[1])){
-$consulta2 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad2' ";
+$consulta2 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad2' AND activo='1' ";
 $resultado = mysqli_query($conexion,$consulta2);
 while($columna=mysqli_fetch_array($resultado)){
 $unidadnom2 = $columna['unidad'];
 }
 }
 if (isset($idunidad[2])){
-$consulta3 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad3' ";
+$consulta3 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad3' AND activo='1'";
 $resultado = mysqli_query($conexion,$consulta3);
 while($columna=mysqli_fetch_array($resultado)){
 $unidadnom3 = $columna['unidad'];
 }
 }
 if (isset($idunidad[3])){
-$consulta4 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad4' ";
+$consulta4 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad4' AND activo='1'";
 $resultado = mysqli_query($conexion,$consulta4);
 while($columna=mysqli_fetch_array($resultado)){
 $unidadnom4 = $columna['unidad'];
 }
 }
 if (isset($idunidad[4])){
-$consulta5 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad5' ";
+$consulta5 = "SELECT DISTINCT unidad FROM unidad WHERE idUnidad = '$idunidad5' AND activo='1'";
 $resultado = mysqli_query($conexion,$consulta5);
 while($columna=mysqli_fetch_array($resultado)){
 $unidadnom5 = $columna['unidad'];
@@ -181,22 +181,22 @@ $proveedor=$columna['proveedor'];
 $consulta1 = "SELECT nombre,pago FROM proveedor WHERE idProveedor='$proveedor' ";
 $resultado1 = mysqli_query($conexion,$consulta1);
 while($columna1=mysqli_fetch_array($resultado1)){
-if($columna1['pago']=='CONTADO CON CHEQUE'){
+if($columna1['pago']=='Transferencia Electrónica'){
 $contche++;
 $CHEQUE1[$contche]=$columna1['nombre'];
 $PAGOCHEQUE1[$contche]=$columna['suma'];
 }
-if($columna1['pago']=='CRÉDITO'){
+if($columna1['pago']=='Crédito'){
 $contcre++;
 $CREDITO1[$contcre]=$columna1['nombre'];
 $PAGOCREDITO1[$contcre]=$columna['suma'];
 }
-if($columna1['pago']=='EFECTIVO'){
+if($columna1['pago']=='Efectivo'){
 $contefec++;
 $EFECTIVO1[$contefec]=$columna1['nombre'];
 $PAGOEFECTIVO1[$contefec]=$columna['suma'];
 }
-if($columna1['pago']=='OPERACIÓN'){
+if($columna1['pago']=='Compras Locales'){
 $contoper++;
 $OPERACION1[$contoper]=$columna1['nombre'];
 $PAGOOPERACION1[$contoper]=$columna['suma'];
@@ -218,19 +218,19 @@ $proveedor=$columna['proveedor'];
 $consulta1 = "SELECT nombre,pago FROM proveedor WHERE idProveedor='$proveedor' ";
 $resultado1 = mysqli_query($conexion,$consulta1);
 while($columna1=mysqli_fetch_array($resultado1)){
-if($columna1['pago']=='CONTADO CON CHEQUE'){
+if($columna1['pago']=='Transferencia Electrónica'){
 $contche++;
 $PAGOCHEQUE2[$contche]=$columna['suma'];
 }
-if($columna1['pago']=='CRÉDITO'){
+if($columna1['pago']=='Crédito'){
 $contcre++;
 $PAGOCREDITO2[$contcre]=$columna['suma'];
 }
-if($columna1['pago']=='EFECTIVO'){
+if($columna1['pago']=='Efectivo'){
 $contefec++;
 $PAGOEFECTIVO2[$contefec]=$columna['suma'];
 }
-if($columna1['pago']=='OPERACIÓN'){
+if($columna1['pago']=='Compras Locales'){
 $contoper++;
 $PAGOOPERACION2[$contoper]=$columna['suma'];
 }
@@ -252,19 +252,19 @@ $proveedor=$columna['proveedor'];
 $consulta1 = "SELECT nombre,pago FROM proveedor WHERE idProveedor='$proveedor' ";
 $resultado1 = mysqli_query($conexion,$consulta1);
 while($columna1=mysqli_fetch_array($resultado1)){
-if($columna1['pago']=='CONTADO CON CHEQUE'){
+if($columna1['pago']=='Transferencia Electrónica'){
 $contche++;
 $PAGOCHEQUE3[$contche]=$columna['suma'];
 }
-if($columna1['pago']=='CRÉDITO'){
+if($columna1['pago']=='Crédito'){
 $contcre++;
 $PAGOCREDITO3[$contcre]=$columna['suma'];
 }
-if($columna1['pago']=='EFECTIVO'){
+if($columna1['pago']=='Efectivo'){
 $contefec++;
 $PAGOEFECTIVO3[$contefec]=$columna['suma'];
 }
-if($columna1['pago']=='OPERACIÓN'){
+if($columna1['pago']=='Compras Locales'){
 $contoper++;
 $PAGOOPERACION3[$contoper]=$columna['suma'];
 }
@@ -286,19 +286,19 @@ $proveedor=$columna['proveedor'];
 $consulta1 = "SELECT nombre,pago FROM proveedor WHERE idProveedor='$proveedor' ";
 $resultado1 = mysqli_query($conexion,$consulta1);
 while($columna1=mysqli_fetch_array($resultado1)){
-if($columna1['pago']=='CONTADO CON CHEQUE'){
+if($columna1['pago']=='Transferencia Electrónica'){
 $contche++;
 $PAGOCHEQUE4[$contche]=$columna['suma'];
 }
-if($columna1['pago']=='CRÉDITO'){
+if($columna1['pago']=='Crédito'){
 $contcre++;
 $PAGOCREDITO4[$contcre]=$columna['suma'];
 }
-if($columna1['pago']=='EFECTIVO'){
+if($columna1['pago']=='Efectivo'){
 $contefec++;
 $PAGOEFECTIVO4[$contefec]=$columna['suma'];
 }
-if($columna1['pago']=='OPERACIÓN'){
+if($columna1['pago']=='Compras Locales'){
 $contoper++;
 $PAGOOPERACION4[$contoper]=$columna['suma'];
 }
@@ -320,19 +320,19 @@ $proveedor=$columna['proveedor'];
 $consulta1 = "SELECT nombre,pago FROM proveedor WHERE idProveedor='$proveedor' ";
 $resultado1 = mysqli_query($conexion,$consulta1);
 while($columna1=mysqli_fetch_array($resultado1)){
-if($columna1['pago']=='CONTADO CON CHEQUE'){
+if($columna1['pago']=='Transferencia Electrónica'){
 $contche++;
 $PAGOCHEQUE5[$contche]=$columna['suma'];
 }
-if($columna1['pago']=='CRÉDITO'){
+if($columna1['pago']=='Crédito'){
 $contcre++;
 $PAGOCREDITO5[$contcre]=$columna['suma'];
 }
-if($columna1['pago']=='EFECTIVO'){
+if($columna1['pago']=='Efectivo'){
 $contefec++;
 $PAGOEFECTIVO5[$contefec]=$columna['suma'];
 }
-if($columna1['pago']=='OPERACIÓN'){
+if($columna1['pago']=='Compras Locales'){
 $contoper++;
 $PAGOOPERACION5[$contoper]=$columna['suma'];
 }

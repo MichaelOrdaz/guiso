@@ -176,7 +176,8 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
               </ul>
                 <!-- /.nav-second-level -->
             </li>
-
+            
+            <!--
             <li>
               <a href="javascript://"><i class="fa fa-cutlery fa-fw"></i> Menú <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
@@ -199,10 +200,12 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
+
+          -->
   
-          <!--
+          
             <li>
-              <a href="javascript://"><i class="fa fa-cutlery fa-fw"></i> Menú M <span class="fa arrow"></span></a>
+              <a href="javascript://"><i class="fa fa-cutlery fa-fw"></i> Menú <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li>
                   <a href="menus/view/agregar.php" class="ajaxLink">Agregar menú</a>
@@ -220,7 +223,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
-          -->
+          
 
             <!-- Explosion -->
             <li>
@@ -260,10 +263,9 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
-                    
+            <!--        
             <li>
               <a href="javascript://"><i class="fa fa-area-chart fa-fw"></i> Órdenes de compra<span class="fa arrow"></span></a>
-              <!-- /.nav-second-level -->
               <ul class="nav nav-second-level">
                 <li>
                   <a href="OC/view/generaciondeoc.php" class="ajaxLink">Generación de <abbr title="Orden de Compra">OC</abbr></a>
@@ -276,6 +278,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
+            -->
 
             <li>
               <a href="javascript://"><i class="fa fa-pie-chart fa-fw"></i> <abbr title="Orden de Compra">OC</abbr> con Presentación <span class="fa arrow"></span></a>
@@ -291,14 +294,17 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                   <a href="OCP/view/updateOCP.php" class="ajaxLink">Modificación de <abbr title="Orden de Compra">OC</abbr> con Presentación</a>
                 </li>
                 <li>
+                  <a href="OC/view/generaciondereportedecomprasporunidad.php" class="ajaxLink">Generación de materia prima por unidad</a>
+                </li>
+                <li>
                   <a href="OCP/view/updateStatusOCP.php" class="ajaxLink">Cambiar Estatus de <abbr title="Orden de Compra">OC</abbr> </a>
                 </li>
               </ul>
             </li>
 
-            <!-- <li>
+            <li>
               <a href="compras/view/presupuestodec.php" class="ajaxLink"> <i class="fa fa-file-excel-o"></i> Presupuesto de Compras</a>
-            </li> -->
+            </li>
             
             <li>
               <a href="javascript://"><i class="fa fa-area-chart fa-fw"></i> <abbr title="Orden de Compra">OC</abbr> Manual <span class="fa arrow"></span></a>
@@ -315,11 +321,13 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
-             
+            
+            <!-- 
             <li>
               <a href="facturas/view/facturas.php" class="ajaxLink"> <i class="fa fa-money fa-fw"></i> Facturas </a>
 
             </li>
+            -->
             
           </ul>
         

@@ -2,7 +2,7 @@
 
 include '../../db/conexion.php';
 
-$idmenu=$_POST['idmenu'];
+$idmenu=$_POST['idMenu'];
 
 $sql="DELETE FROM menu WHERE idMenu = '$idmenu' ";
 mysqli_query($conexion,$sql);

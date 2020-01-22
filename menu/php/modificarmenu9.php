@@ -2,8 +2,6 @@
 
 include '../../db/conexion.php';
 
-$bandera=0;
-
 $idMenu=$_POST['idMenu'];
 $lunes=$_POST['lunes'];
 $martes=$_POST['martes'];
@@ -13,14 +11,21 @@ $viernes=$_POST['viernes'];
 $sabado=$_POST['sabado'];
 $domingo=$_POST['domingo'];
 
+$elaboro=$_POST['elaboro'];
+$costoTot=$_POST['costot'];
 $tiempo=$_POST['tiempo'];
-$costot=floatval($_POST['costot']);
 
 $temporal= explode("_",$idMenu);
-$idm = str_replace($temporal[0],date("Y"),$idMenu);
+$anio=$temporal[0];
+$semana=$temporal[1];
+$cliente=$temporal[2];
+$unidad=$temporal[3];
+$subunidad=$temporal[4];
+$grupo=$temporal[5];
 
-$fecha=$_POST['fecha'];
-$anio=date("Y", strtotime($fecha));
+$sql2 = "INSERT INTO menu (anio,idMenu,semana,cliente,unidad,subunidad,grupo,elaboro,numTiempos,costoTot,lunes,martes,miercoles,jueves,viernes,sabado,domingo,status,fecha,activo) VALUES 
+('$anio','$idMenu','$semana','$cliente','$unidad','$subunidad','$grupo','$elaboro','$tiempo','$costoTot','$lunes','$martes','$miercoles','$jueves','$viernes','$sabado','$domingo',1,now(),1)";
+mysqli_query($conexion,$sql2);
 
 $receta = array();
 $cont1=0;
@@ -70,19 +75,14 @@ $bandera=1;
 echo $bandera;
 
 if($bandera!=1){
-$sql3="UPDATE menu SET idMenu='$idm',anio='$anio',numTiempos='$tiempo',costoTot='$costot',lunes='$lunes',martes='$martes',miercoles='$miercoles',jueves='$jueves',jueves='$jueves',
-viernes='$viernes',sabado='$sabado',domingo='$domingo' WHERE idMenu='$idMenu' ";
-mysqli_query($conexion,$sql3);
-$sql1="DELETE FROM menurec WHERE idMenu = '$idMenu' ";
-mysqli_query($conexion,$sql1);
 for ($i=0;$i<count($fechas);$i++){
+$tiempo="";
 $consulta = "SELECT nombre,tiempo FROM receta WHERE nombre = '$receta[$i]' ";
 $resultado = mysqli_query($conexion,$consulta);
-$tiempo="";
 while($columna=mysqli_fetch_array($resultado)){
 $tiempo=$columna['tiempo'];
 }
-$sql2 = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$idm','','$tiempo','$receta[$i]','$costo[$i]','$personas[$i]','$fechas[$i]')";
+$sql2 = "INSERT INTO menurec (idMenu,pos,tiempo,receta,precio,personas,fecha) VALUES ('$idMenu','','$tiempo','$receta[$i]','$costo[$i]','$personas[$i]','$fechas[$i]')";
 mysqli_query($conexion,$sql2);
 }
 }

@@ -169,7 +169,9 @@
         <form name="form_menu" id="form_menu" class="hide">
         <fieldset>
           
-          <div id="wrapper"> </div>
+          <div class="table-responsive">
+            <table id="wrapper" class="table"> </table>
+          </div>
           
           <div class="row mt-1">
             <div class="col-xs-12 text-center">
@@ -389,7 +391,7 @@
 
       // $(selectTiempo).trigger('change');//disparar un change en cada tiempo para cargar las recetas
       
-      let row = selectTiempo.closest('.row');
+      let row = selectTiempo.closest('tr');
       
       $(row).find('.personas, .costo').val('');//los input de perosnas y costo siempre se limpian cuando cambie tiempo
       $(row).find('.personas').removeAttr('required');//quita los attr si tubieran
@@ -467,15 +469,22 @@
           let existe = selectReceta.querySelector('option[value="'+item.idReceta+'"]');
 
           if( existe === null ){//no existe entonces lo agregamos y lo selected
-            $(row).append('<option value="'+item.idReceta+'" selected> '+item.receta+' </option>')  
+            $(selectReceta).append('<option value="'+item.idReceta+'" selected> '+item.receta+' </option>')  
           }
 
           selectReceta.value = item.idReceta;//establecemos valor
 
-          let divComun = selectReceta.closest('.col-md-3.col-sm-4');
+          let divComun = selectReceta.closest('td');
+
+
 
           divComun.querySelector('.personas').value = item.personas;
           divComun.querySelector('.costo').value = item.precio;
+          divComun.querySelector('.idReceta').value = item.idReceta;
+
+          if( item.idReceta ){
+            divComun.querySelector('.personas').required = true;
+          }
 
           // row.querySelectorAll('.recetas')[j].value = item.idReceta;
 
@@ -517,20 +526,20 @@
     }
 
     let maquetado = `
-      <div class="row" style="outline: dotted skyblue 1px; padding-top: 1rem; padding-bottom: 1rem;">
+      <tr>
             
-        <div class="col-md-3 col-sm-4">
+        <td>
           <div class="form-group">
             <label> Tiempo *</label>
             <select name="tiempo[]" class="form-control input-sm" required >
               <option value="" selected>Seleccione un tiempo</option>
             </select>
           </div>
-        </div>
+        </td>
         
         ${htmlDias}
 
-      </div>
+      </tr>
     `;
 
     return maquetado;
@@ -545,28 +554,42 @@
 
     return (`
       
-      <div class="col-md-3 col-sm-4">
-        <div class="form-group">
-          <label> ${dias[dia]} </label>
-          <select name="${diaLower}[receta][]" class="form-control input-sm recetas" >
-            <option value="" selected>Seleccione una Receta</option>
-          </select>
-        </div>
-        <div class="row">
-          <div class="col-xs-6">
+      <td>
+
+        <div class="row" style="overflow: hidden;">
+          <div class="col-xs-5" style="padding-right: 1px">
+            <div class="form-group">
+              <label> ID </label>
+              <input type="text" class="form-control input-sm idReceta" placeholder="id" disabled style="padding-left: 1px; padding-right: 1px" />
+            </div>
+          </div>
+          <div class="col-xs-7" style="padding-left: 1px;">
+            
+            <div class="form-group">
+              <label> ${dias[dia]} </label>
+              <select name="${diaLower}[receta][]" class="form-control input-sm recetas" >
+                <option value="" selected>Seleccione una Receta</option>
+              </select>
+            </div>
+
+          </div>
+        </div>        
+
+        <div class="row" style="overflow: hidden;">
+          <div class="col-xs-5" style="padding-right: 1px">
             <div class="form-group">
               <label> Costo </label>
-              <input type="number" name="${diaLower}[costo][]" class="form-control input-sm costo" placeholder="Costo total" disabled />
+              <input type="number" name="${diaLower}[costo][]" class="form-control input-sm costo" placeholder="Costo total" disabled style="padding-left: 1px; padding-right: 1px" />
             </div>
           </div>
-          <div class="col-xs-6">
-            <div class="form-group">
-              <label> # Personas</label>
-              <input type="number" name="${diaLower}[personas][]" class="form-control input-sm personas" placeholder="Personas" step="1" min="1" />
+          <div class="col-xs-7" style="padding-left: 1px;">
+            <div class="form-group" style="overflow: hidden;">
+              <label> Personas</label>
+              <input type="number" name="${diaLower}[personas][]" class="form-control input-sm personas" placeholder="Personas" step="1" min="1" style="padding-left: 1px; padding-right: 1px" />
             </div>
           </div>
         </div>
-      </div>
+      </td>
     `);
   }
 
@@ -595,7 +618,7 @@
 
       //cada select esta en una fila,
       //recuperamos los select con clase receta dentro de esa fila  
-      let inputRecetas = item.closest('.row').querySelectorAll('select.recetas');
+      let inputRecetas = item.closest('tr').querySelectorAll('select.recetas');
       for( let selectReceta of inputRecetas ){
         //si algun select tiene un valor cambiamos el flag a false
         if( selectReceta.value !== '' ){
@@ -733,7 +756,7 @@
     
     // console.log( "cambio tiempo");
 
-    let row = this.closest('.row');
+    let row = this.closest('tr');
 
     let tiempo = this.value;
     

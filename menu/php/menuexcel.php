@@ -3,16 +3,7 @@
 include '../../db/conexion.php';
 require_once 'excel/Classes/PHPExcel.php';
 
-$idMenu=$_GET['idMenu'];
-$semana=$_GET['semana'];
-$numTiempos=$_GET['numTiempos'];
-$cliente=$_GET['cliente'];
-$unidad=$_GET['unidad'];
-$subunidad=$_GET['subunidad'];
-$lapso=$_GET['lapso'];
-$elaboro=$_GET['elaboro'];
-$descripcion=$_GET['descripcion'];
-$costoTot=$_GET['costoTot'];
+$idMenu='2020_03_1_1_1_5';
 
 $objPHPExcel = new PHPExcel();
 
@@ -46,8 +37,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('Y')->setWidth(7);
 $objPHPExcel->getActiveSheet()->getColumnDimension('U')->setWidth(7);
 $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(11);
 
-// $objPHPExcel->getActiveSheet()->getStyle('L')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-
 $objPHPExcel->getActiveSheet()
 ->getStyle('B1:AB1')
 ->getFill()
@@ -62,12 +51,24 @@ $objPHPExcel->getActiveSheet()
 ->getStartColor()
 ->setRGB('6DDA81');
 
-// $objPHPExcel->getActiveSheet()->getStyle("G1")->getFont()->setBold(true);
+$consulta = "SELECT semana,lapso,numTiempos,cliente,unidad,subunidad,costoTot,elaboro,grupo FROM menu WHERE idMenu = '$idMenu' ";
+$resultado = mysqli_query($conexion,$consulta);
+while($columna=mysqli_fetch_array($resultado)){
+$semana=$columna['semana'];
+$lapso=$columna['lapso'];
+$numTiempos=$columna['numTiempos'];
+$cliente=$columna['cliente'];
+$unidad=$columna['unidad'];
+$subunidad=$columna['subunidad'];
+$costoTot=$columna['costoTot'];
+$elaboro=$columna['elaboro'];
+$descripcion=$columna['grupo'];
+}
 
 $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('A5','Semana')
 ->setCellValue('B5',$semana)
-->setCellValue('A6','Año')
+->setCellValue('A6','Lapso')
 ->setCellValue('B6',$lapso)
 ->setCellValue('A7','ID menu')
 ->setCellValue('B7',$idMenu)
@@ -171,7 +172,7 @@ $cont7=$cont7+1;
 }
 
 $cont=12;
-$tiem=$numTiempos+1;
+$tiem=1+1;
 
 for ($i=1;$i<$tiem;$i++){
 if (!isset($matriz[$i][1])) {

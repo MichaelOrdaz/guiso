@@ -105,17 +105,19 @@
   //tambien cuando receta cambie colocamos un required al campo personas
   $(formMenu).on('change', '.recetas', function(ev){
 
-    let content = this.closest('.col-md-3.col-sm-4');
+    let content = this.closest('td');
 
     if( this.value ){//si la receta es valida
       let costo = this[this.selectedIndex].dataset.costo;
       content.querySelector('.costo').value = costo;
       content.querySelector('.personas').setAttribute('required', 'required');//lo hacemos required
+      content.querySelector('.idReceta').value = this.value;
     }
     else{
       content.querySelector('.costo').value = '';
       content.querySelector('.personas').value = '';
       content.querySelector('.personas').removeAttribute('required');//lo hacemos opcional  
+      content.querySelector('.idReceta').value = '';
     }
 
     sumatoria();
@@ -128,7 +130,7 @@
     _.querySelectorAll('#wrapper .costo').forEach( item =>{
       
       //estando en el nodo costo, subimos al nodo row y bucamos personas
-      let personas = item.closest('.row').querySelector('.personas').value;
+      let personas = item.closest('tr').querySelector('.personas').value;
       let costoReceta = item.value;
 
       if( costoReceta && personas ){//si ambos existen
