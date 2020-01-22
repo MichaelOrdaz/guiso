@@ -200,6 +200,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
               </ul>
             </li>
   
+          <!--
             <li>
               <a href="javascript://"><i class="fa fa-cutlery fa-fw"></i> Menú M <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
@@ -219,6 +220,7 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
                 </li>
               </ul>
             </li>
+          -->
 
             <!-- Explosion -->
             <li>
@@ -294,9 +296,9 @@ $allowed = $rol === '0' ? true : false;//0 es admin 1 es un vil mortal
               </ul>
             </li>
 
-            <li>
+            <!-- <li>
               <a href="compras/view/presupuestodec.php" class="ajaxLink"> <i class="fa fa-file-excel-o"></i> Presupuesto de Compras</a>
-            </li>
+            </li> -->
             
             <li>
               <a href="javascript://"><i class="fa fa-area-chart fa-fw"></i> <abbr title="Orden de Compra">OC</abbr> Manual <span class="fa arrow"></span></a>
