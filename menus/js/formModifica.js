@@ -8,7 +8,7 @@
   var form = _.formBase;
 
   //config calendar
-  $('.datepicker').datepicker({
+  $('#formBase .datepicker').datepicker({
     format: "yyyy-mm-dd",
     language: 'es',
     autoclose: true,

@@ -105,7 +105,17 @@
 })();
 
 var loadView = function( path ){
-  $('#contenedor').load( path );
+    Swal.fire({
+      title: 'Cargando',
+      onOpen: ()=>{
+        Swal.showLoading()
+      },
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+  $('#contenedor').load( path, function(){
+    Swal.close()
+  } );
 };
 
 //var ps = new PerfectScrollbar(document.querySelector('.sidebar'));

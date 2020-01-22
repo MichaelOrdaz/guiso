@@ -5,10 +5,10 @@
   var _ = document;
   var $$ = _.querySelector.bind(_);
 
-  var form = _.formBase;
+  var form = _.form_menu;
 
   //config calendar
-  $('#formBase .datepicker').datepicker({
+  $('#form_menu .datepicker').datepicker({
     format: "yyyy-mm-dd",
     language: 'es',
     autoclose: true,
@@ -218,21 +218,5 @@
 
   getGrupos();
 
-
-  //funcionalidad de los input radio
-  //
-  
-  const changeRadio = function(ev){
-    if( this.value === 'T' ){
-      this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = true );
-    }
-    else if( this.value === 'N' ){
-      this.form.querySelectorAll('[name="dias[]"]').forEach(item=> item.checked = false );
-    }
-  }
-
-  form.optradio.forEach(item=>{
-    item.addEventListener('change', changeRadio);
-  });
 
 })();

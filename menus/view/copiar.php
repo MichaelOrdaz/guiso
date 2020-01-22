@@ -198,8 +198,8 @@
 
           <div class="col-md-4 col-sm-6">
             <div class="form-group">
-              <label> Año * </label>
-              <input type="text" name="anio" class="form-control input-sm" placeholder="Año"  readonly />
+              <label> Fechas * </label>
+              <input type="text" name="rango" class="form-control input-sm" placeholder="Rango de la semana" required readonly />
             </div>
           </div>
 
@@ -233,7 +233,7 @@
           <div class="col-md-4 col-sm-6">
             <div class="form-group">
               <label> Grupo del Menú*</label>
-              <select name="grupo" class="form-control input-sm"  >
+              <select name="grupo" class="form-control input-sm" required >
                 <option value="" selected>Seleccione un grupo</option>
               </select>
             </div>
@@ -243,7 +243,7 @@
 
         <div class="row my-1">
           <div class="col-xs-12 text-center">
-            <button class="btn btn-primary"> Copiar Menu</button>
+            <button class="btn btn-primary"> Copiar Menú</button>
           </div>
         </div>
 
@@ -274,6 +274,7 @@
 
 <script src="menus/js/formModifica.js"></script>
 <script src="menus/js/controlsBodyMenu.js"></script>
+<script src="menus/js/selectCopia.js"></script>
 <script>
   
 (function(){
@@ -308,7 +309,7 @@
         item.checked = false;
         item.setAttribute('disabled', 'disabled');
       });
-      Swal.fire("", "El menu no puede estar vacio", 'warning');
+      // Swal.fire("", "El menu no puede estar vacio", 'warning');
       return;
     }
 
@@ -344,7 +345,7 @@
       //serializamos los datos
       infoPrimerFormulario.setData( infoPrimerFormulario.serializar(data.result) );
 
-      console.log( infoPrimerFormulario.getData() );
+      // console.log( infoPrimerFormulario.getData() );
 
       form.update.disabled = false;
       form.elaboro.value = data.result.elaboro;
@@ -649,10 +650,15 @@
 
     if(ev) ev.preventDefault();
 
-    let info2 = $(this).serializeArray();
+    let data = $(this).serializeArray();
 
     //validar que por cada tiempo (cada fila) exista minimo una receta 
-    console.log(info2);
+    // console.log(data);
+
+    if( this.semana.value === '' ){
+      Swal.fire('Las Semana es requerida', '', 'info');
+      return;
+    }
     
     let flag = true;//comenzamos diciendo que todos los select estan vacios
 
@@ -697,21 +703,31 @@
       return;
     }
 
-    let data = infoPrimerFormulario.getData().concat( info2 );
+    // let data = infoPrimerFormulario.getData().concat( info2 );
+
+    // data.
 
     data.push( {name: 'costo', value: form.costo.value} );
     data.push( {name: 'method', value: 'addMenu'} );
-    data.push( {name: 'bandera', value: '1'} );
+    data.push( {name: 'elaboro', value: form.elaboro.value} );
+    data.push( {name: 'tiempos', value: form.tiempos.value} );
 
+    let diasCheck = $( form.querySelectorAll('[name="dias[]"]:checked') ).serializeArray();
+    data = data.concat( diasCheck );
+
+    // console.log(infoPrimerFormulario.getData());
+    // console.log(data);
+
+    // return;
 
     Swal.fire({
-      title: 'Modificar Menu',
-      text: '¿Está seguro de modificar el menú '+menu+' ?',
+      title: 'Copiar Menu',
+      text: '¿Está seguro de copiar el menú ?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Modificar'
+      confirmButtonText: 'Si, copiar'
     }).then((result) => {
 
       if (result.value) {
@@ -736,7 +752,7 @@
           if( response.status === 1 ){
             Swal.fire('Exito', response.msg, 'success')
             .then(r=>{
-              // $('#contenedor').load('menus/view/modificar.php');
+              $('#contenedor').load('menus/view/copiar.php');
             } );
           }
           else{
@@ -896,7 +912,7 @@
         this.boxMessage.innerHTML = 'Ninguna subunidad establecida';
         return;
       }
-      this.boxMessage.innerHTML = `Se Modificará el menú de la subunidad ${ this.getProperty('subunidadName') }, unidad ${ this.getProperty('unidadName') }, ${ this.getProperty('clienteName') }, de la Semana ${ this.getProperty('semana') } (${this.getProperty('lapso')}), grupo alimenticio del día ${ this.getProperty('grupoName') }. Elaborado por ${this.getProperty('elaboro')}`;
+      this.boxMessage.innerHTML = `Se Copiará el menú de la subunidad ${ this.getProperty('subunidadName') }, unidad ${ this.getProperty('unidadName') }, ${ this.getProperty('clienteName') }, de la Semana ${ this.getProperty('semana') } (${this.getProperty('lapso')}), grupo alimenticio del día ${ this.getProperty('grupoName') }. Elaborado por ${this.getProperty('elaboro')}`;
     },
 
     //regresa false si la propiedad no existe
