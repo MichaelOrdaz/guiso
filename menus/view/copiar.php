@@ -419,7 +419,7 @@
       .done((response)=>{
         // console.log(response);
         if( response.status === 1 ){
-          setTiempos( response.results );
+          setTiempos( response.results, dias.length );
           Swal.close();
         }
         else{
@@ -441,7 +441,7 @@
   form.addEventListener('submit', changeMenu);
 
 
-  var setTiempos = function( data ){
+  var setTiempos = function( data, dias ){
 
     let estructurar = {};
     for( let item of data ){
@@ -450,6 +450,70 @@
       }
       estructurar[item.tiempo].push( item );
     }
+
+
+    console.log('estructurar', estructurar);
+    console.log('dias es', dias);
+
+    const estructurar2 = {};
+
+    for( let prop in estructurar ){
+
+      //si estructurar es mayor a los dias que va a poner lo dividimos ya que se esta poniendo el mismo tiempo
+      if( estructurar[prop].length > dias ){
+
+        // modificamos los valores de esa propiedad, lo 
+        // que tengo que hacer es dividir ese array de la propiedad y dividirlo
+
+        //necesito crear arrays variables
+        
+        //cuantas veces se repite el tiepo???
+        var noArrays = estructurar[prop].length / dias;
+
+        // estructurar2 ={};
+
+        //en cada array que cree debo recortar el array principal
+        
+        let start = 0;
+        let end;
+
+        let vector = [];
+
+        for( let i = 0; i < dias; i++  ){// 2, dias = 7
+
+          start = i * noArrays;// 0 * 2 = 2
+          end = noArrays * ( i + 1 );// 2 * 1 = 4
+
+          let item = estructurar[prop].slice(start, end);
+          vector.push( item );
+
+        }
+
+        //aqui creo los array necesarios en este caso creare 2 array y ese array debo de ponerlo en mi objeto
+        for( let i = 0; i < noArrays; i++ ){
+
+          var nuevoArray = [];
+
+          for( let item of vector ){
+            nuevoArray.push( item[i] );
+          }
+
+          //creo la nueva propiedad
+          let propAux = ( Number(prop) + Number('0.'+ ( i + 1 ) ) ).toString();
+          estructurar2[propAux] = nuevoArray;
+
+        }
+
+        //cuando termine de hacer mi estructura borramos la propiedad inicial
+        delete estructurar[prop];
+        Object.assign( estructurar, estructurar2 );
+
+      }
+
+
+    }
+
+    console.log('estructurar modificado', estructurar);
 
     // console.log(estructurar);
 
@@ -469,7 +533,7 @@
       //si el tiempo como cantidad no existe en el dom pero si en bd, entonces que continue el bucle a la siguiente iteracion
       if( selectTiempo === undefined ) continue;
 
-      selectTiempo.value = prop;
+      selectTiempo.value = Math.floor(prop);
 
       // $(selectTiempo).trigger('change');//disparar un change en cada tiempo para cargar las recetas
       
@@ -493,7 +557,7 @@
         data: {
           method: 'getRecetasTiempoSubUnidad',
           subunidad: infoPrimerFormulario.getProperty('subUnidad'),
-          tiempo: prop//prop es tiempo
+          tiempo: Math.floor(prop)//prop es tiempo
         },
         beforeSend: ()=>{
           Swal.fire({
@@ -546,6 +610,8 @@
           if( selectReceta === null ) continue;
           
           // let selectReceta = row.querySelectorAll('.recetas')[j];
+
+          if( ! item.idReceta ) continue;
 
           //buscamos que la receta exista como una opcion del select
           let existe = selectReceta.querySelector('option[value="'+item.idReceta+'"]');
@@ -719,11 +785,13 @@
       return;
     }
 
+    /*
     //verificamos si hay tiempos repetidos avisamos
     if( selectTiempos.length !== [...new Set(flag2)].length ){
       Swal.fire("Error", 'Los tiempos no pueden estar repetidos', 'warning');
       return;
     }
+    */
 
     // let data = infoPrimerFormulario.getData().concat( info2 );
 

@@ -396,10 +396,12 @@
     }
 
     //verificamos si hay tiempos repetidos avisamos
+    /*
     if( selectTiempos.length !== [...new Set(flag2)].length ){
       Swal.fire("Error", 'Los tiempos no pueden estar repetidos', 'warning');
       return;
     }
+    */
 
     let data = infoPrimerFormulario.getData().concat( info2 );
 

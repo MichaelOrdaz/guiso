@@ -28,7 +28,7 @@ $r = $db->query("SELECT *,
 empty( $db->error ) or die( 'Error obteniendo receta' );
 $menu = $r->fetch_object();
 
-$r = $db->query("SELECT *, (SELECT idReceta FROM receta WHERE nombre = menurec.receta LIMIT 1) AS idReceta FROM menurec WHERE idMenu = '{$idMenu}'");
+$r = $db->query("SELECT *, (SELECT idReceta FROM receta WHERE nombre = menurec.receta LIMIT 1) AS idReceta FROM menurec WHERE idMenu = '{$idMenu}' ORDER BY tiempo");
 empty( $db->error ) or die( 'Error obteniendo articulos' );
 
 $recetas = [];

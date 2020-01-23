@@ -84,7 +84,7 @@
         },
         {
           data: (row)=>{
-             return `<a type="button" class="btn btn-success btn-xs" title="Generar Presupuesto de Compras" href="OCP/presupuesto.php?id=${row.idOC}"> <i class="fa fa-file-excel-o"></i> </a> `;
+             return `<a type="button" class="btn btn-success btn-xs" title="Generar Presupuesto de Compras" href="OCP/presupuesto.php?id=${row.idOC}" target="_blank"> <i class="fa fa-file-excel-o"></i> </a> `;
           }
         },
       ]
