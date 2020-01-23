@@ -15,27 +15,34 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $orden = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING) or die(toJson(0, 'La orden es inválida'));
 
+$sql = "SELECT cliente, (SELECT nombre FROM cliente WHERE idCliente = oc.cliente) AS clienteName, fechaI, fechaF FROM oc WHERE idOC = '{$orden}' LIMIT 1";
+// echo $sql;
+$r = $db->query($sql);
+$db->affected_rows > 0 or die( toJson(0, 'Hubo un error al generar el reporte, por favor reintente elaborando otra OC') );
 
-$sql = "SELECT unidad, articulo, SUM(cantidad) as cantidad, proveedor, presentacion, factor, costoU, costoT, (SELECT pago FROM proveedor WHERE idProveedor = bomoc.proveedor) AS pago FROM bomoc WHERE OC = '{$orden}' GROUP BY articulo, proveedor, unidad ORDER BY proveedor, pago";
+$r = $r->fetch_object();
+$client = $r->cliente;
+$clienteName = $r->clienteName;
+$dt = new DateTime($r->fechaI);
+$start = $dt->format('Y-m-d');
+$sem1 = $dt->format('W');
+$dt = new DateTime($r->fechaF);
+$end = $dt->format('Y-m-d');
+$sem2 = $dt->format('W');
+
+$semana = $sem1 === $sem2 ? $sem1 : "$sem1 - $sem2";
+
+$sql = "SELECT unidad, articulo, SUM(cantidad) as cantidad, proveedor, presentacion, factor, costoU, costoT, (SELECT pago FROM proveedor WHERE idProveedor = bomoc.proveedor) AS pago, (SELECT nombre FROM proveedor WHERE idProveedor = bomoc.proveedor) AS provName FROM bomoc WHERE OC = '{$orden}' GROUP BY articulo, proveedor, unidad ORDER BY proveedor, pago";
 
 $r = $db->query($sql);
 
 $db->affected_rows > 0 or die( toJson(0, 'Hubo un error al generar el reporte, por favor reintente') );
 
-
-$proveedorAnt = '';
-$totalProveedor = 0;
-
+//aqui agrupo por proveedor y tambien deberia agrupar por unidad
 $costosProveedores = [];
+$uniqueUnidades = [];
 
 while( $item = $r->fetch_object() ){
-
-
-  // if( $proveedorAnt !== $item->proveedor ){
-
-    // $totalProveedor = 0;
-
-    // $proveedorAnt = $item->proveedor;
 
     //sacamos el excedente
     $sql = "SELECT cantidad FROM excedente WHERE articulo = '{$item->articulo}' AND unidad = '{$item->unidad}' LIMIT 1";
@@ -47,249 +54,97 @@ while( $item = $r->fetch_object() ){
 
     if( $costoT < 0 ) $costoT = 0;//si el costo es negativo lo igualamos a 0
 
-    //ESTA ES LA DIFERENCIA qUE ENCUENTRO EN OC con PRESENTACION
-
-    if( $item->factor != 0 ){
-      $cantidad = ( $cantidad / $item->factor );
-      $item->costo *= $item->factor;
-    }
-
     $cantidad = number_format($cantidad, 3, '.', '');
 
-
-
-    /*
     $sql = "SELECT unidad FROM unidad WHERE idUnidad = '{$item->unidad}' LIMIT 1";
     $uni = $db->query($sql);
-    $uni = $db->affected_rows > 0 ? $uni->fetch_object()->unidad : 0;
-    */
+    $uni = $db->affected_rows > 0 ? $uni->fetch_object()->unidad : 'DESCONOCIDA';
 
-
-
-    // echo " La unidad  ";
-
-    // if( array_key_exists($item->proveedor, $costosProveedores) ){
-      
-    // }
-
-
-
-  // }
-
-}
-
-
-
-exit;
-
-
-
-
-
-// $semana = $sem1 === $sem2 ? $sem1 : "$sem1 - $sem2";
-
-// $nameClient = $db->query("SELECT nombre FROM cliente WHERE idCliente = '{$client}' LIMIT 1");
-// $nameClient = $nameClient->fetch_object()->nombre;
-
-//dice que trae toda la informacion de menu que corresponda al rango de fecha
-// $sql = "SELECT me.idMenu, me.unidad, (SELECT unidad FROM unidad WHERE idUnidad = me.unidad) AS unidadName, mr.receta, mr.fecha, me.grupo, mr.personas, mr.pos, mr.precio FROM menu as me inner join menurec as mr on me.idMenu = mr.idMenu WHERE ( date(mr.fecha) between '{$start}' AND '{$end}' ) AND me.activo = 1 AND me.cliente = '{$client}'";
-// $r = $db->query($sql);
-
-// $db->affected_rows > 0 or die('No hay información en ese rango de fechas para generar la orden');
-
-$articulosVendidos = [];
-$proveedores = [];
-// while( $menu = $r->fetch_object() ){
-
-  //el menu aqui se duplica ya que trae la relacion de los menus con las recetas, osea trae la correspondencia de menu con menurec, el idMenu se puede repetir pero el campo receta siempre es diferente
-
-  // en menu tengo disponibles las propiedades
-  //idMenu (String)
-  //unidad (String) //numerico unidad del cliente
-  //unidadName (String) //nombre de la unidad del cliente
-  //receta (String) //nombre de receta
-  //fecha (string) //datetime
-  //grupo (String) //numerico
-  //personas (float)
-  //pos (int)
-  //precio (float)
-  //cliente (int) //este ya no esta disponible
-
-  //en menu debo consultar la receta con la tabla receta por el campo menu.receta = receta.nombre
-  //despues que trae el idReceta vuelve a traer las porciones de la tabla de recetas.
-
-  // $sql = "SELECT re.idReceta, re.porciones, reart.cantidad, art.idArticulo, art.nombre, art.linea, art.unidad as artUnidad, art.unidadA, art.costo, art.factor FROM receta AS re JOIN recetaart AS reart ON reart.receta=re.idReceta JOIN articulo AS art ON art.idArticulo=reart.articulo WHERE re.nombre = '{$menu->receta}'";
-  // $itemsReceta = $db->query($sql);
-  
-  // if( $db->affected_rows <= 0 )
-    // continue;//si la query no trajo nada, saltamos al siguiente elemento de menu
-
-  //aqui tenemos los articulo de la receta que se le asigno al menu
-  
-  $items = $db->query("SELECT *, (SELECT nombre FROM articulo WHERE idArticulo = articulo LIMIT 1) AS nombre FROM bomoc WHERE 1 AND OC = '{$orden}'");
-  
-  // $items = $db->query("SELECT COUNT(*) AS total FROM bomoc WHERE 1 AND OC = '{$orden}'");
-
-  // var_dump( $items->fetch_object()->total );
-
-  // exit;
-
-  // "OC"  "varchar(50)" "YES" "MUL" \N  ""
-  // "fechaI"  "datetime"  "YES" "MUL" \N  ""
-  // "fechaF"  "datetime"  "YES" "MUL" \N  ""
-  // "hoja"  "int(11)" "YES" ""  \N  ""
-  // "cliente" "int(11)" "YES" ""  \N  ""
-  // "unidad"  "varchar(50)" "YES" ""  \N  ""
-  // "articulo"  "varchar(50)" "YES" ""  \N  ""
-  // "linea" "varchar(50)" "YES" ""  \N  ""
-  // "cantidad"  "float" "YES" ""  \N  ""
-  // "proveedor" "int(11)" "YES" ""  \N  ""
-  // "presentacion"  "varchar(150)"  "YES" ""  \N  ""
-  // "factor"  "float" "YES" ""  \N  ""
-  // "costoU"  "float" "YES" ""  \N  ""
-  // "costoT"  "float" "YES" ""  \N  ""
-  // "fecha" "datetime"  "YES" ""  \N  ""
-  // "nombre" "STRING"  "YES" ""  \N  ""
-
-  // while( $articulo = $itemsReceta->fetch_object() ){
-  while( $articulo = $items->fetch_object() ){
-
-    // $cantidad = $articulo->cantidad;//sale de recetaart
-
-    // $cantidad = ( $articulo->cantidad / $articulo->porciones ) * $menu->personas;
-    // $cantidad = $articulo->cantidad;
-    // $costoU = $articulo->costo;
-    // $costoT = $articulo->costoU * $cantidad;
-
-    //despues qui hace otro query para recuperar el proveedor del articulo
-    $sql = "SELECT proveedor FROM precioprov WHERE articulo = '{$articulo->articulo}' AND precio = '{$articulo->costoU}' LIMIT 1";
-    $proveedorResult = $db->query($sql);
-    
-    if( $db->affected_rows <= 0 )
-      continue;
-
-    $proveedorId = $proveedorResult->fetch_object()->proveedor;
-    // $proveedorName = $proveedorResult->nombre;
-    // $proveedorId = $proveedorResult->proveedor;
-
-    // $sql = "INSERT INTO bomoc (OC, fechaI, fechaF, hoja, cliente, unidad, articulo, linea, cantidad, proveedor, presentacion, factor, costoU, costoT, fecha) VALUES ('{$orden}', '{$start}', '{$end}', '0', '{$client}', '{$menu->unidad}', '{$articulo->idArticulo}', '{$articulo->linea}', '{$cantidad}', '{$proveedorId}', '{$articulo->unidadA}', '{$articulo->factor}', '{$articulo->costo}', '{$costoT}', now() )";
-
-    // $db->query($sql);
-
-    // ESTE CODIGO ERA FUNCIONAL PERO LO DEJO COMO ESTABA EN EL ATERIOR PROGRAMA
-    $r = $db->query("SELECT unidad as unidadName FROM unidad WHERE idUnidad = '{$articulo->unidad}' LIMIT 1");
-
-    $articulo->unidad = $articulo->unidad;
-    $articulo->unidadName = $db->affected_rows > 0 ? $r->fetch_object()->unidadName : '';
-    // $articulo->proveedor = $proveedorName;
-    $articulo->proveedorId = $proveedorId;
-    $articulo->costoT = $articulo->costoT;
-    $articulo->cantidadCalc = $articulo->cantidad;
-    // $articulo->personas = $menu->personas;
-    // $articulo->items = 1;
-
-    //array con todos los articulos vendidos en el menu a ese cliente
-    
-    //voy agrupar los articulos por cantidad
-    // si el proveedor existe en el array
-
-    if( array_key_exists( $proveedorId, $articulosVendidos ) ){
-      if( array_key_exists($articulo->unidad, $articulosVendidos[$proveedorId]) ){//si existe la unidad en el proveedor
-        if( array_key_exists( $articulo->articulo, $articulosVendidos[$proveedorId][$articulo->unidad] ) ){
-          //si existe acumulalo
-          $articulosVendidos[$proveedorId][$articulo->unidad][$articulo->articulo]->cantidadCalc += $articulo->cantidadCalc;
+    if( array_key_exists($item->pago, $costosProveedores ) ){
+      if( array_key_exists($item->proveedor, $costosProveedores[$item->pago] ) ){
+        if( array_key_exists($item->unidad, $costosProveedores[$item->pago][$item->proveedor] ) ){
+          $costosProveedores[$item->pago][$item->proveedor][$item->unidad]->costoTotal += $costoT;
         }
         else{
-          //si no existe el articulo en la unidad agregalo
-          $articulosVendidos[$proveedorId][$articulo->unidad][$articulo->articulo] = $articulo;
+          $aux = new stdClass;
+          $aux->costoTotal = $costoT;
+          $aux->unidad = $item->unidad;
+          $aux->proveedor = $item->proveedor;
+          $aux->pago = $item->pago;
+          $aux->unidadName = $uni;
+          $aux->provName = $item->provName;
+
+          $costosProveedores[$item->pago][$item->proveedor][$item->unidad] = $aux;
+
         }
       }
       else{
-        //si no existe la unidad en el proveedor, lo agregamos
-        $articulosVendidos[$proveedorId][$articulo->unidad][$articulo->articulo] = $articulo;
+        $aux = new stdClass;
+        $aux->costoTotal = $costoT;
+        $aux->unidad = $item->unidad;
+        $aux->proveedor = $item->proveedor;
+        $aux->pago = $item->pago;
+        $aux->unidadName = $uni;
+        $aux->provName = $item->provName;
+
+        $costosProveedores[$item->pago][$item->proveedor][$item->unidad] = $aux;
       }
     }
     else{
-      // si el proveedor no existe lo añadimso 
-      $articulosVendidos[$proveedorId][$articulo->unidad][$articulo->articulo] = $articulo;
+      $aux = new stdClass;
+      $aux->costoTotal = $costoT;
+      $aux->unidad = $item->unidad;
+      $aux->proveedor = $item->proveedor;
+      $aux->pago = $item->pago;
+      $aux->unidadName = $uni;
+      $aux->provName = $item->provName;
+
+      $costosProveedores[$item->pago][$item->proveedor][$item->unidad] = $aux;
     }
 
-    /*
-    
-      $array = [
-        'proveedorId'=> [
-          'unidadID'=> [
-            'idArticulo'=> {}
-            'idArticulo'=> {}
-          ],
-          'unidadID'=> [
-            'idArticulo'=> {}
-            'idArticulo'=> {}
-          ]
-        ],
+    // if( array_key_exists($item->proveedor, $uniqueUnidades) === FALSE ){
+      $uniqueUnidades[$item->unidad] = ['id'=> $item->unidad, 'name'=> $uni];
+    // }
 
-      ];
+}
 
-    */
-    
-    $unidades[$articulo->unidad] = ['id'=> $articulo->unidad, 'name'=> $articulo->unidadName];
+  //cuantas columnas hare lo hare con la cantidad de unidade que existan
+  $spreadsheet = new Spreadsheet();
+  $sheet = $spreadsheet->getActiveSheet();//recuperamos esa hoja activa
 
-  }//endWhileReceta
+  $indexRow = 1;
 
-// }//endWhileCliente
-
-// var_dump($proveedores);
-
-// echo "<pre>";
-// var_dump($articulosVendidos);
-
-// exit;
-
-
-function headerExcel( $data, &$indexRow ){
-  global $sheet, $orden, $semana, $start, $end;
-
-  // $data = proveedorId, proveedorName, (array) unidades, clienteName, clienteId
-
+  //header
   $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
   $drawing->setName('Logo');
   $drawing->setDescription('Logo');
   $drawing->setPath('../img/logo_guisopak.png');
   $drawing->setHeight(55);
   $drawing->setCoordinates('A1');
-  // $drawing->setOffsetX(10);
   
   $sheet->mergeCells("A1:A2");
   //add logo
   $drawing->setWorksheet($sheet);
 
-  //necesito saber cuantas unidades son, y a partir de ahi unidad 1 = D, unidad 2 = E, unidad3 = F unidad4 = G , y asi 
+  //comenzamos las unidades en B
+  $columns = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-  //esto funcionara siempre y cuando no existan mas de 23 unidades en el rango de fechas, si pasa eso no mostrare las demas
-  $columns = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-  $sizeUnidades = count($data->unidades) + 1;//el mas uno, es de mi ultima columna que sera total
+  $sizeUnidades = count($uniqueUnidades) + 1;//el mas uno, es de mi ultima columna que sera total
   $columnsUnidades = [];
-  for( $i=0; $i < $sizeUnidades && $i < 22; $i++ ){
+  for( $i=0; $i < $sizeUnidades && $i < 24; $i++ ){
     $columnsUnidades[] = $columns[$i];
   }
 
-  $columnsSheet = array_merge( ['A', 'B', 'C'], $columnsUnidades );
-  $titles = ['A'=> 'Producto', 'B'=> 'Presentación', 'C'=> 'Precio'];
+  $columnsSheet = array_merge( ['A'], $columnsUnidades );
+  $titles = ['A'=> 'Proveedor'];
   $j = 0;
-  foreach ($data->unidades as $key => $unidad) {
+  foreach ($uniqueUnidades as $unidad) {
     $titles[ $columnsUnidades[$j] ] = $unidad['name'];
     $j++;
   }
   $titles[ end($columnsUnidades) ] = 'Total';
 
-
-  //columnsSheet es el array de letras
-  //columnsUnidades es un array que tiene las diferentes unidades en el periodo, es associativo (idUnidad=> ['id'=> idUnidad, 'name'=> nombre])
-  //titles, el arrray con pares letra => texto
-
-  //la ultima letra de mis colunas sera lo que devuelva $columnsSheet
-  $endLetter = end($columnsSheet);
+  $endLetter = end($columnsSheet);//la ultima letra de mi array assoc
 
   // //titulo
   $sheet->mergeCells("B{$indexRow}:{$endLetter}{$indexRow}");
@@ -300,7 +155,7 @@ function headerExcel( $data, &$indexRow ){
   $indexRow++;
  
   $sheet->mergeCells("B{$indexRow}:{$endLetter}{$indexRow}");
-  $sheet->setCellValue("B{$indexRow}", "ORDEN DE COMPRA");
+  $sheet->setCellValue("B{$indexRow}", "Presupuesto de Compras");
   $sheet->getStyle("B{$indexRow}")->getFont()->setBold(true)->setSize(14);
   $sheet->getStyle("B{$indexRow}")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
   $sheet->getStyle("B{$indexRow}")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('EE7561');
@@ -311,50 +166,149 @@ function headerExcel( $data, &$indexRow ){
   $sheet->mergeCells("B{$indexRow}:C{$indexRow}");
   $sheet->setCellValue("B{$indexRow}", $orden);//semana
 
-  // $indexRow++;
-  $sheet->setCellValue("D{$indexRow}", "Semana:");//semana
-  $sheet->setCellValue("E{$indexRow}", $semana);//semana
+  $indexRow++;
+  $sheet->setCellValue("A{$indexRow}", "Semana:");//semana
+  $sheet->setCellValue("B{$indexRow}", $semana);//semana
 
   $indexRow++;
-  $sheet->setCellValue("D{$indexRow}", "Fecha:");//semana
-  $sheet->setCellValue("E{$indexRow}", "$start - $end");//semana
+  $sheet->setCellValue("A{$indexRow}", "Fecha:");//semana
+  $sheet->setCellValue("B{$indexRow}", "$start - $end");//semana
 
   $indexRow++;
   $sheet->setCellValue("A{$indexRow}", "Cliente:");
-  $sheet->setCellValue("B{$indexRow}", $data->clienteName .'/'.$data->clienteId);
+  $sheet->setCellValue("B{$indexRow}", $clienteName);
 
   // //unidades
   $indexRow++;
   $sheet->setCellValue("A{$indexRow}", "Unidades:");
-  $sheet->setCellValue("B{$indexRow}", implode(', ', array_column($data->unidades, 'name' ) ) );
+  $sheet->mergeCells("B{$indexRow}:{$endLetter}{$indexRow}");
+  $sheet->setCellValue("B{$indexRow}", implode(', ', array_column($uniqueUnidades, 'name' ) ) );
+  $sheet->getStyle("B{$indexRow}")->getAlignment()->setWrapText(true);
 
   $indexRow++;
   $three = $indexRow + 2;
   $sheet->mergeCells("A{$indexRow}:{$endLetter}{$three}");
-  $sheet->setCellValue("A{$indexRow}", 'Especificaciones: Todos los productos y facturas deben ser aprobadas en este formulario. Cada responsable debe firmar las líneas correspondientes y dar fe de que día dado es verdadero y correcto antes de pasar la ORDEN a la siguiente persona');
+  $sheet->setCellValue("A{$indexRow}", 'Especificaciones: El resultado puede variar debido en que el rubro de Carnes y Salchichonería varian los kilos en cuanto a lo facturado');
   $sheet->getStyle("A{$indexRow}")->getAlignment()->setWrapText(true);
 
-  $indexRow += 3;
-  
-  $sheet->setCellValue("A{$indexRow}", "Proveedor:");
-  $sheet->setCellValue("B{$indexRow}", $data->proveedorName .'/'.$data->proveedorId);
-
-  $indexRow+=2;
+  $indexRow += 4;
 
   $sheet->getStyle("A{$indexRow}:{$endLetter}{$indexRow}")->getFont()->setBold(true);
   $sheet->getStyle("A{$indexRow}:{$endLetter}{$indexRow}")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FF64');
 
   foreach ($titles as $key => $title){
-    $sheet->getColumnDimension($key)->setWidth(16);
+    if( $key === 'A' )
+      $sheet->getColumnDimension($key)->setWidth(40);
+    else
+      $sheet->getColumnDimension($key)->setWidth(18);
+
     $sheet->setCellValue("{$key}{$indexRow}", "$title");
   }
 
   $sheet->getStyle("A{$indexRow}:{$endLetter}{$indexRow}")->getAlignment()->setWrapText(true);
+  $indexRow++;
 
-  $indexRow ++;
 
-  return $titles;
+
+  //$columnsSheet 
+  //tienes las coordenas de la unidad
+
+  // var_dump($titles);
+  // var_dump($costosProveedores);
+
+  // exit;
+
+  foreach ($costosProveedores as $pago => $proveedores) {
+    // echo "Tipo de Pago: $pago <br>";
+
+    $beginRowProv = null;
+    foreach ($proveedores as $proveedor => $unidades) {
+      // echo "Al proveedor $proveedor <br>";
+      
+      if( is_null($beginRowProv) ) $beginRowProv = $indexRow;
+
+      $pn = $db->query("SELECT nombre FROM proveedor WHERE idProveedor = '{$proveedor}' LIMIT 1");
+      $provName = $db->affected_rows > 0 ? $pn->fetch_object()->nombre : 'Sin Proveedor';
+      $sheet->setCellValue("A{$indexRow}", $provName);
+      $sheet->getStyle("A{$indexRow}")->getAlignment()->setWrapText(true);
+
+      foreach ($unidades as $unidad => $costo) {  
+        // echo "La unidad $unidad le comprara $costo->costoTotal <br><br>";
+        //ahora aqui buscamos la unidad en sheet columns
+        
+        $column = array_search($costo->unidadName, $titles);
+        $sheet->setCellValue("{$column}{$indexRow}", number_format( $costo->costoTotal, 2, '.', '' ) );
+      
+
+      }
+
+      //aqui termino de poner todo lo de este proveedor
+      //entonces sumamos horizontalmente
+      //para ello debo saber que siempre empiezo en B y termino en X lugar
+      
+      //necesito recuperar la llave de total
+      $lastCol = array_search('Total', $titles);
+
+      $a = ord($lastCol);//convertimos a su numero ascii la letra
+      $last = chr(--$a);//le restamos uno y lo convertimos a caracter otra vez
+      //colocamos la formula para sumar
+      $sheet->setCellValue("{$lastCol}{$indexRow}", "=SUM(B{$indexRow}:{$last}{$indexRow})" );
+      $indexRow++;
+    }
+
+    $sheet->setCellValue("A{$indexRow}", "*** {$pago} ***");
+    //aqui sumamos horizontalmente
+    // con ayuda de titles ya que esa posee las columnas que debo sumar
+    foreach ($titles as $letra => $title){
+      if( in_array($title, ['Proveedor'] ) ) continue;
+      $prevRow = $indexRow - 1;
+      $sheet->setCellValue("{$letra}{$indexRow}", "=SUM({$letra}{$beginRowProv}:{$letra}{$prevRow})" );
+    }
+    
+    $indexRow++;
+
+  }
+
+
+
+
+
+
+
+  header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  header("Content-disposition: attachment; filename=Presupuesto $orden.xlsx");
+  header('Cache-Control: max-age=0');
+
+  $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+  $writer->save('php://output');
+
+
+
+
+/*
+echo "<pre>";
+var_dump($costosProveedores);
+var_dump($uniqueUnidades);
+
+
+foreach ($costosProveedores as $pago => $proveedores) {
+  echo "Tipo de Pago: $pago <br>";
+
+  foreach ($proveedores as $proveedor => $unidades) {
+    echo "Al proveedor $proveedor <br>";
+
+    foreach ($unidades as $unidad => $costo) {
+      echo "La unidad $unidad le comprara $costo->costoTotal <br><br>";
+    }
+
+  }
+
 }
+*/
+
+
+exit;
+
 
 //por cada proveedor hace una hoja
 

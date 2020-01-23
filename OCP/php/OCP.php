@@ -31,6 +31,30 @@ class OCP{
 
   }
 
+    public function getOrdenesAuth(){
+    //para no traer todas las oradenes de la base de datos lo limito a traer las del ultimo año
+    $dt = new DateTime();
+    $dt->sub( new DateInterval('P1Y') );
+    $dateLimit = $dt->format('Y-m-d');
+
+    $sql = "SELECT 
+    id, 
+    idOC, 
+    fecha, 
+    fechaI, 
+    fechaF, 
+    (SELECT nombre FROM cliente WHERE idCliente = cliente LIMIT 1) AS cliente, 
+    status, 
+    (SELECT nombre FROM usuario WHERE idUser = oc.usuario LIMIT 1) AS usuario
+    FROM oc WHERE 1 AND fecha > '{$dateLimit}' AND status = '2' ";
+
+    $r = $this->db->query( $sql );
+    while( $rows[] = $r->fetch_object() );
+    array_pop($rows);
+    echo json_encode($rows);
+  
+  }
+
   public function getOrdenes(){
     //para no traer todas las oradenes de la base de datos lo limito a traer las del ultimo año
     $dt = new DateTime();
