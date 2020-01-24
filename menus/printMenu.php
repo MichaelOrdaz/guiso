@@ -97,16 +97,103 @@ foreach ($titulos as $key => $title){
 
 //quiero agrupar el array por valores
 $estructurar = [];
+
+
+
 foreach ($recetas as $receta){
-  $estructurar[$receta->tiempo][] = $receta;
+  $estructurar['0'.$receta->tiempo][] = $receta;
 }
+
+
+//ahora que tengo estructura
+//vamos hacer algo parecido como en JS
+//si el tiempo a imprimir es mas grande
+
+$estructurar2 = [];
+
+$dias = null;
+
+
+foreach ($estructurar as $key => &$item) {
+  
+  if( is_null($dias) ){
+
+    $extractDias = array_map( function( $o ){
+      return $o->pos;
+    }, $item );
+
+    $dias = count( array_unique($extractDias) );
+  }
+
+  $long = count( $item );
+  if( $long > $dias ){
+
+    // echo "$key tiene mas items de lo normal";
+
+    $noArrays = $long / $dias;//2
+
+    usort($item, object_sorter('pos', 'ASC'));//ordenamos para hacer el mismo proceso que en JS
+
+    $start = 0;
+    $end;
+
+    $vector = [];
+
+    for( $i = 0; $i < $dias; $i++ ){// 2, dias = 7
+
+      $start = $i * $noArrays;// 0 * 2 = 2
+      $end = $noArrays * ( $i + 1 );// 2 * 1 = 4
+
+      // $item = estructurar[prop].slice(start, end);
+      $item2 = array_slice($item, $start, $noArrays);
+      // vector.push( item );
+      $vector[] = $item2;
+
+    }
+
+    for( $i = 0; $i < $noArrays; $i++ ){
+
+      $nuevoArray = [];
+
+      foreach ($vector as $value) {
+        $nuevoArray[] = $value[$i];
+      }
+
+      //creo la nueva propiedad
+      $propAux =  '0' . ( (int) $key + ( '0.' . ( $i + 1 ) ) );
+      $estructurar2[$propAux] = $nuevoArray;
+
+    }
+
+    //cuando termine de hacer mi estructura borramos la propiedad inicial
+    unset( $estructurar[$key] );
+    // delete estructurar[prop];
+    // Object.assign( estructurar, estructurar2 );
+    $estructurar = array_merge( $estructurar, $estructurar2 );
+
+
+  }
+
+
+
+}
+
+unset( $item );
+
+
+// echo "<pre>";
+
+// var_dump($estructurar);
+
+// exit;
 
 $indexRow++;//siguiente fila
 $listDias = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 
 foreach ($estructurar as $key => $item) {
 
-  $tiempoName = $db->query("SELECT descripcion FROM tiempo WHERE idTiempo = '{$key}' LIMIT 1");
+  $idTime = floor($key);
+  $tiempoName = $db->query("SELECT descripcion FROM tiempo WHERE idTiempo = '{$idTime}' LIMIT 1");
   $tiempoName = $db->affected_rows > 0 ? $tiempoName->fetch_object()->descripcion : 'Desconocido';
 
   $secondRow = $indexRow + 1;//guardar la suigiente fila para este tiempo
