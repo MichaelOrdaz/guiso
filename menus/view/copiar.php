@@ -289,7 +289,7 @@
 
   var formMenu = _.form_menu;
 
-
+  var diasOriginal;
   //en esta variable guardare la informacion que se coloque en el formulario de crear cuerpo del menu en memoria
   // var infoPrimerFormulario = null;
   // 
@@ -366,12 +366,15 @@
       
       if( this.name === 'menu' ){
 
+        diasOriginal = 0;
+
         form['dias[]'].forEach( function(checkbox, index){
           checkbox.checked = false;
           checkbox.removeAttribute('disabled');
 
           if( data.result[ listDias[index] ] === '1' ){
             checkbox.checked = true;
+            diasOriginal++;
           } 
         });
 
@@ -419,7 +422,7 @@
       .done((response)=>{
         // console.log(response);
         if( response.status === 1 ){
-          setTiempos( response.results, dias.length );
+          setTiempos( response.results, diasOriginal );
           Swal.close();
         }
         else{
